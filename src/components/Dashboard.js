@@ -5,7 +5,7 @@ import Sidebar from './Sidebar';
 
 function Dashboard() {
   const [responseText, setResponseText] = useState('');
-  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
