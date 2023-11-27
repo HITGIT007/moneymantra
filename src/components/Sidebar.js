@@ -4,7 +4,7 @@ import { Link, useNavigate  } from 'react-router-dom';
 function Sidebar({ isVisible, onClose }) {
     const navigate = useNavigate();
   return (
-    <div className={`d-flex flex-column flex-shrink-0 p-3 bg-light ${isVisible ? '' : 'd-none'}`} style={{ width: '280px', height: '100vh' }}>
+    <div className={`d-flex flex-column flex-shrink-0 p-3 bg-light ${isVisible ? '' : 'd-none'} sidebar`}>
       
       <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
         <span className="fs-4">Dashboard</span>

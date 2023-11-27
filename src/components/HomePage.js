@@ -26,7 +26,7 @@ function HomePage() {
     // You would typically send this data to a server or email service
   };
   return (
-    <div className="">
+    <div className="container-fluid">
       {/* Navigation Bar */}
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
@@ -50,8 +50,8 @@ function HomePage() {
           </div>
         </div>
       </nav>
-      <div className="d-flex align-items-center justify-content-between">
-        <div className="bg-primary text-white p-5 gradient_background_reverse d-flex flex-column justify-content-center">
+      <div className="row">
+        <div className="col-lg-6 p-5 gradient_background_reverse d-flex flex-column justify-content-center">
           <h1>Strategize Wealth, Maximize Growth.</h1>
 
           <p>
@@ -61,30 +61,33 @@ function HomePage() {
             democratizing financial success through the use of advanced
             artificial intelligence. We provide both novice traders and seasoned
             investors with the tools they need to make informed decisions,
-            minimize risk, and capitalize on growth opportunities. With Money Mantra, you gain a trusted partner in your
-            financial journey, ensuring that every move you make is backed by
-            expertise and precision, paving your path to financial prosperity.
+            minimize risk, and capitalize on growth opportunities. With Money
+            Mantra, you gain a trusted partner in your financial journey,
+            ensuring that every move you make is backed by expertise and
+            precision, paving your path to financial prosperity.
           </p>
 
           <Link to="/signup" className="btn btn-light">
             Sign Up for free!
           </Link>
         </div>
-        <div
-          className="d-flex flex-column align-items-center gradient_background justify-content-center "
-      
-        >
-          <h2 className="text-uppercase text-center mb-3">Contact Us</h2>
+        <div className="col-lg-6 d-flex flex-column align-items-center gradient_background justify-content-center">
+          <h2 className="text-uppercase text-center mt-1">Contact Us</h2>
 
-          <form onSubmit={handleSubmit}  style={{
-    padding:"30px",
-    borderRadius:"5px",
-          border: "2px solid #e7e7e7",
-        }}>
+          <form
+            onSubmit={handleSubmit}
+            style={{
+              padding: "0.5rem",
+              borderRadius: "5px",
+              border: "2px solid #e7e7e7",
+              marginTop:"0.5rem",
+              marginBottom: "0.5rem"
+            }}
+          >
             <div className="form-outline mb-2">
               <input
                 type="text"
-                className="form-control form-control-lg"
+                className="form-control"
                 id="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -99,7 +102,7 @@ function HomePage() {
             <div className="form-outline mb-2">
               <input
                 type="email"
-                className="form-control form-control-lg"
+                className="form-control"
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -114,7 +117,7 @@ function HomePage() {
             <div className="form-outline mb-2">
               <input
                 type="tel"
-                className="form-control form-control-lg"
+                className="form-control"
                 id="phoneNumber"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
@@ -141,17 +144,16 @@ function HomePage() {
             </div>
 
             {/* Submit Button */}
-            <button type="submit" className="btn btn-primary btn-lg btn-block">
+            <button type="submit" className="btn btn-primary btn-block">
               Send Message
             </button>
           </form>
         </div>
       </div>
       <footer
-        className="text-center text-lg-start bg-light text-muted"
+        className="text-center text-lg-start bg-light text-muted "
         style={{
-          position: "fixed",
-          bottom: 0,
+        
           width: "100%",
           borderTop: "1px solid #e7e7e7",
         }}

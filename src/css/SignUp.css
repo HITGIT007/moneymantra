@@ -2,16 +2,27 @@
 
     .gradient_background {
         background: linear-gradient(90deg, #0062ff, #da61ff);
-        height: 100vh;
-        width: 100vw;
+       
       }
 
       .gradient_background_reverse {
         background: linear-gradient(90deg, #5D2782, #0062ff);
-        height: 100vh;
-        width: 100vw;
+     
       }
 
       .normal_background {
         background: linear-gradient(90deg, #0062ff, #da61ff);
+      }
+
+      @media (max-width: 992px) {
+        .gradient_background, .gradient_background_reverse {
+          height: auto;
+          padding: 20px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .sidebar {
+          width: 100%; /* Full width on smaller screens */
+        }
       }
