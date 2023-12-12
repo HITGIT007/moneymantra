@@ -41,6 +41,7 @@ function LoginPage() {
       className="gradient_background"
       style={{
         borderRadius: "15px",
+        height:"100vh"
       }}
     >
       <Link to="/" className="navbar-brand">

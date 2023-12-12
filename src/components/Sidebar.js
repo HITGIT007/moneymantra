@@ -16,6 +16,11 @@ function Sidebar({ isVisible, onClose }) {
             Dashboard
           </NavLink>
         </li>
+        <li className="nav-item">
+          <NavLink to="/controlandmonitor" className="nav-link link-dark" aria-current="page">
+            Control And Monitor
+          </NavLink>
+        </li>
       </ul>
       <hr />
       <div className="dropdown">

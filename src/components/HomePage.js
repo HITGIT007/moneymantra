@@ -26,7 +26,11 @@ function HomePage() {
     // You would typically send this data to a server or email service
   };
   return (
-    <div className="container-fluid">
+    <div className="container-fluid"
+    style={{
+      height:"100vh"
+    }}
+    >
       {/* Navigation Bar */}
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">

@@ -3,6 +3,7 @@ import LoginPage from "./components/LoginPage";
 import SignUpPage from "./components/SignUpPage";
 import HomePage from "./components/HomePage";
 import ForgotPasswordPage from "./components/ForgotPasswordPage";
+import ControlandMonitor from "./components/ControlandMonitor";
 import Dashboard from "./components/Dashboard";
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/controlandmonitor" element={<ControlandMonitor />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />

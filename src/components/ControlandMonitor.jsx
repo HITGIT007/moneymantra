@@ -3,7 +3,7 @@ import axios from 'axios';
 import '../css/SignUp.css'; // Assuming the same CSS file for styling
 import Sidebar from './Sidebar';
 
-function Dashboard() {
+function ControlandMonitor() {
   const [responseText, setResponseText] = useState('');
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
@@ -73,4 +73,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default ControlandMonitor;
