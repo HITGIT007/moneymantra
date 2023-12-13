@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 
-import "../css/SignUp.css"; // Reusing the same CSS for consistency
+import "../css/App.css"; // Reusing the same CSS for consistency
 
 // Replace with the actual image URLs
 const logoUrl = "../";
@@ -26,11 +26,11 @@ function HomePage() {
     // You would typically send this data to a server or email service
   };
   return (
-    <div className="container-fluid"
+    <div
     style={{
       height:"100vh"
-    }}
-    >
+    }}>
+    <div className="container-fluid h-100" >
       {/* Navigation Bar */}
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
@@ -169,6 +169,7 @@ function HomePage() {
           © 2023 Moneymantra AI. All rights reserved.
         </div>
       </footer>
+    </div>
     </div>
   );
 }

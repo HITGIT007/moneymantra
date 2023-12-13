@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../css/SignUp.css'; // Reusing the same CSS for consistency
+import '../css/App.css'; // Reusing the same CSS for consistency
 
 function ContactPage() {
   const [name, setName] = useState('');

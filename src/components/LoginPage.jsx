@@ -1,39 +1,31 @@
 import React, { useState } from 'react';
 import { Link, useNavigate  } from 'react-router-dom';
 import axios from 'axios';
-import '../css/SignUp.css'; // Assuming you want to use the same CSS file
+import '../css/App.css'; // Assuming you want to use the same CSS file
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(''); // State to hold error message
   const navigate = useNavigate(); 
 
 
-  const handleSubmit = async  (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Replace with your actual login API endpoint and request format
 
-    navigate('/dashboard');
+    // Hardcoded credentials
+    const hardcodedEmail = 'test@gmail.com';
+    const hardcodedPassword = 'test1328';
 
-
-    // const loginUrl = 'https://moneymantraai.com/api/login';
-    // try {
-    //   const response = await axios.post(loginUrl, {
-    //     email: email,
-    //     password: password
-    //   });
-
-    //   // Check if login is successful based on the response
-    //   if (response.status === 200) {
-    //     // Navigate to Dashboard on successful login
-    //     navigate('/dashboard');
-    //   } else {
-    //     // Handle unsuccessful login
-    //     console.error('Login failed:', response.data);
-    //   }
-    // } catch (error) {
-    //   console.error('Error during login:', error);
-    // }
+    // Check if credentials match
+    if (email === hardcodedEmail && password === hardcodedPassword) {
+      sessionStorage.setItem('logged', 'true');
+      // Navigate to Dashboard on successful login
+      navigate('/dashboard');
+    } else {
+      // Set error message if login is not successful
+      setError('The email address or password you entered is incorrect.');
+    }
   };
 
   return (

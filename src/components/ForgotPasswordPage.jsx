@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../css/SignUp.css'; // Reusing the CSS for consistent styling
+import '../css/App.css'; // Reusing the CSS for consistent styling
 
 function ForgotPasswordPage() {
   const [contact, setContact] = useState('');

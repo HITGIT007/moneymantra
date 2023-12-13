@@ -1,9 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useLayoutEffect  } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../css/SignUp.css'; // Assuming the same CSS file for styling
+import '../css/App.css'; // Assuming the same CSS file for styling
 import Sidebar from './Sidebar';
 
 function ControlandMonitor() {
+
+
+  const navigate = useNavigate();
+
+  useLayoutEffect(() => {
+    // Check for 'logged' in session storage
+    const isLogged = sessionStorage.getItem('logged');
+
+    // If 'logged' is not 'true', redirect to the login page
+    if (isLogged !== 'true') {
+      navigate('/login');
+    }
+  }, [navigate]); // Dependency array includes navigate to avoid re-running the effect unnecessarily
   const [responseText, setResponseText] = useState('');
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
@@ -28,10 +42,12 @@ function ControlandMonitor() {
   };
 
   return (
-    <div className="d-flex gradient_background">
+    <div className="d-flex gradient_background" style={{
+      height:"100vh"
+    }}>
       <Sidebar isVisible={isSidebarVisible} onClose={toggleSidebar}/>
       <div className="flex-grow-1">
-      <button onClick={toggleSidebar} className="btn btn-primary m-2">
+      <button onClick={toggleSidebar} className="btn btn-primary m-2 border border-danger">
           <i className={`bi ${isSidebarVisible ? 'bi-x-lg' : 'bi-list'}`}></i>
         </button>
       <div className="container p-5">
