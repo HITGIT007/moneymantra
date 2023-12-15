@@ -1,6 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { Link, useNavigate  } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 function Sidebar({ isVisible, onClose }) {
     const navigate = useNavigate();
   return (
@@ -33,6 +32,7 @@ function Sidebar({ isVisible, onClose }) {
           <li><a className="dropdown-item" href="#">Profile</a></li>
           <li><hr className="dropdown-divider" /></li>
           <li><a className="dropdown-item" href="#" onClick={()=>{
+            sessionStorage.removeItem('logged');
                 navigate('/');
           }}>Sign out</a></li>
         </ul>

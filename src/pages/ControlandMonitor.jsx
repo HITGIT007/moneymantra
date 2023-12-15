@@ -2,7 +2,7 @@ import React, { useState, useLayoutEffect  } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/App.css'; // Assuming the same CSS file for styling
-import Sidebar from './Sidebar';
+import Sidebar from '../components/Sidebar';
 
 function ControlandMonitor() {
 
@@ -46,7 +46,7 @@ function ControlandMonitor() {
       height:"100vh"
     }}>
       <Sidebar isVisible={isSidebarVisible} onClose={toggleSidebar}/>
-      <div className="flex-grow-1">
+      <div className="container-fluid">
       <button onClick={toggleSidebar} className="btn btn-primary m-2 border border-danger">
           <i className={`bi ${isSidebarVisible ? 'bi-x-lg' : 'bi-list'}`}></i>
         </button>

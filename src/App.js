@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import LoginPage from "./components/LoginPage";
-import SignUpPage from "./components/SignUpPage";
-import HomePage from "./components/HomePage";
-import ForgotPasswordPage from "./components/ForgotPasswordPage";
-import ControlandMonitor from "./components/ControlandMonitor";
-import Dashboard from "./components/Dashboard";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
+import HomePage from "./pages/HomePage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ControlandMonitor from "./pages/ControlandMonitor";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
