@@ -87,42 +87,41 @@ const Dashboard = () => {
         <div className="d-flex align-items-center border rounded p-4 mb-3 justify-content-between">
           <div className="text-white d-flex align-items-center me-3">
             <span className="mx-2 h4">TOTAL P/L - 0</span>
-            <span className="mx-2 h4">|</span>
-            <Strategies />
+            <span className="mx-1 h4">|</span>
+            <Strategies pnl={true} order={false} />
           </div>
-          
-          <div className="d-flex align-items-center justify-content-between mt-2" style={{ height: "50px" }}>
-  {/* Date display */}
-  {startDate && endDate && (
-    <div className="text-dark d-flex flex-column">
-      <span className="mx-2 bg-white rounded mb-1 px-1">
-        {startDate}
-      </span>
-      <span className="mx-2 bg-white rounded px-1">
-        {endDate}
-      </span>
-    </div>
-  )}
 
-  {/* Spacer to push the button to the end */}
-  <div className="flex-grow-1"></div>
-  
-  {/* Filter button */}
-  <Button
-    className="btn btn-outline-light"
-    onClick={handleFilterToggle}
-  >
-    Filter
-  </Button>
-</div>
+          <div
+            className="d-flex align-items-center justify-content-between mt-2"
+            style={{ height: "50px" }}
+          >
+            {/* Date display */}
+            {startDate && endDate && (
+              <div className="text-dark d-flex flex-column">
+                <span className="mx-2 bg-white rounded mb-1 px-1">
+                  {startDate}
+                </span>
+                <span className="mx-2 bg-white rounded px-1">{endDate}</span>
+              </div>
+            )}
 
-       
+            {/* Spacer to push the button to the end */}
+            <div className="flex-grow-1"></div>
+
+            {/* Filter button */}
+            <Button
+              className="btn btn-outline-light"
+              onClick={handleFilterToggle}
+            >
+              Filter
+            </Button>
+          </div>
         </div>
         <div className="d-flex align-items-center border rounded p-4 mb-3">
           <div className="text-white d-flex align-items-center me-3">
-            <span className="mx-2 h4">ORDER 0</span>
-            <span className="mx-2 h4">|</span>
-            <Strategies />
+            <span className="mx-2 h4">TOTAL ORDER - 0</span>
+            <span className="mx-1 h4">|</span>
+            <Strategies pnl={false} order={true} />
           </div>
         </div>
 

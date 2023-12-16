@@ -47,7 +47,7 @@ function ControlandMonitor() {
     }}>
       <Sidebar isVisible={isSidebarVisible} onClose={toggleSidebar}/>
       <div className="container-fluid">
-      <button onClick={toggleSidebar} className="btn btn-primary m-2 border border-danger">
+      <button onClick={toggleSidebar} className="btn btn-primary mt-4 ms-2 border border-danger">
           <i className={`bi ${isSidebarVisible ? 'bi-x-lg' : 'bi-list'}`}></i>
         </button>
       <div className="container p-5">
