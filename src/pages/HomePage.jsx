@@ -30,6 +30,7 @@ function HomePage() {
     <div
       style={{
         height: "100vh",
+   
       }}
       //className="container-fluid"
     >

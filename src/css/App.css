@@ -18,7 +18,10 @@ html, body, #root {
 }
 
 /* Ensure footer is not pushing content up */
-
+.row {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
 
 .gradient_background {
   background: linear-gradient(90deg, #0062ff, #da61ff);
