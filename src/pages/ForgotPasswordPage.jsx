@@ -15,25 +15,30 @@ function ForgotPasswordPage() {
     <div
       className="gradient_background"
       style={{
+       
         borderRadius: "15px",
+        height: "100vh",
+      
       }}
     >
       <div className="mask d-flex align-items-center h-100 gradient-custom-3">
         <div className="container h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
-            <div className="col-12 col-md-9 col-lg-7 col-xl-6">
-              <div className="card" style={{ borderRadius: "15px" }}>
+            <div className="col-12 col-md-9 col-lg-7 col-xl-6" style={{  display:'flex',
+        alignItems: "center",
+        justifyContent: "center"}}>
+              <div className="card" style={{ borderRadius: "15px", flex:1  }}>
                 <div className="card-body p-5">
-                  <h2 className="text-uppercase text-center mb-5">
+                  <h4 className="text-uppercase text-center mb-3">
                     Forgot Password
-                  </h2>
+                  </h4>
 
                   <form onSubmit={handleSubmit}>
                     {/* Email or Phone Number Input */}
                     <div className="form-outline mb-4">
                       <input
                         type="text"
-                        className="form-control form-control-lg"
+                        className="form-control form-control-lg mb-3"
                         id="contact"
                         value={contact}
                         onChange={(e) => setContact(e.target.value)}
