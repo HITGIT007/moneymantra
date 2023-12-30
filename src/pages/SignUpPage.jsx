@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from 'axios';
 import "../css/App.css";
 function SignUpPage() {
   const [email, setEmail] = useState("");
@@ -8,8 +9,9 @@ function SignUpPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     // Handle sign-up logic here
     if (password !== confirmPassword) {
@@ -18,23 +20,37 @@ function SignUpPage() {
       return;
     }
     const userData = {
-      fullName,
-      email,
-      phoneNumber,
-      password,
-      role,
+      username: username,
+      name: fullName,
+      email:email,
+      mobile:phoneNumber,
+      password: password,
+      userType: role === "admin" ? "1" : "2",
     };
     console.log(
       "userData================================================>",
       userData
     );
+    try {
+      const response = await axios.post('https://moneymantraai.com/api/auth/signup', userData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log("Signup successful:", response.data);
+      // Handle successful signup (e.g., redirect to login page)
+    } catch (error) {
+      console.error("Signup error:", error.response ? error.response.data : error);
+      // Handle signup error (e.g., display error message)
+    }
   };
 
   return (
     <div
-      className="gradient_background "
+      className="gradient_background"
       style={{
         borderRadius: "15px",
+        height:"100vh"
       }}
     >
       <Link to="/" className="navbar-brand">
@@ -49,9 +65,7 @@ function SignUpPage() {
             <div className="col-12 col-md-9 col-lg-7 col-xl-6">
               <div className="card" style={{ borderRadius: "15px" }}>
                 <div className="card-body p-3">
-                  <h2 className="text-uppercase text-center mb-2">
-                    Create an account
-                  </h2>
+                 
 
                   <form onSubmit={handleSubmit} style={{}}>
                     <div className="form-outline mb-2">
@@ -65,6 +79,19 @@ function SignUpPage() {
                       />
                       <label className="form-label" htmlFor="fullName">
                         Full Name
+                      </label>
+                    </div>
+                    <div className="form-outline mb-2">
+                      <input
+                        type="text"
+                        className="form-control "
+                        id="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                      />
+                      <label className="form-label" htmlFor="username">
+                        Username
                       </label>
                     </div>
 
@@ -137,7 +164,7 @@ function SignUpPage() {
                         onChange={(e) => setRole(e.target.value)}
                         required
                       >
-                        <option value="">Select a role</option>
+                        
                         <option value="user">User</option>
                         <option value="admin">Admin</option>
                       </select>

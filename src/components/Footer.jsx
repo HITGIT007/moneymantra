@@ -1,0 +1,190 @@
+import Facebook from '@mui/icons-material/Facebook';
+import Instagram from '@mui/icons-material/Instagram';
+import MailOutline from '@mui/icons-material/MailOutline';
+import Phone from '@mui/icons-material/Phone';
+import Pinterest from '@mui/icons-material/Pinterest';
+import Room from '@mui/icons-material/Room';
+import Twitter from '@mui/icons-material/Twitter';
+
+import styled from "styled-components";
+import React, { useState } from "react";
+  
+  const Container = styled.div`
+    display: flex;
+    background-color: #D8D3D3;
+    margin: 0;
+  `;
+  
+  
+  const Left = styled.div`
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+   
+  `;
+  
+  const Logo = styled.h1``;
+  
+  const Desc = styled.p`
+    width: 70%;
+    margin: 20px 0px;
+    margin-left: 150px;
+    
+  `;
+  
+  const SocialContainer = styled.div`
+    display: flex;
+    margin-left: 150px;
+    align-items: center;
+  `;
+  
+  const SocialIcon = styled.div`
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: white;
+    background-color: #${(props) => props.color};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    cursor: pointer;
+  `;
+  
+  
+  
+  const Title = styled.h3`
+    margin-bottom: 30px;
+  `;
+  
+  
+  
+  const Right = styled.div`
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+    
+  `;
+  
+
+  const Payment = styled.img`
+      width: 30%;
+  `;
+  
+  const Footer = () => {
+     // Handle the submission of the contact form
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const contactData = {
+      name,
+      email,
+      phoneNumber,
+      message,
+    };
+    console.log(contactData);
+    // Send the data to a server or email service as needed
+  };
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [message, setMessage] = useState("");
+    return (
+      <Container className= 'gradient_background'>
+        <Left  >
+          
+          <Desc className='text-white'>
+          Money Mantra provides unparalleled 24/7 customer support, ensuring your financial queries are addressed anytime, day or night. Our team offers extensive assistance, guiding you through complex investment decisions with ease and expertise. Committing to your continuous financial growth, Money Mantra's support is just a click away, fostering confidence and convenience in your trading journey.
+          </Desc>
+          <SocialContainer>
+            <SocialIcon color="3B5999">
+              <Facebook />
+            </SocialIcon>
+            <SocialIcon color="E4405F">
+              <Instagram />
+            </SocialIcon>
+            <SocialIcon color="55ACEE">
+              <Twitter />
+            </SocialIcon>
+          
+          </SocialContainer>
+        </Left>
+        
+        <Right >
+          <Title>Contact</Title>
+          <form onSubmit={handleSubmit}>
+        <div className="form-outline mb-2">
+          <input
+            type="text"
+            className="form-control form-control-lg"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+          <label className="form-label" htmlFor="name">
+            Your Name
+          </label>
+        </div>
+
+        {/* Email Field */}
+        <div className="form-outline mb-2">
+          <input
+            type="email"
+            className="form-control form-control-lg"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <label className="form-label" htmlFor="email">
+            Your Email
+          </label>
+        </div>
+
+        {/* Phone Number Field */}
+        <div className="form-outline mb-2">
+          <input
+            type="tel"
+            className="form-control form-control-lg"
+            id="phoneNumber"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            required
+          />
+          <label className="form-label" htmlFor="phoneNumber">
+            Phone Number
+          </label>
+        </div>
+
+        {/* Message Textarea */}
+        <div className="form-outline mb-2">
+          <textarea
+            className="form-control"
+            id="message"
+            rows="4"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            required
+          ></textarea>
+          <label className="form-label" htmlFor="message">
+            Your Message
+          </label>
+        </div>
+
+        {/* Submit Button */}
+        <button type="submit" className="btn btn-primary btn-lg btn-block">
+          Send Message
+        </button>
+      </form>
+        
+        </Right>
+      </Container>
+    );
+  };
+  
+  export default Footer;
