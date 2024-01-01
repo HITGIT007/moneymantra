@@ -10,7 +10,8 @@ function SignUpPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
-
+  const [adminPassword, setAdminPassword] = useState("")
+  //m0n3YM@n2RA
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Handle sign-up logic here
@@ -25,8 +26,8 @@ function SignUpPage() {
       email:email,
       mobile:phoneNumber,
       password: password,
-      userType: role === "admin" ? "1" : "2",
-      adminPassword: "m0n3YM@n2RA"
+      userType: role,
+      adminPassword: adminPassword
     };
     console.log(
       "userData================================================>",
@@ -166,14 +167,27 @@ function SignUpPage() {
                         required
                       >
                         
-                        <option value="user">User</option>
-                        <option value="admin">Admin</option>
+                        <option value="2">User</option>
+                        <option value="1">Admin</option>
                       </select>
                       <label className="form-label" htmlFor="role">
                         Role
                       </label>
                     </div>
-
+                    {role === "1" && <div className="form-outline mb-2">
+                      <input
+                        type="password"
+                        className="form-control "
+                        id="adminpassword"
+                        value={adminPassword}
+                        onChange={(e) => setAdminPassword(e.target.value)}
+                        required
+                      />
+                      <label className="form-label" htmlFor="password">
+                        Admin Password
+                      </label>
+                    </div>}
+                    
                     {/* Submit Button */}
                     <button
                       type="submit"
