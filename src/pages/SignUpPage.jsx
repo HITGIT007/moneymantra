@@ -26,6 +26,7 @@ function SignUpPage() {
       mobile:phoneNumber,
       password: password,
       userType: role === "admin" ? "1" : "2",
+      adminPassword: "m0n3YM@n2RA"
     };
     console.log(
       "userData================================================>",
