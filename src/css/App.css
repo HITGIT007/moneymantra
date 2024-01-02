@@ -16,7 +16,39 @@ html, body, #root {
 .container-fluid, .row, .row > div {
   height: 100%;
 }
-
+.neon-text {
+  color: #fff; /* White text color */
+  text-shadow:
+    0 0 5px #08f, /* Blue glow */
+    0 0 10px #08f, /* More intense blue */
+    0 0 20px #08f, /* Even more intense blue */
+    0 0 30px #08f, /* Outermost blue glow */
+    0 0 40px #08f; /* Optional: even more glow */
+}
+.neon-text-yellow {
+  color: #000; /* White text color */
+  font-weight: 600;
+  text-shadow:
+    0 0 5px #ff0, /* Yellow glow */
+    0 0 10px #ff0, /* More intense yellow */
+    0 0 20px #ff0, /* Even more intense yellow */
+    0 0 30px #ff0, /* Outermost yellow glow */
+    0 0 40px #ff0; /* Optional: even more glow */
+}
+.neon-text-pink {
+  color: #000; /* Black text color */
+  text-shadow:
+    0 0 5px #ffb6c1, /* Light pink glow */
+    0 0 10px #ffb6c1, /* More intense light pink */
+    0 0 20px #ffb6c1, /* Even more intense light pink */
+    0 0 30px #ffb6c1, /* Outermost light pink glow */
+    0 0 40px #ffb6c1; /* Optional: even more glow */
+}
+.white-shadow-text {
+  color: #000; /* Black text color */
+  font-weight: 600; /* Semi-bold font */
+  text-shadow: 2px 2px 2px #fff; /* White text shadow */
+}
 /* Ensure footer is not pushing content up */
 .row {
   margin-right: 0 !important;
