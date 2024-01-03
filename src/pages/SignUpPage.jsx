@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate  } from "react-router-dom";
 import axios from "axios";
 import "../css/App.css";
 function SignUpPage() {
@@ -11,6 +11,8 @@ function SignUpPage() {
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
+  const [pan, setPan] = useState("");
+  const navigate = useNavigate(); 
   //m0n3YM@n2RA
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -27,31 +29,40 @@ function SignUpPage() {
       mobile: phoneNumber,
       password: password,
       userType: role,
+      ...(role === "2" && { pan: pan }),
       ...(role === "1" && { adminPassword: adminPassword }),
+      ...(role === "2" && { apiKey: "wwqeqwew" }),
+      ...(role === "2" && { apiSecret: "weqwweqqe" }),
     };
     console.log(
       "userData================================================>",
       userData
     );
     try {
-      const response = await axios.post(
-        "https://moneymantraai.com/api/auth/signup",
-        userData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post("https://moneymantraai.com/api/auth/signup", userData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       console.log("Signup successful:", response.data);
-      // Handle successful signup (e.g., redirect to login page)
+
+      // Check for successful response status
+      if(response.status === 200 || response.status === 201) {
+        // Store the token in sessionStorage
+        const token = response.data.token;
+        sessionStorage.setItem('logged', 'true');
+        sessionStorage.setItem('token', token);
+
+        // Navigate to Dashboard on successful login
+        navigate('/dashboard');
+        // Additional successful signup logic
+      }
     } catch (error) {
-      console.error(
-        "Signup error:",
-        error.response ? error.response.data : error
-      );
+      console.error("Signup error:", error.response ? error.response.data : error);
       // Handle signup error (e.g., display error message)
     }
+      // Handle signup error (e.g., display error message)
+    
   };
 
   return (
@@ -193,7 +204,21 @@ function SignUpPage() {
                     </label>
                   </div>
                 )}
-
+                {role === "2" && (
+                  <div className="form-outline mb-2">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="pan"
+                      value={pan}
+                      onChange={(e) => setPan(e.target.value)}
+                      required
+                    />
+                    <label className="form-label" htmlFor="pan">
+                      PAN
+                    </label>
+                  </div>
+                )}
                 {/* Submit Button */}
                 <button type="submit" className="btn btn-primary btn-block">
                   Sign Up
