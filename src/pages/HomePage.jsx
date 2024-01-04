@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
-
+import axios from "axios";
 import "../css/App.css"; // Reusing the same CSS for consistency
 import Footer from "../components/Footer";
 
@@ -14,6 +14,7 @@ function HomePage() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState("");
 
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     // Handle contact form logic here

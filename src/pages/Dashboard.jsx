@@ -2,6 +2,7 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
 import "../css/App.css";
+import axios from "axios";
 import Sidebar from "../components/Sidebar";
 import BrokerStratRow from "../components/BrokerStratRow";
 import Strategies from "../components/Strategies";
@@ -10,7 +11,42 @@ const Dashboard = () => {
   const [showModal, setShowModal] = useState(false);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [algorithms, setAlgorithms] = useState([]);
+  const userId = 1;
+  useEffect(() => {
+    const fetchAlgorithms = async () => {
+      try {
+        // Retrieve the token from sessionStorage
+        const token = sessionStorage.getItem("token");
+        console.log("token=======>", token);
+        // Check if the token is available
+        if (!token) {
+          console.error("No token found in sessionStorage");
+          // Handle the case where the token isn't available
+          return;
+        }
 
+        // Add the token to the Authorization header
+        const config = {
+          headers: { Authorization: `Bearer ${token}` }
+        };
+
+        // Construct the endpoint with the userId as a query parameter
+        const endpoint = `https:///moneymantraai.com/api/admin/get-algorithm-by-strategies?userId=${userId}`;
+        
+        // Make the GET request
+        const response = await axios.get(endpoint, config);
+        
+        // Set the algorithms data to state
+        setAlgorithms(response.data);
+      } catch (error) {
+        console.error("Error fetching algorithms:", error);
+        // Handle error response
+      }
+    };
+
+    fetchAlgorithms();
+  }, []); // Empty dependency array to avoid re-runs
   useLayoutEffect(() => {
     // Check for 'logged' in session storage
     const isLogged = sessionStorage.getItem("logged");
