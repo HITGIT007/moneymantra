@@ -9,44 +9,80 @@ import Strategies from "../components/Strategies";
 const Dashboard = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
-  const [startDate, setStartDate] = useState("");
+  
   const [endDate, setEndDate] = useState("");
   const [algorithms, setAlgorithms] = useState([]);
-  const userId = 1;
+  const [orderSummaries, setOrderSummaries] = useState([]); // State to hold order summaries
+
+  const token = sessionStorage.getItem("token");
+  const userId = sessionStorage.getItem("userId");
+  const name = sessionStorage.getItem("name");
+
+  const getThirtyDaysBeforeDate = () => {
+    const today = new Date();
+    const pastDate = new Date(today.setDate(today.getDate() - 30));
+    return pastDate.toISOString();
+  };
+  const [startDate, setStartDate] = useState(getThirtyDaysBeforeDate());
   useEffect(() => {
+    console.log("token=======>", token);
+    console.log("userId=======>", userId);
+    const fetchOrderSummaries = async () => {
+      if (!userId || !token) {
+        console.error("User ID or token missing");
+        return;
+      }
+
+      try {
+        const response = await axios.post(
+          "https://moneymantraai.com/api/customer/accounts/get-order-summaries",
+          { userId, startTime: startDate, endTime: currentTime },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        setOrderSummaries(response.data);
+        console.log("Order Summaries:", response.data);
+      } catch (error) {
+        console.error("Error fetching order summaries:", error);
+        // Handle error appropriately
+      }
+    };
     const fetchAlgorithms = async () => {
       try {
-        // Retrieve the token from sessionStorage
-        const token = sessionStorage.getItem("token");
-        console.log("token=======>", token);
-        // Check if the token is available
-        if (!token) {
-          console.error("No token found in sessionStorage");
-          // Handle the case where the token isn't available
+        if (!userId || !token) {
+          console.error("User ID or token missing");
           return;
         }
 
-        // Add the token to the Authorization header
         const config = {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` },
         };
 
-        // Construct the endpoint with the userId as a query parameter
-        const endpoint = `https:///moneymantraai.com/api/admin/get-algorithm-by-strategies?userId=${userId}`;
-        
-        // Make the GET request
-        const response = await axios.get(endpoint, config);
-        
-        // Set the algorithms data to state
-        setAlgorithms(response.data);
+        const body = {
+          userId: userId,
+        };
+
+        const endpoint = `https://moneymantraai.com/api/admin/get-algorithms-by-strategies`;
+
+        const response = await axios.post(endpoint, body, config);
+        setAlgorithms(response?.data?.algorithmDTOs);
       } catch (error) {
         console.error("Error fetching algorithms:", error);
-        // Handle error response
       }
     };
-
+    fetchOrderSummaries();
     fetchAlgorithms();
-  }, []); // Empty dependency array to avoid re-runs
+  }, [token, userId]);
+
+  useEffect(() => {
+    console.log(
+      "algorithms================================================>",
+      algorithms
+    );
+  }, [algorithms]);
+
   useLayoutEffect(() => {
     // Check for 'logged' in session storage
     const isLogged = sessionStorage.getItem("logged");
@@ -107,9 +143,9 @@ const Dashboard = () => {
               ></i>
             </button>
             <div className="navbar-brand d-flex align-items-center">
-              <span className="h2 mb-0 text-white">PP</span>
+       
               <span className="h4 mb-0 text-white px-3">
-                WELCOME PRATEEK PRIYADARSHI
+                WELCOME {name.toUpperCase()}
               </span>
             </div>
           </div>
@@ -124,7 +160,7 @@ const Dashboard = () => {
           <div className="text-white d-flex align-items-center me-3">
             <span className="mx-2 h4">TOTAL P/L - 0</span>
             <span className="mx-1 h4">|</span>
-            <Strategies pnl={true} order={false} />
+            <Strategies algorithms={algorithms} pnl={true} order={false} />
           </div>
 
           <div
@@ -157,11 +193,12 @@ const Dashboard = () => {
           <div className="text-white d-flex align-items-center me-3">
             <span className="mx-2 h4">TOTAL ORDER - 0</span>
             <span className="mx-1 h4">|</span>
-            <Strategies pnl={false} order={true} />
+            <Strategies />
+            <Strategies algorithms={algorithms} pnl={false} order={true} />
           </div>
         </div>
 
-        <BrokerStratRow />
+        <BrokerStratRow algorithms={algorithms} />
       </div>
       {/* Filter Modal */}
       <Modal show={showModal} onHide={handleFilterToggle}>

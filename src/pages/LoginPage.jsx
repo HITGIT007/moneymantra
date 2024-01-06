@@ -7,6 +7,7 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(""); // State to hold error message
+  const [role, setRole] = useState("2");
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -21,8 +22,8 @@ function LoginPage() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const isEmail = emailRegex.test(email);
     const loginData = isEmail
-    ? { email: email, password: password, userType: "1" }
-    : { username: email, password: password, userType: "1" };
+    ? { email: email, password: password, userType: role }
+    : { username: email, password: password, userType: role };
     try {
       const response = await axios.post(
         "https://moneymantraai.com/api/auth/login",
@@ -39,8 +40,13 @@ function LoginPage() {
       if (response.status === 200 || response.status === 201) {
         // Store the token in sessionStorage
         const token = response.data.token;
+        const userId = response.data.userId;
+        const name = response.data.name;
         sessionStorage.setItem("logged", "true");
         sessionStorage.setItem("token", token);
+        sessionStorage.setItem("userId", userId);
+        sessionStorage.setItem("name", name);
+        
 
         // Navigate to Dashboard on successful login
         navigate("/dashboard");
@@ -108,7 +114,22 @@ function LoginPage() {
                         Password
                       </label>
                     </div>
-
+{/* Role Selection */}
+<div className="form-outline mb-2">
+                  <select
+                    className="form-select "
+                    id="role"
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                    required
+                  >
+                    <option value="2">User</option>
+                    <option value="1">Admin</option>
+                  </select>
+                  <label className="form-label" htmlFor="role">
+                    Role
+                  </label>
+                </div>
                     {/* Submit Button */}
                     <button type="submit" className="btn btn-primary btn-block">
                       Login

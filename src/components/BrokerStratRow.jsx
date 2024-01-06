@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Modal } from "react-bootstrap"; // Ensure you've installed 'react-bootstrap'
 import "../css/App.css";
 
-const BrokerStratRow = () => {
+const BrokerStratRow = ({algorithms}) => {
   const [showModal, setShowModal] = useState(false);
   const [switchState, setSwitchState] = useState({}); // State to track switch for each broker
   const [orderSwitch, setOrderSwitch] = useState({});
@@ -25,10 +25,7 @@ const BrokerStratRow = () => {
     }));
   };
   // Placeholder for your actual broker data
-  const brokers = [
-    { id: 1, name: "Strategy 1" },
-    { id: 2, name: "Strategy 2" },
-  ];
+
   const renderSwitch = (broker) => (
     <label className="switch">
       <input
@@ -47,35 +44,35 @@ const BrokerStratRow = () => {
           Create New <i className="bi bi-plus-lg ms-2"></i>
         </button>
       </div>
-      {brokers.map((broker) => (
+      {algorithms.map((algorithm) => (
         <div
-          key={broker.id}
+          key={algorithm.name}
           className="row align-items-center my-2 border rounded "
         >
           <div className="col-auto d-flex py-2 align-items-center">
             <div className="col-auto d-flex py-2 align-items-center">
-              {renderSwitch(broker)}
+              {renderSwitch(algorithm)}
               <span
                 style={{ width: "40px" }}
                 className={`ms-2 label bg-light border rounded text-center ${
-                  switchState[broker.id] ? "text-success" : "text-danger"
+                  switchState[algorithm.id] ? "text-success" : "text-danger"
                 }`}
               >
-                {switchState[broker.id] ? "On" : "Off"}
+                {switchState[algorithm.id] ? "On" : "Off"}
               </span>
             </div>
-            <label htmlFor={`toggle-${broker.id}`} className="card ms-2">
+            <label htmlFor={`toggle-${algorithm.id}`} className="card ms-2">
               <div className="d-flex align-items-center p-2">
-                {broker.name}
+                {algorithm.name}
                 <div className="d-flex align-items-center justify-content-center border border-warning rounded p-0 ms-2 px-1">
                   Order
                   <input
                     className="form-check-input ms-2"
                     type="checkbox"
                     role="switch"
-                    id={`flexOrderCheck-${broker.id}`}
-                    checked={orderSwitch[broker.id]}
-                    onChange={() => handleOrderChange(broker.id)}
+                    id={`flexOrderCheck-${algorithm.id}`}
+                    checked={orderSwitch[algorithm.id]}
+                    onChange={() => handleOrderChange(algorithm.id)}
                   />
                 </div>
               </div>

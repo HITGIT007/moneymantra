@@ -1,4 +1,4 @@
-const Strategies = ({ pnl, order }) => {
+const Strategies = ({ algorithms,  pnl, order }) => {
   const strategies = [
     {
       id: 1,
@@ -13,7 +13,6 @@ const Strategies = ({ pnl, order }) => {
       totalOrder: 2000,
     },
   ];
-
   // Function to format the value with Profit/Loss and appropriate color
   const formatValue = (value) => {
     const valueText = value >= 0 ? `Profit: +${value}` : `Loss: ${value}`;
@@ -23,15 +22,15 @@ const Strategies = ({ pnl, order }) => {
 
   return (
     <div className="d-flex">
-      {strategies.map((strategy) => (
+      {algorithms?.map((algorithm) => (
         <div
-          key={strategy.id}
+          key={algorithm.name}
           className="card me-3 p-2"
           style={{ minWidth: "120px" }}
         >
-          <div>{strategy.name}</div>
-          {pnl && formatValue(strategy.value)}
-          {order && <div>Total Order: {strategy.totalOrder}</div>}
+          <div>{algorithm.name}</div>
+          {/* {pnl && formatValue(algorithm?.value)}
+          {order && <div>Total Order: {algorithm?.totalOrder}</div>} */}
         </div>
       ))}
     </div>
