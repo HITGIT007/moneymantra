@@ -2,14 +2,19 @@ import React, { useState } from "react";
 import { Button, Modal } from "react-bootstrap"; // Ensure you've installed 'react-bootstrap'
 import "../css/App.css";
 
-const BrokerStratRow = ({algorithms}) => {
+const BrokerStratRow = ({ algorithms }) => {
   const [showModal, setShowModal] = useState(false);
   const [switchState, setSwitchState] = useState({}); // State to track switch for each broker
   const [orderSwitch, setOrderSwitch] = useState({});
-
+  const [userIdToRemove, setUserIdToRemove] = useState("");
   const handleModalClose = () => setShowModal(false);
   const handleModalShow = () => setShowModal(true);
-
+  const handleRemoveConfirmation = () => {
+    // Add logic to remove subscription for the user
+    console.log(`Removing subscription for user ID: ${userIdToRemove}`);
+    // Close the modal after action
+    setShowModal(false);
+  };
   // Handle switch toggle
   const handleSwitchChange = (id) => {
     setSwitchState((prevState) => ({
@@ -91,14 +96,27 @@ const BrokerStratRow = ({algorithms}) => {
 
                 <Modal show={showModal} onHide={handleModalClose}>
                   <Modal.Header closeButton>
-                    <Modal.Title>Broker Options</Modal.Title>
+                    <Modal.Title>Remove Algorithm/Subscription</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                    {/* Replace these with actual options */}
-                    <p>Option 1</p>
-                    <p>Option 2</p>
-                    <p>Option 3</p>
+                    Are you sure you want to remove the subscription for the
+                    following user?
+                    <input
+                      type="text"
+                      className="form-control my-3"
+                      placeholder="Enter User ID"
+                      value={userIdToRemove}
+                      onChange={(e) => setUserIdToRemove(e.target.value)}
+                    />
                   </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={handleModalClose}>
+                      No
+                    </Button>
+                    <Button variant="danger" onClick={handleRemoveConfirmation}>
+                      Yes
+                    </Button>
+                  </Modal.Footer>
                 </Modal>
               </div>
             </div>

@@ -9,11 +9,11 @@ import Strategies from "../components/Strategies";
 const Dashboard = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
-  
+  const [adminalgorithms, setadminAlgorithms] = useState([]);
   const [endDate, setEndDate] = useState("");
   const [algorithms, setAlgorithms] = useState([]);
   const [orderSummaries, setOrderSummaries] = useState([]); // State to hold order summaries
-
+  const [subscriptions, setSubscriptions] = useState([]);
   const token = sessionStorage.getItem("token");
   const userId = sessionStorage.getItem("userId");
   const name = sessionStorage.getItem("name");
@@ -24,6 +24,41 @@ const Dashboard = () => {
     return pastDate.toISOString();
   };
   const [startDate, setStartDate] = useState(getThirtyDaysBeforeDate());
+
+  useEffect(() => {
+    const fetchSubscriptionsByStrategies = async () => {
+      const requestBody = {
+        userId: userId, // Replace with actual userId
+        //tradingStrategies: ["1"], // Replace with actual strategy IDs
+        //type: "string" // Replace with actual type if needed
+      };
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          // Add any other headers like Authorization if needed
+        }
+      };
+
+      try {
+        const response = await axios.post(
+          'https://moneymantraai.com/api/customer/get-subscriptions-by-strategies',
+          requestBody,
+          config
+        );
+        console.log("get-subscriptions-by-strategies========>",response.data)
+        setSubscriptions(response.data); // Update state with the response data
+      } catch (error) {
+        console.error(error); // Handle the error
+      }
+    };
+
+    fetchSubscriptionsByStrategies();
+  }, []); // The empty dependency array ensures this effect runs once after the initial render
+
+
+
+
   useEffect(() => {
     console.log("token=======>", token);
     console.log("userId=======>", userId);
