@@ -27,24 +27,19 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchSubscriptionsByStrategies = async () => {
-      const requestBody = {
-        userId: userId, // Replace with actual userId
-        //tradingStrategies: ["1"], // Replace with actual strategy IDs
-        //type: "string" // Replace with actual type if needed
-      };
+     
 
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          // Add any other headers like Authorization if needed
-        }
-      };
+     
 
       try {
         const response = await axios.post(
           'https://moneymantraai.com/api/customer/get-subscriptions-by-strategies',
-          requestBody,
-          config
+          {
+            userId: userId, 
+           },
+           {
+            headers: { Authorization: `Bearer ${token}` },
+          }
         );
         console.log("get-subscriptions-by-strategies========>",response.data)
         setSubscriptions(response.data); // Update state with the response data
