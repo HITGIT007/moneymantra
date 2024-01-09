@@ -54,7 +54,13 @@ html, body, #root {
   margin-right: 0 !important;
   margin-left: 0 !important;
 }
+/* .sidebar{
 
+} */
+.list-group-item:hover{
+  background-color:#0062ff;
+  color: #ffe6e6 !important;
+}
 .gradient_background {
   background: linear-gradient(90deg, #0062ff, #da61ff);
 }
@@ -82,9 +88,6 @@ html, body, #root {
 }
 
 @media (max-width: 768px) {
-  .sidebar {
-    width: 100%; /* Full width on smaller screens */
-  }
   .navbar-toggler {
     margin-right: auto;
   }
@@ -108,7 +111,13 @@ html, body, #root {
   ); /* Adjusted the direction */
   min-height: 100vh;
 }
-
+.gradient_background_dashboard_withoutheight {
+  background: linear-gradient(
+    180deg,
+    #0062ff,
+    #da61ff
+  );
+}
 .navbar_dashboard {
   margin-bottom: 1rem;
 }

@@ -44,7 +44,7 @@ const BrokerStratRow = ({ algorithms }) => {
   return (
     <div className="container-fluid">
       <div className="d-flex align-items-center justify-content-between">
-        <h3>STRATEGIES</h3>
+        <h3 className="text-light">STRATEGIES</h3>
         <button className="btn btn-outline-light d-flex align-items-center">
           Create New <i className="bi bi-plus-lg ms-2"></i>
         </button>
