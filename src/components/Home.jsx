@@ -6,7 +6,12 @@ import "../css/App.css";
 import axios from "axios";
 import BrokerStratRow from "./BrokerStratRow";
 import Strategies from "./Strategies";
-function Home({toggleSidebar, isSidebarVisible}) {
+import {
+  fetchSubscriptionsByStrategies,
+  fetchOrderSummaries,
+  fetchAlgorithms,
+} from "../services/api";
+function Home({ toggleSidebar, isSidebarVisible }) {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [adminalgorithms, setadminAlgorithms] = useState([]);
@@ -14,8 +19,10 @@ function Home({toggleSidebar, isSidebarVisible}) {
   const [algorithms, setAlgorithms] = useState([]);
   const [orderSummaries, setOrderSummaries] = useState([]); // State to hold order summaries
   const [subscriptions, setSubscriptions] = useState([]);
+  const [currentTime, setCurrentTime] = useState(new Date());
   const token = sessionStorage.getItem("token");
   const userId = sessionStorage.getItem("userId");
+  const userType = sessionStorage.getItem("userType");
   const name = sessionStorage.getItem("name");
 
   const getThirtyDaysBeforeDate = () => {
@@ -26,78 +33,40 @@ function Home({toggleSidebar, isSidebarVisible}) {
   const [startDate, setStartDate] = useState(getThirtyDaysBeforeDate());
 
   useEffect(() => {
-    const fetchSubscriptionsByStrategies = async () => {
+    const initFetch = async () => {
       try {
-        const response = await axios.post(
-          "https://moneymantraai.com/api/customer/get-subscriptions-by-strategies",
-          {
-            userId: userId,
-          },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        console.log("get-subscriptions-by-strategies========>", response.data);
-        setSubscriptions(response.data); // Update state with the response data
-      } catch (error) {
-        console.error(error); // Handle the error
-      }
-    };
-
-    fetchSubscriptionsByStrategies();
-  }, []); // The empty dependency array ensures this effect runs once after the initial render
-
-  useEffect(() => {
-    console.log("token=======>", token);
-    console.log("userId=======>", userId);
-    const fetchOrderSummaries = async () => {
-      if (!userId || !token) {
-        console.error("User ID or token missing");
-        return;
-      }
-
-      try {
-        const response = await axios.post(
-          "https://moneymantraai.com/api/customer/accounts/get-order-summaries",
-          { userId, startTime: startDate, endTime: currentTime },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-
-        setOrderSummaries(response.data);
-        console.log("Order Summaries:", response.data);
-      } catch (error) {
-        console.error("Error fetching order summaries:", error);
-        // Handle error appropriately
-      }
-    };
-    const fetchAlgorithms = async () => {
-      try {
-        if (!userId || !token) {
-          console.error("User ID or token missing");
-          return;
+        if( userType === "2"){
+          const subscriptionsData = await fetchSubscriptionsByStrategies(
+            userId,
+            token
+          );
+          console.log("fetchSubscriptionsByStrategies======>",subscriptionsData.userAlgorithmSubscriptionDTOs)
+          setSubscriptions(subscriptionsData?.userAlgorithmSubscriptionDTOs);
+          const orderSummariesData = await fetchOrderSummaries(
+            userId,
+            startDate,
+            currentTime,
+            token
+          );
+          setOrderSummaries(orderSummariesData.orderSummaries);
+         
         }
-
-        const config = {
-          headers: { Authorization: `Bearer ${token}` },
-        };
-
-        const body = {
-          userId: userId,
-        };
-
-        const endpoint = `https://moneymantraai.com/api/admin/get-algorithms-by-strategies`;
-
-        const response = await axios.post(endpoint, body, config);
-        setAlgorithms(response?.data?.algorithmDTOs);
+       
+       
+        
+        console.log("userType =======>",userType)
+        if( userType === "1"){
+          const algorithmsData = await fetchAlgorithms(userId, token);
+          setAlgorithms(algorithmsData);
+        }
+    
       } catch (error) {
-        console.error("Error fetching algorithms:", error);
+        console.error(error);
       }
     };
-    fetchOrderSummaries();
-    fetchAlgorithms();
-  }, [token, userId]);
+
+    initFetch();
+  }, [userId, token, startDate, userType]);
 
   useEffect(() => {
     console.log(
@@ -107,6 +76,7 @@ function Home({toggleSidebar, isSidebarVisible}) {
   }, [algorithms]);
 
   useLayoutEffect(() => {
+    setCurrentTime(new Date());
     // Check for 'logged' in session storage
     const isLogged = sessionStorage.getItem("logged");
 
@@ -116,25 +86,24 @@ function Home({toggleSidebar, isSidebarVisible}) {
     }
   }, [navigate]); // Dependency array includes navigate to avoid re-running the effect unnecessarily
 
-  const [currentTime, setCurrentTime] = useState(new Date());
-
   // Toggles the visibility of the sidebar
- 
+
   const handleFilterToggle = () => setShowModal(!showModal);
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
 
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
-  // Custom function to format the date and time
-
+  const calculateTotalPL = (orderSummaries) => {
+    return Object.values(orderSummaries).reduce((total, summary) => total + summary.profit, 0);
+  };
+  
+  // Inside your component, where you want to display the total P/L
+  const totalPL = calculateTotalPL(orderSummaries);
   return (
     <div>
-      <Nav name={name} date={currentTime} toggleSidebar={toggleSidebar} isSidebarVisible={isSidebarVisible} />
+      <Nav
+        name={name}
+        toggleSidebar={toggleSidebar}
+        isSidebarVisible={isSidebarVisible}
+      />
+      {console.log("Test Infinite")}
       <div className="container-fluid">
         <Modal show={showModal} onHide={handleFilterToggle}>
           <Modal.Header closeButton>
@@ -199,9 +168,12 @@ function Home({toggleSidebar, isSidebarVisible}) {
         </nav> */}
         <div className="d-flex align-items-center border rounded p-4 mb-3 justify-content-between">
           <div className="text-white d-flex align-items-center me-3">
-            <span className="mx-2 h4">TOTAL P/L - 0</span>
+            <div>
+            <div className="mx-2 h4">TOTAL P/L - {totalPL.toFixed(2)}</div>
+            <div className="mx-2 h4">TOTAL ORDER - 0</div>
+            </div>
             <span className="mx-1 h4">|</span>
-            <Strategies algorithms={algorithms} pnl={true} order={false} />
+            <Strategies orderSummaries={orderSummaries}  />
           </div>
 
           <div
@@ -227,16 +199,16 @@ function Home({toggleSidebar, isSidebarVisible}) {
             </Button>
           </div>
         </div>
-        <div className="d-flex align-items-center border rounded p-4 mb-3">
+        {/* <div className="d-flex align-items-center border rounded p-4 mb-3">
           <div className="text-white d-flex align-items-center me-3">
             <span className="mx-2 h4">TOTAL ORDER - 0</span>
             <span className="mx-1 h4">|</span>
-            <Strategies />
-            <Strategies algorithms={algorithms} pnl={false} order={true} />
+        
+            <Strategies orderSummaries={orderSummaries}  />
           </div>
-        </div>
+        </div> */}
 
-        <BrokerStratRow algorithms={algorithms} />
+        <BrokerStratRow algorithms={algorithms} subscriptions={subscriptions}/>
       </div>
     </div>
   );

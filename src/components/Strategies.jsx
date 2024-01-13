@@ -1,19 +1,5 @@
-const Strategies = ({ algorithms,  pnl, order }) => {
-  const strategies = [
-    {
-      id: 1,
-      name: "Strategy 1",
-      value: 100, // Positive for profit
-      totalOrder: 1000,
-    },
-    {
-      id: 2,
-      name: "Strategy 2",
-      value: -80, // Negative for loss
-      totalOrder: 2000,
-    },
-  ];
-  // Function to format the value with Profit/Loss and appropriate color
+const Strategies = ({ orderSummaries }) => {
+
   const formatValue = (value) => {
     const valueText = value >= 0 ? `Profit: +${value}` : `Loss: ${value}`;
     const valueColor = value >= 0 ? "text-success" : "text-danger";
@@ -22,15 +8,18 @@ const Strategies = ({ algorithms,  pnl, order }) => {
 
   return (
     <div className="d-flex">
-      {algorithms?.map((algorithm) => (
-        <div
-          key={algorithm.name}
-          className="card me-3 p-2"
-          style={{ minWidth: "120px" }}
-        >
-          <div>{algorithm.name}</div>
-          {/* {pnl && formatValue(algorithm?.value)}
-          {order && <div>Total Order: {algorithm?.totalOrder}</div>} */}
+      {console.log("orderSummaries====>",orderSummaries)}
+      {Object.entries(orderSummaries).map(([key, summary]) => (
+        <div key={key} className="card me-3 p-2" style={{ minWidth: "120px" }}>
+          <div>Strategy ID: {key}</div>
+          <div>Money in Market: {summary.moneyInMarket}</div>
+          <div>Total Unit Bought: {summary.totalUnitBought}</div>
+          <div>Total Unit Sold: {summary.totalUnitSold}</div>
+          <div>Total Money Put: {summary.totalMoneyPut}</div>
+          <div>Total Money Withdrawn: {summary.totalMoneyWithdrawn}</div>
+          {/* Display Profit or Loss */}
+          {formatValue(summary.profit)}
+          <div>Subscription ID: {summary.subscriptionId}</div>
         </div>
       ))}
     </div>

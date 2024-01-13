@@ -71,7 +71,7 @@ function ControlandMonitor() {
 
   return (
     <div
-      className="d-flex gradient_background"
+      className="d-flex plain-background"
       style={{
         height: "100vh",
       }}

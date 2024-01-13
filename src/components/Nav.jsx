@@ -1,6 +1,22 @@
 import React, { useState, useEffect } from "react";
 
-function Nav({ name, date, toggleSidebar, isSidebarVisible }) {
+
+function Nav({ name, toggleSidebar, isSidebarVisible }) {
+
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+
   const formatDate = (date) => {
     const day = date.getDate().toString().padStart(2, "0");
     const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Month is 0-indexed
@@ -64,10 +80,10 @@ function Nav({ name, date, toggleSidebar, isSidebarVisible }) {
         className="text-white ms-3 d-flex align-items-center border border-2 rounded my-2 py-2 text-center"
         style={{ width: "150px" }}
       >
-        <span className="h4 mb-0">{formatDate(date)}</span>
+        <span className="h4 mb-0">{formatDate(currentTime)}</span>
       </div>
     </nav>
   );
 }
 
-export default Nav;
+export default React.memo(Nav);

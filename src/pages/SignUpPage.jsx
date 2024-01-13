@@ -67,7 +67,7 @@ function SignUpPage() {
 
   return (
     <div
-      className="gradient_background"
+      className="plain-background"
       style={{
         borderRadius: "15px",
         height: "100vh",

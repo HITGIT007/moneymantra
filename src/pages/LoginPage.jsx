@@ -42,10 +42,13 @@ function LoginPage() {
         const token = response.data.token;
         const userId = response.data.userId;
         const name = response.data.name;
+        const userType = response.data.userType;
+        console.log("response.data.userType=====>",userType)
         sessionStorage.setItem("logged", "true");
         sessionStorage.setItem("token", token);
         sessionStorage.setItem("userId", userId);
         sessionStorage.setItem("name", name);
+        sessionStorage.setItem("userType",userType);
         
 
         // Navigate to Dashboard on successful login
@@ -63,7 +66,7 @@ function LoginPage() {
 
   return (
     <div
-      className="gradient_background"
+      className="plain-background"
       style={{
         borderRadius: "15px",
         height: "100vh",

@@ -16,6 +16,9 @@ html, body, #root {
 .container-fluid, .row, .row > div {
   height: 100%;
 }
+.plain-background {
+  background:  #230B28
+}
 .neon-text {
   color: #fff; /* White text color */
   text-shadow:

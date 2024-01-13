@@ -58,10 +58,10 @@ function HomePage() {
         </div>
       </nav>
       <div className="row bg-danger">
-        <div className="col-lg-6 p-5 gradient_background_reverse d-flex flex-column justify-content-center">
+        <div className="col-lg-6 p-5 plain-background d-flex flex-column justify-content-center">
           <h1 className="neon-text">Strategize Wealth, Maximize Growth.</h1>
 
-          <p className="neon-text-yellow">
+          <p className="text-white">
             Money Mantra is a cutting-edge financial platform dedicated to
             empowering investors with smart, data-driven strategies for the
             stock market. At the heart of our mission lies a commitment to
@@ -78,7 +78,7 @@ function HomePage() {
             Sign Up for free!
           </Link>
         </div>
-        <div className="col-lg-6 d-flex flex-column align-items-center gradient_background justify-content-center ">
+        <div className="col-lg-6 d-flex flex-column align-items-center plain-background justify-content-center ">
           <img
             src={require("../assets/images/rupeegold.png")}
             alt="logo"
