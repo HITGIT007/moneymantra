@@ -35,7 +35,7 @@ function Home({ toggleSidebar, isSidebarVisible }) {
   };
   const [startDate, setStartDate] = useState(getThirtyDaysBeforeDate());
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const initFetch = async () => {
       console.log("Init Fetching...");
       try {
