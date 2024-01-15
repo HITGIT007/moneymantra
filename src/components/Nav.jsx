@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
-
-
-function Nav({ name, toggleSidebar, isSidebarVisible }) {
-
+import { useNavigate } from "react-router-dom";
+function Nav({ name, toggleSidebar, isSidebarVisible}) {
   const [currentTime, setCurrentTime] = useState(new Date());
-
-
+  const navigate = useNavigate();
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
@@ -15,7 +12,6 @@ function Nav({ name, toggleSidebar, isSidebarVisible }) {
       clearInterval(timer);
     };
   }, []);
-
 
   const formatDate = (date) => {
     const day = date.getDate().toString().padStart(2, "0");
@@ -32,8 +28,9 @@ function Nav({ name, toggleSidebar, isSidebarVisible }) {
   return (
     <nav className="navbar navbar-expand-sm navbar-dark bg-transparent">
       <i
-   
-        className={`navbar-brand bi ${isSidebarVisible ? "bi-x-lg" : "bi-justify-left"} border rounded border-danger px-2 py-1`}
+        className={`navbar-brand bi ${
+          isSidebarVisible ? "bi-x-lg" : "bi-justify-left"
+        } border rounded border-danger px-2 py-1`}
         onClick={toggleSidebar}
       ></i>
       <button
@@ -63,15 +60,17 @@ function Nav({ name, toggleSidebar, isSidebarVisible }) {
               </span>
             </a>
             <div className="dropdown-menu" aria-labelledby="dropdownId">
-              <a className="dropdown-item" href="#">
-                Profile
-              </a>
-              <a className="dropdown-item" href="#">
-                Setting
-              </a>
-              <a className="dropdown-item" href="#">
+              <button className="dropdown-item">Profile</button>
+              <button className="dropdown-item">Setting</button>
+              <button
+                className="dropdown-item"
+                onClick={() => {
+                  sessionStorage.removeItem("logged");
+                  navigate("/");
+                }}
+              >
                 Logout
-              </a>
+              </button>
             </div>
           </li>
         </ul>

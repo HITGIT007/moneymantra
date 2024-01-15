@@ -1,7 +1,7 @@
 import Nav from "./Nav";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Badge, InputGroup, Form } from "react-bootstrap";
 import "../css/App.css";
 import axios from "axios";
 import BrokerStratRow from "./BrokerStratRow";
@@ -10,11 +10,14 @@ import {
   fetchSubscriptionsByStrategies,
   fetchOrderSummaries,
   fetchAlgorithms,
+  fetchAdminOrderSummaries,
 } from "../services/api";
+import DateRangeModal from "./DateRangeModal";
 function Home({ toggleSidebar, isSidebarVisible }) {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
-  const [adminalgorithms, setadminAlgorithms] = useState([]);
+  const [adminUserOrderSummary, setAdminUserOrderSummary] = useState([]);
+  const [customerId, setCustomerId] = useState("");
   const [endDate, setEndDate] = useState("");
   const [algorithms, setAlgorithms] = useState([]);
   const [orderSummaries, setOrderSummaries] = useState([]); // State to hold order summaries
@@ -34,13 +37,17 @@ function Home({ toggleSidebar, isSidebarVisible }) {
 
   useEffect(() => {
     const initFetch = async () => {
+      console.log("Init Fetching...");
       try {
-        if( userType === "2"){
+        if (userType === "2") {
           const subscriptionsData = await fetchSubscriptionsByStrategies(
             userId,
             token
           );
-          console.log("fetchSubscriptionsByStrategies======>",subscriptionsData.userAlgorithmSubscriptionDTOs)
+          console.log(
+            "fetchSubscriptionsByStrategies======>",
+            subscriptionsData.userAlgorithmSubscriptionDTOs
+          );
           setSubscriptions(subscriptionsData?.userAlgorithmSubscriptionDTOs);
           const orderSummariesData = await fetchOrderSummaries(
             userId,
@@ -49,24 +56,20 @@ function Home({ toggleSidebar, isSidebarVisible }) {
             token
           );
           setOrderSummaries(orderSummariesData.orderSummaries);
-         
         }
-       
-       
-        
-        console.log("userType =======>",userType)
-        if( userType === "1"){
+
+        console.log("userType =======>", userType);
+        if (userType === "1") {
           const algorithmsData = await fetchAlgorithms(userId, token);
           setAlgorithms(algorithmsData);
         }
-    
       } catch (error) {
         console.error(error);
       }
     };
 
     initFetch();
-  }, [userId, token, startDate, userType]);
+  }, [userType]);
 
   useEffect(() => {
     console.log(
@@ -91,13 +94,38 @@ function Home({ toggleSidebar, isSidebarVisible }) {
   const handleFilterToggle = () => setShowModal(!showModal);
 
   const calculateTotalPL = (orderSummaries) => {
-    return Object.values(orderSummaries).reduce((total, summary) => total + summary.profit, 0);
+    return Object.values(orderSummaries).reduce(
+      (total, summary) => total + summary.profit,
+      0
+    );
   };
-  
+  const handleInputChange = (e) => {
+    setCustomerId(e.target.value);
+  };
+  const handleButtonClick = async () => {
+    try {
+      // Call the API function with the customerId and other parameters
+      const orderSummaries = await fetchAdminOrderSummaries(
+        userId,
+        customerId,
+        startDate,
+        currentTime
+      );
+
+      // Handle the orderSummaries as needed
+      console.log("Order Summaries:", orderSummaries);
+      setAdminUserOrderSummary(orderSummaries?.orderSummaries);
+    } catch (error) {
+      // Handle errors if necessary
+      console.error("Error fetching order summaries:", error);
+    }
+  };
   // Inside your component, where you want to display the total P/L
-  const totalPL = calculateTotalPL(orderSummaries);
+  const totalPL = calculateTotalPL(
+    userType === "2" ? orderSummaries : adminUserOrderSummary
+  );
   return (
-    <div>
+    <div className="pb-4">
       <Nav
         name={name}
         toggleSidebar={toggleSidebar}
@@ -105,110 +133,82 @@ function Home({ toggleSidebar, isSidebarVisible }) {
       />
       {console.log("Test Infinite")}
       <div className="container-fluid">
-        <Modal show={showModal} onHide={handleFilterToggle}>
-          <Modal.Header closeButton>
-            <Modal.Title>Select Date Range</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div className="mb-3">
-              <label htmlFor="startDate" className="form-label">
-                Start Date
-              </label>
-              <input
-                type="date"
-                id="startDate"
-                className="form-control"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="endDate" className="form-label">
-                End Date
-              </label>
-              <input
-                type="date"
-                id="endDate"
-                className="form-control"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-              />
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button
-              variant="secondary"
-              onClick={() => {
-                setStartDate("");
-                setEndDate("");
-                handleFilterToggle();
-              }}
-            >
-              Close
-            </Button>
-            <Button variant="primary" onClick={handleFilterToggle}>
-              Apply
-            </Button>
-          </Modal.Footer>
-        </Modal>
-        {/* <nav className="navbar_dashboard navbar-expand-lg navbar-dark d-flex align-items-center justify-content-between">
-       
-          <div className="d-flex align-items-center">
-            <button
-              onClick={toggleSidebar}
-              className="btn btn-primary m-2 border border-danger"
-            >
-              <i
-                className={`bi ${isSidebarVisible ? "bi-x-lg" : "bi-list"}`}
-              ></i>
-            </button>
-           
-          </div>
-          
-        </nav> */}
-        <div className="d-flex align-items-center border rounded p-4 mb-3 justify-content-between">
-          <div className="text-white d-flex align-items-center me-3">
-            <div>
-            <div className="mx-2 h4">TOTAL P/L - {totalPL.toFixed(2)}</div>
-            <div className="mx-2 h4">TOTAL ORDER - 0</div>
-            </div>
-            <span className="mx-1 h4">|</span>
-            <Strategies orderSummaries={orderSummaries}  />
-          </div>
+        <DateRangeModal
+          showModal={showModal}
+          handleFilterToggle={handleFilterToggle}
+          startDate={startDate}
+          setStartDate={setStartDate}
+          endDate={endDate}
+          setEndDate={setEndDate}
+        />
 
-          <div
-            className="d-flex align-items-center justify-content-between mt-2"
-            style={{ height: "50px" }}
-          >
-            {startDate && endDate && (
-              <div className="text-dark d-flex flex-column">
-                <span className="mx-2 bg-white rounded mb-1 px-1">
-                  {startDate}
-                </span>
-                <span className="mx-2 bg-white rounded px-1">{endDate}</span>
-              </div>
+        <div className="d-flex align-items-center justify-content-between  mb-2">
+          <div>
+            {userType === "1" && (
+              <InputGroup className="mb-3">
+                <Form.Control
+                  placeholder="Enter UserID"
+                  aria-label="Enter UserID"
+                  aria-describedby="basic-addon2"
+                  value={customerId}
+                  onChange={handleInputChange}
+                />
+                <Button
+                  variant="outline-secondary"
+                  id="button-addon2"
+                  onClick={handleButtonClick}
+                >
+                  SUBS
+                </Button>
+              </InputGroup>
             )}
-
-            <div className="flex-grow-1"></div>
-
-            <Button
-              className="btn btn-outline-light"
+          </div>
+          <div className="d-flex align-items-center   ">
+            <div className="mx-2 h4 text-center text-white">TOTAL P/L : </div>
+            {totalPL < 0 ? (
+              <Badge bg="danger mx-2 h4">
+                <h3>{totalPL.toFixed(2)}</h3>
+              </Badge>
+            ) : (
+              <Badge bg="success mx-2 h4">
+                <h3>{totalPL.toFixed(2)}</h3>
+              </Badge>
+            )}
+          </div>
+          <div className="d-flex align-items-center">
+            <div
+              className="d-flex align-items-center justify-content-between mt-2"
+              style={{ height: "50px" }}
+            >
+              {startDate && endDate && (
+                <div className="text-dark d-flex flex-column">
+                  <span className="mx-2 bg-white rounded mb-1 px-1">
+                    {startDate}
+                  </span>
+                  <span className="mx-2 bg-white rounded px-1">{endDate}</span>
+                </div>
+              )}
+            </div>
+            <div
+              className="btn btn-outline-light d-flex"
               onClick={handleFilterToggle}
             >
-              Filter
-            </Button>
+              <i class="bi bi-filter-right"></i>
+              <i class="bi bi-filter-left"></i>
+            </div>
           </div>
         </div>
-        {/* <div className="d-flex align-items-center border rounded p-4 mb-3">
-          <div className="text-white d-flex align-items-center me-3">
-            <span className="mx-2 h4">TOTAL ORDER - 0</span>
-            <span className="mx-1 h4">|</span>
-        
-            <Strategies orderSummaries={orderSummaries}  />
+        <div className="d-flex align-items-center border rounded p-4 mb-3 justify-content-between">
+          <div className="text-white d-flex align-items-center">
+            <Strategies
+              orderSummaries={
+                userType === "2" ? orderSummaries : adminUserOrderSummary
+              }
+            />
           </div>
-        </div> */}
+        </div>
 
-        <BrokerStratRow algorithms={algorithms} subscriptions={subscriptions}/>
+        <BrokerStratRow algorithms={algorithms} subscriptions={subscriptions} />
       </div>
     </div>
   );

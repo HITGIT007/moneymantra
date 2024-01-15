@@ -7,11 +7,11 @@ const Strategies = ({ orderSummaries }) => {
   };
 
   return (
-    <div className="d-flex">
+    <div className="d-flex plain-background">
       {console.log("orderSummaries====>",orderSummaries)}
       {Object.entries(orderSummaries).map(([key, summary]) => (
-        <div key={key} className="card me-3 p-2" style={{ minWidth: "120px" }}>
-          <div>Strategy ID: {key}</div>
+        <div key={key} className="card mx-1 p-2" style={{ minWidth: "120px" }}>
+          <div>Strategy: {key}</div>
           <div>Money in Market: {summary.moneyInMarket}</div>
           <div>Total Unit Bought: {summary.totalUnitBought}</div>
           <div>Total Unit Sold: {summary.totalUnitSold}</div>

@@ -1,9 +1,9 @@
-import apiService from './apiService'; // make sure this points to the file where the instance is created
+import apiService from "./apiService"; // make sure this points to the file where the instance is created
 
 const fetchSubscriptionsByStrategies = async (userId) => {
   try {
     const response = await apiService.post(
-      '/customer/get-subscriptions-by-strategies',
+      "/customer/get-subscriptions-by-strategies",
       { userId }
     );
     return response.data;
@@ -16,7 +16,7 @@ const fetchSubscriptionsByStrategies = async (userId) => {
 const fetchOrderSummaries = async (userId, startDate, currentTime) => {
   try {
     const response = await apiService.post(
-      '/customer/accounts/get-order-summaries',
+      "/customer/accounts/get-order-summaries",
       { userId, startTime: startDate, endTime: currentTime }
     );
     return response.data;
@@ -25,30 +25,35 @@ const fetchOrderSummaries = async (userId, startDate, currentTime) => {
     throw error;
   }
 };
-const stopNewOrdersBySubscription = async (userId, userSubscriptionId, allowRealOrder, type) => {
+const stopNewOrdersBySubscription = async (
+  userId,
+  userSubscriptionId,
+  allowRealOrder,
+  type
+) => {
   try {
-      const requestBody = {
-          userId,
-          userSubscriptionId,
-          allowRealOrder,
-          type
-      };
+    const requestBody = {
+      userId,
+      userSubscriptionId,
+      allowRealOrder,
+      type,
+    };
 
-      const response = await apiService.post(
-          '/customer/stop-new-orders-by-subscription',
-          requestBody
-      );
+    const response = await apiService.post(
+      "/customer/stop-new-orders-by-subscription",
+      requestBody
+    );
 
-      return response;
+    return response;
   } catch (error) {
-      console.error("Error in stopping new orders by subscription:", error);
-      throw error;
+    console.error("Error in stopping new orders by subscription:", error);
+    throw error;
   }
 };
 const fetchAlgorithms = async (userId) => {
   try {
     const response = await apiService.post(
-      '/admin/get-algorithms-by-strategies',
+      "/admin/get-algorithms-by-strategies",
       { userId }
     );
     return response.data.algorithmDTOs;
@@ -57,28 +62,62 @@ const fetchAlgorithms = async (userId) => {
     throw error;
   }
 };
-const stopNewOrdersByAlgorithm = async (userId, algorithmId, allowRealOrder, type) => {
-  console.log("stopNewOrdersByAlgorithm called ===>")
-  console.log({userId, algorithmId, allowRealOrder, type})
-    try {
-      const requestBody = {
-        userId,
-        algorithmId,
-        allowRealOrder,
-        type
-      };
-      
-      const response = await apiService.post(
-        '/admin/stop-new-orders-by-algorithm',
-        requestBody
-      );
-      
-      // Assuming you want to return the entire response object, not just the data
-      return response;
-    } catch (error) {
-      console.error("Error stopping new orders by algorithm:", error);
-      throw error;
-    }
-  };
-  
-export { fetchSubscriptionsByStrategies, fetchOrderSummaries, fetchAlgorithms, stopNewOrdersByAlgorithm, stopNewOrdersBySubscription };
+const stopNewOrdersByAlgorithm = async (
+  userId,
+  algorithmId,
+  allowRealOrder,
+  type
+) => {
+  console.log("stopNewOrdersByAlgorithm called ===>");
+  console.log({ userId, algorithmId, allowRealOrder, type });
+  try {
+    const requestBody = {
+      userId,
+      algorithmId,
+      allowRealOrder,
+      type,
+    };
+
+    const response = await apiService.post(
+      "/admin/stop-new-orders-by-algorithm",
+      requestBody
+    );
+
+    // Assuming you want to return the entire response object, not just the data
+    return response;
+  } catch (error) {
+    console.error("Error stopping new orders by algorithm:", error);
+    throw error;
+  }
+};
+
+const fetchAdminOrderSummaries = async (
+  userId,
+  customerId,
+  startTime,
+  endTime,
+) => {
+  try {
+    const response = await apiService.post(
+      "/admin/accounts/get-order-summaries",
+      {
+        userId: parseInt(userId),
+        customerUserId: parseInt(customerId),
+        startTime: startTime,
+        endTime: endTime,
+      }
+    );
+    return response.data; // Handle the response as needed
+  } catch (error) {
+    console.error("Error fetching admin order summaries:", error);
+    throw error; // You may want to handle the error differently depending on your use case
+  }
+};
+export {
+  fetchSubscriptionsByStrategies,
+  fetchOrderSummaries,
+  fetchAlgorithms,
+  stopNewOrdersByAlgorithm,
+  stopNewOrdersBySubscription,
+  fetchAdminOrderSummaries
+};

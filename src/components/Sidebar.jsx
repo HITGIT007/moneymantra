@@ -5,6 +5,7 @@ import FinancialBox from "./FinancialBox";
 
 function Sidebar() {
   const navigate = useNavigate();
+  const userType = sessionStorage.getItem("userType");
   const resetStyles = {
     color: "inherit",
     textDecoration: "none", // Remove underlines
@@ -23,7 +24,7 @@ function Sidebar() {
             <span className="fs-5">Dashboard</span>
           </NavLink>
         </div>
-        <div className="list-group-item py-2  ">
+        {userType === "1" && <div className="list-group-item py-2  ">
           <i className="bi bi-speedometer2 fs-5 me-1"></i>
           <NavLink
             to="/controlandmonitor"
@@ -32,7 +33,8 @@ function Sidebar() {
           >
             <span className="fs-5"> Control & Monitor</span>
           </NavLink>
-        </div>
+        </div>}
+        
 
         <div className="list-group-item py-2  ">
           <i className="bi bi-box-arrow-right fs-5 me-1"></i>

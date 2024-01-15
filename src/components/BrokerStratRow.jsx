@@ -122,7 +122,7 @@ const BrokerStratRow = ({ algorithms, orderSummaries, subscriptions }) => {
   );
   return (
     <div className="container-fluid">
-      <div className="d-flex align-items-center justify-content-between">
+      <div className="d-flex align-items-center justify-content-between mb-2">
         <h3 className="text-light">STRATEGIES</h3>
         <button className="btn btn-outline-light d-flex align-items-center">
           Create New <i className="bi bi-plus-lg ms-2"></i>
@@ -132,90 +132,92 @@ const BrokerStratRow = ({ algorithms, orderSummaries, subscriptions }) => {
       {userType === "1" &&
         Object.entries(groupAlgorithmsByStrategy(algorithms)).map(
           ([strategyName, strategyAlgorithms]) => (
-            <React.Fragment key={strategyName}>
+            <React.Fragment key={strategyName} >
               <Badge bg="warning" text="dark">
-                {" "}
+             
                 <h3>{strategyName}</h3>
               </Badge>
               {/* <h3 className="text-light">{strategyName}</h3> */}
-              {strategyAlgorithms.map((algorithm, index) => (
-                <div
-                  key={algorithm.name + index}
-                  className="row align-items-center my-2 border rounded "
-                >
-                  <div className="col-auto d-flex py-2 align-items-center">
+              <div className="my-2 border rounded border-light">
+                {strategyAlgorithms.map((algorithm, index) => (
+                  <div
+                    key={algorithm.name + index}
+                    className="row align-items-center my-2  "
+                  >
                     <div className="col-auto d-flex py-2 align-items-center">
-                      {renderSwitch(algorithm)}
-                      <span
-                        style={{ width: "40px" }}
-                        className={`ms-2 label bg-light border rounded text-center ${
-                          switchState[algorithm.id]
-                            ? "text-success"
-                            : "text-danger"
-                        }`}
-                      >
-                        {switchState[algorithm.id] ? "On" : "Off"}
-                      </span>
-                    </div>
-                    <label
-                      htmlFor={`toggle-${algorithm.id}`}
-                      className="card ms-2"
-                    >
-                      <div className="d-flex align-items-center p-2">
-                        {algorithm.name}
-                      </div>
-                    </label>
-                  </div>
-                  <div className="col d-flex justify-content-end">
-                    <div className="d-flex justify-content-between align-items-center">
-                      <div>
-                        <Button
-                          variant="link"
-                          onClick={handleModalShow}
-                          style={{ color: "white" }}
+                      <div className="col-auto d-flex py-2 align-items-center">
+                        {renderSwitch(algorithm)}
+                        <span
+                          style={{ width: "40px" }}
+                          className={`ms-2 label bg-light border rounded text-center ${
+                            switchState[algorithm.id]
+                              ? "text-success"
+                              : "text-danger"
+                          }`}
                         >
-                          <i className="bi bi-three-dots-vertical"></i>
-                        </Button>
+                          {switchState[algorithm.id] ? "On" : "Off"}
+                        </span>
+                      </div>
+                      <label
+                        htmlFor={`toggle-${algorithm.id}`}
+                        className="card ms-2"
+                      >
+                        <div className="d-flex align-items-center p-2">
+                          {algorithm.name}
+                        </div>
+                      </label>
+                    </div>
+                    <div className="col d-flex justify-content-end">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div>
+                          <Button
+                            variant="link"
+                            onClick={handleModalShow}
+                            style={{ color: "white" }}
+                          >
+                            <i className="bi bi-three-dots-vertical"></i>
+                          </Button>
 
-                        <Modal show={showModal} onHide={handleModalClose}>
-                          <Modal.Header closeButton>
-                            <Modal.Title>
-                              Remove Algorithm/Subscription
-                            </Modal.Title>
-                          </Modal.Header>
-                          <Modal.Body>
-                            Are you sure you want to remove the subscription for
-                            the following user?
-                            <input
-                              type="text"
-                              className="form-control my-3"
-                              placeholder="Enter User ID"
-                              value={userIdToRemove}
-                              onChange={(e) =>
-                                setUserIdToRemove(e.target.value)
-                              }
-                            />
-                          </Modal.Body>
-                          <Modal.Footer>
-                            <Button
-                              variant="secondary"
-                              onClick={handleModalClose}
-                            >
-                              No
-                            </Button>
-                            <Button
-                              variant="danger"
-                              onClick={handleRemoveConfirmation}
-                            >
-                              Yes
-                            </Button>
-                          </Modal.Footer>
-                        </Modal>
+                          <Modal show={showModal} onHide={handleModalClose}>
+                            <Modal.Header closeButton>
+                              <Modal.Title>
+                                Remove Algorithm/Subscription
+                              </Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                              Are you sure you want to remove the subscription
+                              for the following user?
+                              <input
+                                type="text"
+                                className="form-control my-3"
+                                placeholder="Enter User ID"
+                                value={userIdToRemove}
+                                onChange={(e) =>
+                                  setUserIdToRemove(e.target.value)
+                                }
+                              />
+                            </Modal.Body>
+                            <Modal.Footer>
+                              <Button
+                                variant="secondary"
+                                onClick={handleModalClose}
+                              >
+                                No
+                              </Button>
+                              <Button
+                                variant="danger"
+                                onClick={handleRemoveConfirmation}
+                              >
+                                Yes
+                              </Button>
+                            </Modal.Footer>
+                          </Modal>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </React.Fragment>
           )
         )}
@@ -225,91 +227,92 @@ const BrokerStratRow = ({ algorithms, orderSummaries, subscriptions }) => {
           ([strategyName, strategyAlgorithms]) => (
             <React.Fragment key={strategyName}>
               <Badge bg="warning" text="dark">
-            
                 <h3>{strategyName}</h3>
               </Badge>
+              <div className="my-2 border rounded border-light">
+                {strategyAlgorithms.map((subscription, index) => (
+                  <div
+                    key={subscription.name + index}
+                    className="row align-items-center my-2 "
+                  >
+                    <div className="col-auto d-flex py-2 align-items-center">
+                      <Button
+                        variant="outline-danger"
+                        className="ms-2"
+                        onClick={() => handleOrderChange(subscription)} // Pass the entire subscription object
+                      >
+                        Order
+                        <input
+                          className="form-check-input ms-2"
+                          type="checkbox"
+                          role="switch"
+                          id={`flexOrderCheck-${subscription.id}`}
+                          checked={orderSwitch[subscription.id]} // Make sure this reflects the current state
+                          onChange={() => handleOrderChange(subscription)} // Add this to handle checkbox changes
+                        />
+                      </Button>
 
-              {strategyAlgorithms.map((subscription, index) => (
-                <div
-                  key={subscription.name + index}
-                  className="row align-items-center my-2 border rounded "
-                >
-                  <div className="col-auto d-flex py-2 align-items-center">
-                    <Button
-                      variant="outline-danger"
-                      className="ms-2"
-                      onClick={() => handleOrderChange(subscription)} // Pass the entire subscription object
-                    >
-                      Order
-                      <input
-                        className="form-check-input ms-2"
-                        type="checkbox"
-                        role="switch"
-                        id={`flexOrderCheck-${subscription.id}`}
-                        checked={orderSwitch[subscription.id]} // Make sure this reflects the current state
-                        onChange={() => handleOrderChange(subscription)} // Add this to handle checkbox changes
-                      />
-                    </Button>
+                      <label
+                        htmlFor={`toggle-${subscription.id}`}
+                        className="card ms-2"
+                      >
+                        <div className="d-flex align-items-center p-2">
+                          {subscription.algoName}
+                        </div>
+                      </label>
+                    </div>
+                    <div className="col d-flex justify-content-end">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div>
+                        {userType === "1" &&  <Button
+                            variant="link"
+                            onClick={handleModalShow}
+                            style={{ color: "white" }}
+                          >
+                            <i className="bi bi-three-dots-vertical"></i>
+                          </Button>}
+                         
 
-                    <label
-                      htmlFor={`toggle-${subscription.id}`}
-                      className="card ms-2"
-                    >
-                      <div className="d-flex align-items-center p-2">
-                        {subscription.algoName}
-                      </div>
-                    </label>
-                  </div>
-                  <div className="col d-flex justify-content-end">
-                    <div className="d-flex justify-content-between align-items-center">
-                      <div>
-                        <Button
-                          variant="link"
-                          onClick={handleModalShow}
-                          style={{ color: "white" }}
-                        >
-                          <i className="bi bi-three-dots-vertical"></i>
-                        </Button>
-
-                        <Modal show={showModal} onHide={handleModalClose}>
-                          <Modal.Header closeButton>
-                            <Modal.Title>
-                              Remove Algorithm/Subscription
-                            </Modal.Title>
-                          </Modal.Header>
-                          <Modal.Body>
-                            Are you sure you want to remove the subscription for
-                            the following user?
-                            <input
-                              type="text"
-                              className="form-control my-3"
-                              placeholder="Enter User ID"
-                              value={userIdToRemove}
-                              onChange={(e) =>
-                                setUserIdToRemove(e.target.value)
-                              }
-                            />
-                          </Modal.Body>
-                          <Modal.Footer>
-                            <Button
-                              variant="secondary"
-                              onClick={handleModalClose}
-                            >
-                              No
-                            </Button>
-                            <Button
-                              variant="danger"
-                              onClick={handleRemoveConfirmation}
-                            >
-                              Yes
-                            </Button>
-                          </Modal.Footer>
-                        </Modal>
+                          <Modal show={showModal} onHide={handleModalClose}>
+                            <Modal.Header closeButton>
+                              <Modal.Title>
+                                Remove Algorithm/Subscription
+                              </Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                              Are you sure you want to remove the subscription
+                              for the following user?
+                              <input
+                                type="text"
+                                className="form-control my-3"
+                                placeholder="Enter User ID"
+                                value={userIdToRemove}
+                                onChange={(e) =>
+                                  setUserIdToRemove(e.target.value)
+                                }
+                              />
+                            </Modal.Body>
+                            <Modal.Footer>
+                              <Button
+                                variant="secondary"
+                                onClick={handleModalClose}
+                              >
+                                No
+                              </Button>
+                              <Button
+                                variant="danger"
+                                onClick={handleRemoveConfirmation}
+                              >
+                                Yes
+                              </Button>
+                            </Modal.Footer>
+                          </Modal>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </React.Fragment>
           )
         )}

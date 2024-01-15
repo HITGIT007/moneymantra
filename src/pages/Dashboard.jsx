@@ -8,7 +8,7 @@ const Dashboard = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
   return (
-    <div className="container-fluid plain-background min-vh-100">
+    <div className="container-fluid plain-background min-vh-100 h-100 flex-grow-1">
       <div className="row">
         {/* Sidebar - visible on medium and larger screens */}
         {isSidebarVisible && (
@@ -18,7 +18,7 @@ const Dashboard = () => {
         )}
 
         {/* Main content */}
-        <div className={isSidebarVisible ? "col-md-10 offset-md-2" : "col-12"}>
+        <div className={isSidebarVisible ? "plain-background col-md-10 offset-md-2 " : "plain-background col-12"}>
           <Home
             toggleSidebar={toggleSidebar}
             isSidebarVisible={isSidebarVisible}
