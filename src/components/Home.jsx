@@ -36,7 +36,9 @@ function Home({ toggleSidebar, isSidebarVisible }) {
   const [startDate, setStartDate] = useState(getThirtyDaysBeforeDate());
 
   useLayoutEffect(() => {
+    const userType = sessionStorage.getItem("userType");
     const initFetch = async () => {
+      
       console.log("Init Fetching...");
       try {
         if (userType === "2") {
@@ -69,7 +71,7 @@ function Home({ toggleSidebar, isSidebarVisible }) {
     };
 
     initFetch();
-  }, [userType]);
+  }, []);
 
   useEffect(() => {
     console.log(
