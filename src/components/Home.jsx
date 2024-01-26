@@ -37,11 +37,14 @@ function Home({ toggleSidebar, isSidebarVisible }) {
 
   useEffect(() => {
     const userType = sessionStorage.getItem("userType");
-    const initFetch = async () => {
+    const token = sessionStorage.getItem("token");
+      const initFetch = async () => {
       
-      console.log("Init Fetching...");
+      
       try {
-        if (userType === "2") {
+        
+        if (userType === "2" && token) {
+          console.log("Init Fetching...", userType, token);
           const subscriptionsData = await fetchSubscriptionsByStrategies(
             userId,
             token
@@ -61,7 +64,7 @@ function Home({ toggleSidebar, isSidebarVisible }) {
         }
 
         console.log("userType =======>", userType);
-        if (userType === "1") {
+        if (userType === "1" && token) {
           const algorithmsData = await fetchAlgorithms(userId, token);
           setAlgorithms(algorithmsData);
         }
@@ -69,8 +72,10 @@ function Home({ toggleSidebar, isSidebarVisible }) {
         console.error(error);
       }
     };
-
-    initFetch();
+if(userType && token){
+  initFetch();
+}
+    
   }, [userId, userType, token]);
 
   useEffect(() => {
