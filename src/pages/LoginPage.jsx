@@ -49,8 +49,8 @@ function LoginPage() {
         sessionStorage.setItem("userId", userId);
         sessionStorage.setItem("name", name);
         sessionStorage.setItem("userType",userType);
-        
-        setTimeout(navigate("/dashboard"), 1000);
+      
+        navigate("/dashboard");
         // Navigate to Dashboard on successful login
         
         // Additional successful signup logic

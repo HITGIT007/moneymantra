@@ -5,11 +5,16 @@ import {
   stopNewOrdersByAlgorithm,
   stopNewOrdersBySubscription,
 } from "../services/api"; // Import the API function
+import OrderConfirmationModal from "../modals/OrderConfirmationModal";
+import RemoveConfirmationModal from "../modals/RemoveConfirmationModal";
+import SwitchConfirmationModal from '../modals/SwitchConfirmationModal';
 const BrokerStratRow = ({ algorithms, orderSummaries, subscriptions }) => {
   const [showModal, setShowModal] = useState(false);
   const [switchState, setSwitchState] = useState({}); // State to track switch for each broker
   const [orderSwitch, setOrderSwitch] = useState({});
   const [userIdToRemove, setUserIdToRemove] = useState("");
+  const [confirmSubscription, setConfirmSubscription] = useState(null);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const handleModalClose = () => setShowModal(false);
   const handleModalShow = () => setShowModal(true);
   const userId = sessionStorage.getItem("userId");
@@ -18,6 +23,48 @@ const BrokerStratRow = ({ algorithms, orderSummaries, subscriptions }) => {
     "subscriptions================================================>",
     subscriptions
   );
+  const [showSwitchConfirmationModal, setShowSwitchConfirmationModal] = useState(false);
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState(null);
+
+  const handleSwitchClick = (algorithm) => {
+    setSelectedAlgorithm(algorithm);
+    setShowSwitchConfirmationModal(true);
+  };
+
+  const handleSwitchConfirmationClose = () => {
+    setShowSwitchConfirmationModal(false);
+    setSelectedAlgorithm(null);
+  };
+
+  // This function will be called when the confirmation is made within the modal
+  const handleSwitchConfirmation = async () => {
+    if (!selectedAlgorithm) return; // Guard clause in case selectedAlgorithm is null
+
+    // Calculate the new state for the switch
+    const newState = !switchState[selectedAlgorithm.id];
+
+    // Perform the API call using the selectedAlgorithm state
+    try {
+      const response = await stopNewOrdersByAlgorithm(
+        userId,
+        selectedAlgorithm.id,
+        newState,
+        "someType"
+      );
+      console.log("Response:", response);
+
+      // If the API call is successful, then update the state to reflect the new switch position
+      setSwitchState((prevState) => ({
+        ...prevState,
+        [selectedAlgorithm.id]: newState,
+      }));
+
+      // Close the confirmation modal
+      handleSwitchConfirmationClose();
+    } catch (error) {
+      console.error("Error stopping orders by algorithm:", error);
+    }
+  };
   const groupAlgorithmsByStrategy = (algorithms) => {
     return algorithms.reduce((acc, algorithm) => {
       // Use the tradingStrategy as the key
@@ -70,9 +117,9 @@ const BrokerStratRow = ({ algorithms, orderSummaries, subscriptions }) => {
     try {
       const response = await stopNewOrdersByAlgorithm(
         userId, // Assuming you have a userId for each algorithm
-        algorithm,
+        algorithm.id,
         newState, // true or false based on the new state of the switch
-        "someType" // Replace with the actual type if needed
+      
       );
       console.log("API response:", response);
       // Further actions based on response
@@ -82,26 +129,61 @@ const BrokerStratRow = ({ algorithms, orderSummaries, subscriptions }) => {
     }
   };
 
-  const handleOrderChange = async (subscription) => {
-    // Get the current state for the particular subscription
-    const currentState = orderSwitch[subscription.id];
-    const newState = !currentState;
+  // const handleOrderChange = async (subscription) => {
+  //   // Get the current state for the particular subscription
+  //   const currentState = orderSwitch[subscription.id];
+  //   const newState = !currentState;
 
-    // Update the state with the new value
-    setOrderSwitch((prevState) => ({
-      ...prevState,
-      [subscription.id]: newState,
-    }));
+  //   // Update the state with the new value
+  //   setOrderSwitch((prevState) => ({
+  //     ...prevState,
+  //     [subscription.id]: newState,
+  //   }));
 
-    // Now, make the API call with the new state
+  //   // Now, make the API call with the new state
+  //   try {
+  //     const response = await stopNewOrdersBySubscription(
+  //       userId,
+  //       subscription.id, // Use the id from the subscription object
+  //       newState,
+  //       "someType"
+  //     );
+  //     console.log("Response:", response);
+  //   } catch (error) {
+  //     console.error("Error stopping orders by subscription:", error);
+  //   }
+  // };
+
+  const handleOrderChange = (subscription) => {
+    setConfirmSubscription(subscription);
+    setShowConfirmationModal(true); // Assuming showModal is the state controlling the visibility of your confirmation modal
+  };
+  const handleCloseModal = () => {
+    setShowConfirmationModal(false);
+    setConfirmSubscription(null); // Reset the confirmSubscription state
+  };
+  // This function will be called when the confirmation is made within the modal
+  const handleConfirmOrderChange = async () => {
+    if (!confirmSubscription) return; // Guard clause in case confirmSubscription is null
+
+    // Perform the API call using the confirmSubscription state
     try {
       const response = await stopNewOrdersBySubscription(
         userId,
-        subscription.id, // Use the id from the subscription object
-        newState,
+        confirmSubscription.id,
+        !orderSwitch[confirmSubscription.id],
         "someType"
       );
       console.log("Response:", response);
+
+      // Close the confirmation modal
+      handleCloseModal();
+
+      // Update the orderSwitch state to reflect the change
+      setOrderSwitch((prevState) => ({
+        ...prevState,
+        [confirmSubscription.id]: !prevState[confirmSubscription.id],
+      }));
     } catch (error) {
       console.error("Error stopping orders by subscription:", error);
     }
@@ -111,11 +193,10 @@ const BrokerStratRow = ({ algorithms, orderSummaries, subscriptions }) => {
 
   const renderSwitch = (algorithm) => (
     <label className="switch">
-      {console.log("renderSwitch======>", algorithm)}
       <input
         type="checkbox"
-        checked={switchState[algorithm.id]}
-        onChange={() => handleSwitchChange(algorithm.id)}
+        checked={switchState[algorithm.id] || false}
+        onChange={() => handleSwitchClick(algorithm)} // This will only open the modal
       />
       <span className="slider round"></span>
     </label>
@@ -128,13 +209,24 @@ const BrokerStratRow = ({ algorithms, orderSummaries, subscriptions }) => {
           Create New <i className="bi bi-plus-lg ms-2"></i>
         </button>
       </div>
-
+      <SwitchConfirmationModal
+        showModal={showSwitchConfirmationModal}
+        onClose={handleSwitchConfirmationClose}
+        algorithmName={selectedAlgorithm?.name}
+        isSwitchedOn={switchState[selectedAlgorithm?.id]}
+        onConfirm={handleSwitchConfirmation}
+      />
+      <OrderConfirmationModal
+        showModal={showConfirmationModal}
+        handleClose={handleCloseModal}
+        confirmSubscription={confirmSubscription}
+        handleConfirm={handleConfirmOrderChange}
+      />
       {userType === "1" &&
         Object.entries(groupAlgorithmsByStrategy(algorithms)).map(
           ([strategyName, strategyAlgorithms]) => (
-            <React.Fragment key={strategyName} >
+            <React.Fragment key={strategyName}>
               <Badge bg="warning" text="dark">
-             
                 <h3>{strategyName}</h3>
               </Badge>
               {/* <h3 className="text-light">{strategyName}</h3> */}
@@ -178,40 +270,13 @@ const BrokerStratRow = ({ algorithms, orderSummaries, subscriptions }) => {
                             <i className="bi bi-three-dots-vertical"></i>
                           </Button>
 
-                          <Modal show={showModal} onHide={handleModalClose}>
-                            <Modal.Header closeButton>
-                              <Modal.Title>
-                                Remove Algorithm/Subscription
-                              </Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                              Are you sure you want to remove the subscription
-                              for the following user?
-                              <input
-                                type="text"
-                                className="form-control my-3"
-                                placeholder="Enter User ID"
-                                value={userIdToRemove}
-                                onChange={(e) =>
-                                  setUserIdToRemove(e.target.value)
-                                }
-                              />
-                            </Modal.Body>
-                            <Modal.Footer>
-                              <Button
-                                variant="secondary"
-                                onClick={handleModalClose}
-                              >
-                                No
-                              </Button>
-                              <Button
-                                variant="danger"
-                                onClick={handleRemoveConfirmation}
-                              >
-                                Yes
-                              </Button>
-                            </Modal.Footer>
-                          </Modal>
+                          <RemoveConfirmationModal
+                            showModal={showModal}
+                            handleClose={handleModalClose}
+                            userIdToRemove={userIdToRemove}
+                            setUserIdToRemove={setUserIdToRemove}
+                            handleRemoveConfirmation={handleRemoveConfirmation}
+                          />
                         </div>
                       </div>
                     </div>
@@ -262,53 +327,7 @@ const BrokerStratRow = ({ algorithms, orderSummaries, subscriptions }) => {
                       </label>
                     </div>
                     <div className="col d-flex justify-content-end">
-                      <div className="d-flex justify-content-between align-items-center">
-                        <div>
-                        {userType === "1" &&  <Button
-                            variant="link"
-                            onClick={handleModalShow}
-                            style={{ color: "white" }}
-                          >
-                            <i className="bi bi-three-dots-vertical"></i>
-                          </Button>}
-                         
-
-                          <Modal show={showModal} onHide={handleModalClose}>
-                            <Modal.Header closeButton>
-                              <Modal.Title>
-                                Remove Algorithm/Subscription
-                              </Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                              Are you sure you want to remove the subscription
-                              for the following user?
-                              <input
-                                type="text"
-                                className="form-control my-3"
-                                placeholder="Enter User ID"
-                                value={userIdToRemove}
-                                onChange={(e) =>
-                                  setUserIdToRemove(e.target.value)
-                                }
-                              />
-                            </Modal.Body>
-                            <Modal.Footer>
-                              <Button
-                                variant="secondary"
-                                onClick={handleModalClose}
-                              >
-                                No
-                              </Button>
-                              <Button
-                                variant="danger"
-                                onClick={handleRemoveConfirmation}
-                              >
-                                Yes
-                              </Button>
-                            </Modal.Footer>
-                          </Modal>
-                        </div>
-                      </div>
+                      
                     </div>
                   </div>
                 ))}

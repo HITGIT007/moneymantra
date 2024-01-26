@@ -35,7 +35,7 @@ function Home({ toggleSidebar, isSidebarVisible }) {
   };
   const [startDate, setStartDate] = useState(getThirtyDaysBeforeDate());
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const userType = sessionStorage.getItem("userType");
     const initFetch = async () => {
       
@@ -71,7 +71,7 @@ function Home({ toggleSidebar, isSidebarVisible }) {
     };
 
     initFetch();
-  }, []);
+  }, [userId, userType, token]);
 
   useEffect(() => {
     console.log(
@@ -165,8 +165,10 @@ function Home({ toggleSidebar, isSidebarVisible }) {
               </InputGroup>
             )}
           </div>
-          <div className="d-flex align-items-center   ">
-            <div className="mx-2 h4 text-center text-white">TOTAL P/L : </div>
+          {(userType === "2" || adminUserOrderSummary.length > 1) &&
+          <div className="d-flex align-items-center">
+             <div className="mx-2 h4 text-center text-white">TOTAL P/L : </div>
+           
             {totalPL < 0 ? (
               <Badge bg="danger mx-2 h4">
                 <h3>{totalPL.toFixed(2)}</h3>
@@ -176,7 +178,7 @@ function Home({ toggleSidebar, isSidebarVisible }) {
                 <h3>{totalPL.toFixed(2)}</h3>
               </Badge>
             )}
-          </div>
+          </div>}
           <div className="d-flex align-items-center">
             <div
               className="d-flex align-items-center justify-content-between mt-2"
@@ -200,14 +202,14 @@ function Home({ toggleSidebar, isSidebarVisible }) {
             </div>
           </div>
         </div>
-        <div className="d-flex align-items-center border rounded p-4 mb-3 justify-content-between">
-          <div className="text-white d-flex align-items-center">
+        <div className="d-flex align-items-center mb-3 justify-content-between w-100">
+         
             <Strategies
               orderSummaries={
                 userType === "2" ? orderSummaries : adminUserOrderSummary
               }
             />
-          </div>
+          
         </div>
 
         <BrokerStratRow algorithms={algorithms} subscriptions={subscriptions} />
