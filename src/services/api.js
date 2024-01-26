@@ -88,7 +88,7 @@ const fetchAlgorithms = async (userId, token) => {
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
-    const response = await apiService.post(
+    const response = await axios.post(
       "https://moneymantraai.com/api/admin/get-algorithms-by-strategies",
       { userId },
       config
