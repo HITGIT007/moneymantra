@@ -14,7 +14,7 @@ const FinancialBox = () => {
                 <div className="text-light">margin</div>
                 </div>
              
-              <span className="text-light ms-4">2,77,849.82</span>
+              <span className="text-light ms-4">---</span>
             </div>
 
 
@@ -24,7 +24,7 @@ const FinancialBox = () => {
                 <div className="text-light">margin</div>
                 </div>
              
-              <span className="text-light  ms-4">10,07,348.50</span>
+              <span className="text-light  ms-4">---</span>
             </div>
             <div className="d-flex justify-content-between align-items-center border border-2 border-warning rounded p-1 bg-dark ">
                 <div>
@@ -32,7 +32,7 @@ const FinancialBox = () => {
                 <div className="text-light">cash</div>
                 </div>
              
-              <span className="text-light  ms-4">-4,97,256.40</span>
+              <span className="text-light  ms-4">---</span>
             </div>
           </div>
         </div>

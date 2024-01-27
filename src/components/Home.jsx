@@ -170,7 +170,7 @@ if(userType && token){
               </InputGroup>
             )}
           </div>
-          {(userType === "2" || adminUserOrderSummary.length > 1) &&
+    
           <div className="d-flex align-items-center">
              <div className="mx-2 h4 text-center text-white">TOTAL P/L : </div>
            
@@ -183,7 +183,7 @@ if(userType && token){
                 <h3>{totalPL.toFixed(2)}</h3>
               </Badge>
             )}
-          </div>}
+          </div>
           <div className="d-flex align-items-center">
             <div
               className="d-flex align-items-center justify-content-between mt-2"

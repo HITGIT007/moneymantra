@@ -15,9 +15,9 @@ const Strategies = ({ orderSummaries }) => {
   return (
     <div className="d-flex flex-wrap justify-content-evenly">
       {Object.entries(orderSummaries).map(([key, summary]) => (
-        <Card key={key} className="m-2" style={{ minWidth: '18rem', maxWidth: '22rem' }}>
+        <Card key={key} className="m-2" style={{ width: '22rem' }}>
           <Card.Body>
-            <Card.Title>Strategy: {key}</Card.Title>
+            <Card.Title>{key}</Card.Title>
             <Card.Text>Money in Market: {summary.moneyInMarket}</Card.Text>
             <Card.Text>Total Unit Bought: {summary.totalUnitBought}</Card.Text>
             <Card.Text>Total Unit Sold: {summary.totalUnitSold}</Card.Text>

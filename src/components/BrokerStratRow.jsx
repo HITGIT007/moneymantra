@@ -205,9 +205,10 @@ const BrokerStratRow = ({ algorithms, orderSummaries, subscriptions }) => {
     <div className="container-fluid">
       <div className="d-flex align-items-center justify-content-between mb-2">
         <h3 className="text-light">STRATEGIES</h3>
-        <button className="btn btn-outline-light d-flex align-items-center">
+        {userType === '1' ?<button className="btn btn-outline-light d-flex align-items-center">
           Create New <i className="bi bi-plus-lg ms-2"></i>
-        </button>
+        </button> : <div></div>}
+        
       </div>
       <SwitchConfirmationModal
         showModal={showSwitchConfirmationModal}
@@ -295,42 +296,37 @@ const BrokerStratRow = ({ algorithms, orderSummaries, subscriptions }) => {
                 <h3>{strategyName}</h3>
               </Badge>
               <div className="my-2 border rounded border-light">
-                {strategyAlgorithms.map((subscription, index) => (
-                  <div
-                    key={subscription.name + index}
-                    className="row align-items-center my-2 "
-                  >
-                    <div className="col-auto d-flex py-2 align-items-center">
-                      <Button
-                        variant="outline-danger"
-                        className="ms-2"
-                        onClick={() => handleOrderChange(subscription)} // Pass the entire subscription object
-                      >
-                        Order
-                        <input
-                          className="form-check-input ms-2"
-                          type="checkbox"
-                          role="switch"
-                          id={`flexOrderCheck-${subscription.id}`}
-                          checked={orderSwitch[subscription.id]} // Make sure this reflects the current state
-                          onChange={() => handleOrderChange(subscription)} // Add this to handle checkbox changes
-                        />
-                      </Button>
+              {strategyAlgorithms.map((subscription, index) => (
+  <div key={subscription.name + index} className="row align-items-center my-2 ">
+    <div className="col-auto d-flex py-2 align-items-center">
+      <Button
+        variant={subscription.isRealOrderAllowedByAdmin ? "outline-danger" : "secondary"}
+        className="ms-2"
+        onClick={() => handleOrderChange(subscription)} // Pass the entire subscription object
+      >
+        Order
+        <input
+          className="form-check-input ms-2"
+          type="checkbox"
+          role="switch"
+          id={`flexOrderCheck-${subscription.id}`}
+          checked={orderSwitch[subscription.id]} // Make sure this reflects the current state
+          onChange={() => handleOrderChange(subscription)} // Add this to handle checkbox changes
+        />
+      </Button>
 
-                      <label
-                        htmlFor={`toggle-${subscription.id}`}
-                        className="card ms-2"
-                      >
-                        <div className="d-flex align-items-center p-2">
-                          {subscription.algoName}
-                        </div>
-                      </label>
-                    </div>
-                    <div className="col d-flex justify-content-end">
-                      
-                    </div>
-                  </div>
-                ))}
+      <label htmlFor={`toggle-${subscription.id}`} className={`card ms-2 ${subscription.isRealOrderAllowedByAdmin ? "bg-white" : "bg-secondary"}`}>
+        <div className="d-flex align-items-center p-2">
+          {subscription.algoName}
+        </div>
+      </label>
+    </div>
+    <div className="col d-flex justify-content-end">
+      {/* Additional elements if any */}
+    </div>
+  </div>
+))}
+
               </div>
             </React.Fragment>
           )
