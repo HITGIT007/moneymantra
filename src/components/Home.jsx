@@ -11,8 +11,10 @@ import {
   fetchOrderSummaries,
   fetchAlgorithms,
   fetchAdminOrderSummaries,
+  getOrderDetails,
 } from "../services/api";
 import DateRangeModal from "./DateRangeModal";
+import OrderDetails from "../atoms/OrderDetails";
 function Home({ toggleSidebar, isSidebarVisible }) {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
@@ -23,6 +25,7 @@ function Home({ toggleSidebar, isSidebarVisible }) {
   const [orderSummaries, setOrderSummaries] = useState([]); // State to hold order summaries
   const [subscriptions, setSubscriptions] = useState([]);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [orderDetail, setOrderDetail] = useState(null);
   const token = sessionStorage.getItem("token");
   const userId = sessionStorage.getItem("userId");
   const userType = sessionStorage.getItem("userType");
@@ -109,6 +112,24 @@ if(userType && token){
   const handleInputChange = (e) => {
     setCustomerId(e.target.value);
   };
+  const handleOrderClick = async () => {
+    try {
+      // Call the API function with the customerId and other parameters
+      const response  = await getOrderDetails(
+        customerId
+      );
+
+      // Handle the orderDetails as needed
+        console.log("Order Details:", response );
+        if (response.httpStatusCode === "200") {
+          setOrderDetail(response.orderDetails)
+        }
+       
+    } catch (error) {
+      // Handle errors if necessary
+      console.error("Error fetching order summaries:", error);
+    }
+  };
   const handleButtonClick = async () => {
     try {
       // Call the API function with the customerId and other parameters
@@ -131,6 +152,7 @@ if(userType && token){
   const totalPL = calculateTotalPL(
     userType === "2" ? orderSummaries : adminUserOrderSummary
   );
+  useEffect(() => {},[])
   return (
     <div className="pb-4">
       <Nav
@@ -153,7 +175,15 @@ if(userType && token){
           <div>
             {userType === "1" && (
               <InputGroup className="mb-3">
+                  <Button
+                  variant="outline-info"
+                  id="button-addon2"
+                  onClick={handleOrderClick}
+                >
+                  ORDER DETAILS
+                </Button>
                 <Form.Control
+                  style={{ width: '120px' }}
                   placeholder="Enter UserID"
                   aria-label="Enter UserID"
                   aria-describedby="basic-addon2"
@@ -161,11 +191,11 @@ if(userType && token){
                   onChange={handleInputChange}
                 />
                 <Button
-                  variant="outline-secondary"
+                  variant="outline-primary"
                   id="button-addon2"
                   onClick={handleButtonClick}
                 >
-                  SUBS
+                  SUBSCRIPTIONS
                 </Button>
               </InputGroup>
             )}
@@ -208,7 +238,7 @@ if(userType && token){
           </div>
         </div>
         <div className="d-flex align-items-center mb-3 justify-content-between w-100">
-         
+         <OrderDetails orderDetail={orderDetail}/>
             <Strategies
               orderSummaries={
                 userType === "2" ? orderSummaries : adminUserOrderSummary

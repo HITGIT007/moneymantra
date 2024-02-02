@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../css/App.css"; // Assuming you want to use the same CSS file
+import { login } from "../services/api";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -10,59 +11,80 @@ function LoginPage() {
   const [role, setRole] = useState("2");
   const navigate = useNavigate();
 
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   const isEmail = emailRegex.test(email);
+  //   const loginData = isEmail
+  //   ? { email: email, password: password, userType: role }
+  //   : { username: email, password: password, userType: role };
+  //   try {
+  //     const response = await axios.post(
+  //       "https://moneymantraai.com/api/auth/login",
+  //       loginData,
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+  //     console.log("Signup successful:", response.data);
+
+  //     // Check for successful response status
+  //     if (response.status === 200 || response.status === 201) {
+  //       // Store the token in sessionStorage
+  //       const token = response.data.token;
+  //       const userId = response.data.userId;
+  //       const name = response.data.name;
+  //       const userType = response.data.userType;
+  //       console.log("response.data.userType=====>",userType)
+  //       sessionStorage.setItem("logged", "true");
+  //       sessionStorage.setItem("token", token);
+  //       sessionStorage.setItem("userId", userId);
+  //       sessionStorage.setItem("name", name);
+  //       sessionStorage.setItem("userType",userType);
+      
+  //       navigate("/dashboard");
+  //       // Navigate to Dashboard on successful login
+        
+  //       // Additional successful signup logic
+  //     }
+  //   } catch (error) {
+  //     console.error(
+  //       "Signup error:",
+  //       error.response ? error.response.data : error
+  //     );
+  //     // Handle signup error (e.g., display error message)
+  //   }
+  // };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // Hardcoded credentials
-    // const hardcodedEmail = 'test@gmail.com';
-    // const hardcodedPassword = 'test1328';
-    // sessionStorage.setItem('logged', 'true');
-    // navigate('/dashboard');
-    // Check if credentials match
+  
+    // Assuming email, password, and role are defined in your component's state
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const isEmail = emailRegex.test(email);
-    const loginData = isEmail
-    ? { email: email, password: password, userType: role }
-    : { username: email, password: password, userType: role };
+    // Determine if the input is an email or username
+    const username = isEmail ? email : null;
+    const userType  = role
+    // Prepare the login data
+    //const loginData = isEmail ? { email, password, userType: role } : { username: email, password, userType: role };
+  
     try {
-      const response = await axios.post(
-        "https://moneymantraai.com/api/auth/login",
-        loginData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log("Signup successful:", response.data);
-
-      // Check for successful response status
-      if (response.status === 200 || response.status === 201) {
-        // Store the token in sessionStorage
-        const token = response.data.token;
-        const userId = response.data.userId;
-        const name = response.data.name;
-        const userType = response.data.userType;
-        console.log("response.data.userType=====>",userType)
-        sessionStorage.setItem("logged", "true");
-        sessionStorage.setItem("token", token);
-        sessionStorage.setItem("userId", userId);
-        sessionStorage.setItem("name", name);
-        sessionStorage.setItem("userType",userType);
-      
-        navigate("/dashboard");
-        // Navigate to Dashboard on successful login
-        
-        // Additional successful signup logic
-      }
+      // Call the login function with username/password. Adjust the login function if necessary to accept email as well.
+      const response = await login(username ? username : email, password, userType);
+  
+      console.log("Login successful:", response);
+  
+      // Navigate to Dashboard on successful login
+      navigate("/dashboard");
+  
     } catch (error) {
-      console.error(
-        "Signup error:",
-        error.response ? error.response.data : error
-      );
-      // Handle signup error (e.g., display error message)
+      console.error("Login error:", error.response ? error.response.data : error);
+      // Handle login error (e.g., display error message)
     }
   };
+  
 
   return (
     <div

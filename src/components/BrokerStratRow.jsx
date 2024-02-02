@@ -104,55 +104,7 @@ const BrokerStratRow = ({ algorithms, orderSummaries, subscriptions }) => {
     // Close the modal after action
     setShowModal(false);
   };
-  // Handle switch toggle
-  const handleSwitchChange = async (algorithm) => {
-    const newState = !switchState[algorithm.id];
-    console.log("newState=====>", newState);
-    setSwitchState((prevState) => ({
-      ...prevState,
-      [algorithm.id]: newState,
-    }));
-
-    console.log("algorithm.id =====>", algorithm);
-    try {
-      const response = await stopNewOrdersByAlgorithm(
-        userId, // Assuming you have a userId for each algorithm
-        algorithm.id,
-        newState, // true or false based on the new state of the switch
-      
-      );
-      console.log("API response:", response);
-      // Further actions based on response
-    } catch (error) {
-      console.error("Error in stopping new orders by algorithm:", error);
-      // Handle error
-    }
-  };
-
-  // const handleOrderChange = async (subscription) => {
-  //   // Get the current state for the particular subscription
-  //   const currentState = orderSwitch[subscription.id];
-  //   const newState = !currentState;
-
-  //   // Update the state with the new value
-  //   setOrderSwitch((prevState) => ({
-  //     ...prevState,
-  //     [subscription.id]: newState,
-  //   }));
-
-  //   // Now, make the API call with the new state
-  //   try {
-  //     const response = await stopNewOrdersBySubscription(
-  //       userId,
-  //       subscription.id, // Use the id from the subscription object
-  //       newState,
-  //       "someType"
-  //     );
-  //     console.log("Response:", response);
-  //   } catch (error) {
-  //     console.error("Error stopping orders by subscription:", error);
-  //   }
-  // };
+  
 
   const handleOrderChange = (subscription) => {
     setConfirmSubscription(subscription);

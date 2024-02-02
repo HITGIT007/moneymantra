@@ -1,30 +1,76 @@
-import axios from 'axios';
-const token = sessionStorage.getItem("token"); // You might want to get the token in the component itself before making the call
+import axios from "axios";
 
 // Create an Axios instance with default settings
 const apiService = axios.create({
-  baseURL: 'https://moneymantraai.com/api/',
+  baseURL: "https://moneymantraai.com/api/",
   headers: {
-    'Content-Type': 'application/json',
-    ...(token && { 'Authorization': `Bearer ${token}` }) // Spread operator to conditionally add auth header
+    "Content-Type": "application/json",
   },
 });
-const fetchSubscriptionsByStrategies = async (userId,token) => {
-  try {
-    const config = {
-      headers: {}
-    };
 
+// Use Axios request interceptor to dynamically add the Authorization token to each request
+apiService.interceptors.request.use(
+  (config) => {
+    const token = sessionStorage.getItem("token");
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+const login = async (username, password, usertype) => {
+  try {
+    const response = await axios.post("https://moneymantraai.com/api/auth/login", {
+      username,
+      password,
+      userType:usertype
+    });
+    let token, userId, name, userType;
+    if (response.status === 200 || response.status === 201) {
+      token = response.data.token;
+      userId = response.data.userId;
+      name = response.data.name;
+      userType = response.data.userType;
     }
 
-    const response = await axios.post(
-      'https://moneymantraai.com/api/customer/get-subscriptions-by-strategies',
-      { userId },
-      config
-    );
+    if (token) {
+      // Store the token in sessionStorage
+      sessionStorage.setItem("token", token);
+      sessionStorage.setItem("userId", userId);
+      sessionStorage.setItem("name", name);
+      sessionStorage.setItem("userType", userType);
+      sessionStorage.setItem("logged", "true");
+      // Optionally, set the token on the apiService instance for immediate use
+      apiService.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    }
+    return response.data; // Return the full response data or just the token as needed
+  } catch (error) {
+    console.error("Error during login:", error);
+    throw error;
+  }
+};
 
+const fetchSubscriptionsByStrategies = async (userId) => {
+  try {
+    const response = await apiService.post(
+      "/customer/get-subscriptions-by-strategies",
+      { userId }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+const getOrderDetails = async (userId) => {
+  try {
+    const response = await apiService.post(
+      "/admin/accounts/get-order-details",
+      { userId }
+    );
     return response.data;
   } catch (error) {
     console.error(error);
@@ -32,21 +78,11 @@ const fetchSubscriptionsByStrategies = async (userId,token) => {
   }
 };
 
-
-
 const fetchOrderSummaries = async (userId, startDate, currentTime, token) => {
   try {
-    const config = {
-      headers: {}
-    };
-
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
-    const response = await axios.post(
+    const response = await apiService.post(
       "https://moneymantraai.com/api/customer/accounts/get-order-summaries",
-      { userId, startTime: startDate, endTime: currentTime },
-      config
+      { userId, startTime: startDate, endTime: currentTime }
     );
     return response.data;
   } catch (error) {
@@ -82,11 +118,11 @@ const stopNewOrdersBySubscription = async (
 const fetchAlgorithms = async (userId, token) => {
   try {
     const config = {
-      headers: {}
+      headers: {},
     };
 
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
     const response = await axios.post(
       "https://moneymantraai.com/api/admin/get-algorithms-by-strategies",
@@ -132,7 +168,7 @@ const fetchAdminOrderSummaries = async (
   userId,
   customerId,
   startTime,
-  endTime,
+  endTime
 ) => {
   try {
     const response = await apiService.post(
@@ -156,5 +192,7 @@ export {
   fetchAlgorithms,
   stopNewOrdersByAlgorithm,
   stopNewOrdersBySubscription,
-  fetchAdminOrderSummaries
+  fetchAdminOrderSummaries,
+  login,
+  getOrderDetails
 };
