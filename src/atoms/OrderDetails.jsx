@@ -68,15 +68,15 @@ const OrderDetails = ({ orders }) => {
                   <div className="col p-2">{order.id}</div>
                   <div className="col p-2">{order.instrumentToken}</div>
                   <div className="col p-2">
-                    {order.orderType === 1 ? "Buy" : "Sell"}
+                    {order.orderType}
                   </div>
                   <div className="col p-2">
-                    {order.transactionType === 1 ? "Buy" : "Sell"}
+                    {order.transactionType}
                   </div>
                   <div className="col p-2">{order.quantity}</div>
                   <div className="col p-2">{order.price}</div>
                   <div className="col p-2">
-                    {order.orderStatus === 2 ? "Completed" : "Pending"}
+                    {order.orderStatus}
                   </div>
                   <OverlayTrigger
                     placement="top"

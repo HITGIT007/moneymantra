@@ -15,18 +15,18 @@ function HomePage() {
   const [message, setMessage] = useState("");
 
   
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Handle contact form logic here
-    const contactData = {
-      name,
-      email,
-      phoneNumber,
-      message,
-    };
-    console.log(contactData);
-    // You would typically send this data to a server or email service
-  };
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   // Handle contact form logic here
+  //   const contactData = {
+  //     name,
+  //     email,
+  //     phoneNumber,
+  //     message,
+  //   };
+  //   console.log(contactData);
+  //   // You would typically send this data to a server or email service
+  // };
   return (
     <div
       style={{
