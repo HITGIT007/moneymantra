@@ -29,13 +29,11 @@ function HomePage() {
   // };
   return (
     <div
-      style={{
-        height: "100vh",
-      }}
+      
       //className="container-fluid"
     >
       {/* Navigation Bar */}
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="sticky navbar navbar-expand-lg navbar-dark text-white bg-black sticky-top">
         <div className="container-fluid">
           <Link to="/" className="navbar-brand">
             <img
@@ -57,8 +55,8 @@ function HomePage() {
           </div>
         </div>
       </nav>
-      <div className="row bg-danger">
-        <div className="col-lg-6 p-5 plain-background d-flex flex-column justify-content-center">
+      <div className="row bg-black">
+        <div className="col-lg-6 p-5 bg-black d-flex flex-column justify-content-center">
           <h1 className="neon-text">Strategize Wealth, Maximize Growth.</h1>
 
           <p className="text-white">
@@ -78,7 +76,7 @@ function HomePage() {
             Sign Up for free!
           </Link>
         </div>
-        <div className="col-lg-6 d-flex flex-column align-items-center plain-background justify-content-center ">
+        <div className="col-lg-6 d-flex flex-column align-items-center bg-black justify-content-center ">
           <img
             src={require("../assets/images/rupeegold.png")}
             alt="logo"
@@ -91,12 +89,10 @@ function HomePage() {
         className="text-center text-lg-start bg-light text-muted "
         style={{
           backgroundColor: "pink",
-
-          borderTop: "1px solid #e7e7e7",
         }}
       >
         <div
-          className="text-center p-4"
+          className="text-center p-4 bg-black text-white"
           style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}
         >
           © 2023 Moneymantra AI. All rights reserved.
