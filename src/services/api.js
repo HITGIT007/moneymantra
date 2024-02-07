@@ -61,11 +61,11 @@ const fetchSubscriptionsByStrategies = async (userId) => {
     throw error;
   }
 };
-const getOrderDetails = async (userId) => {
+const getOrderDetails = async (data) => {
   try {
     const response = await apiService.post(
       "/admin/accounts/get-order-details",
-      { userId }
+      data
     );
     return response.data;
   } catch (error) {

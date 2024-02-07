@@ -14,10 +14,12 @@ import {
   getOrderDetails,
 } from "../services/api";
 import DateRangeModal from "./DateRangeModal";
+import OrdersTable from "../atoms/OrderDetails";
 import OrderDetails from "../atoms/OrderDetails";
 function Home({ toggleSidebar, isSidebarVisible }) {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [showOrderDetailsModal, setShowOrderDetailsModal] = useState(false);
   const [adminUserOrderSummary, setAdminUserOrderSummary] = useState([]);
   const [customerId, setCustomerId] = useState("-1");
   const [endDate, setEndDate] = useState("");
@@ -30,7 +32,30 @@ function Home({ toggleSidebar, isSidebarVisible }) {
   const userId = sessionStorage.getItem("userId");
   const userType = sessionStorage.getItem("userType");
   const name = sessionStorage.getItem("name");
+  const toggleOrderDetailsModal = () => setShowOrderDetailsModal(!showOrderDetailsModal);
 
+  const handleOrderClick = async () => {
+    try {
+      
+      const response  = await getOrderDetails(
+       { userId,
+        customerId,
+        startTime : startDate,
+        endTime : endDate}
+      );
+
+     
+        console.log("Order Details:", response );
+        if (response.httpStatusCode === "200") {
+          setOrderDetail(response.orderDetails)
+        }
+       
+    } catch (error) {
+   
+      console.error("Error fetching order summaries:", error);
+    }
+    setShowOrderDetailsModal(true);
+  };
   const getThirtyDaysBeforeDate = () => {
     const today = new Date();
     const pastDate = new Date(today.setDate(today.getDate() - 30));
@@ -112,24 +137,9 @@ if(userType && token){
   const handleInputChange = (e) => {
     setCustomerId(e.target.value);
   };
-  const handleOrderClick = async () => {
-    try {
-      // Call the API function with the customerId and other parameters
-      const response  = await getOrderDetails(
-        customerId
-      );
-
-      // Handle the orderDetails as needed
-        console.log("Order Details:", response );
-        if (response.httpStatusCode === "200") {
-          setOrderDetail(response.orderDetails)
-        }
-       
-    } catch (error) {
-      // Handle errors if necessary
-      console.error("Error fetching order summaries:", error);
-    }
-  };
+  // const handleOrderClick = async () => {
+   
+  // };
   const handleButtonClick = async () => {
     try {
       // Call the API function with the customerId and other parameters
@@ -247,7 +257,8 @@ if(userType && token){
           </div>
         </div>
         <div className="d-flex align-items-center mb-3 justify-content-between w-100">
-         <OrderDetails orderDetail={orderDetail}/>
+          {/* {orderDetail !== null && <OrderDetails orders={orderDetail}/>} */}
+         
             <Strategies
               orderSummaries={
                 userType === "2" ? orderSummaries : adminUserOrderSummary
@@ -258,6 +269,27 @@ if(userType && token){
 
         <BrokerStratRow algorithms={algorithms} subscriptions={subscriptions} />
       </div>
+      {/* Full-screen modal for OrderDetails */}
+      <Modal
+          show={showOrderDetailsModal}
+          onHide={toggleOrderDetailsModal}
+          size="xl"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          fullscreen={true}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Order Details
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {orderDetail && <OrderDetails orders={orderDetail} />}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={toggleOrderDetailsModal}>Close</Button>
+          </Modal.Footer>
+        </Modal>
     </div>
   );
 }

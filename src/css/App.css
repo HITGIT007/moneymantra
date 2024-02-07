@@ -203,3 +203,25 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+/* OrderDetails.css */
+.text-light {
+  color: #f8f9fa;
+}
+
+.bg-dark {
+  background-color: #343a40 !important;
+}
+
+.bg-secondary {
+  background-color: #6c757d !important;
+}
+
+.table.table-bordered {
+  background-color: #212529;
+  border-color: #32383e;
+}
+
+.table.table-bordered th,
+.table.table-bordered td {
+  border-color: #32383e;
+}
