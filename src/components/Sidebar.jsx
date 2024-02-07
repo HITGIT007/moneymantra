@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import FinancialBox from "./FinancialBox";
+import FinancialBox from "../atoms/FinancialBox";
 
 
 function Sidebar() {

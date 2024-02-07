@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Button, Modal, Badge, InputGroup, Form } from "react-bootstrap";
 import "../css/App.css";
 import axios from "axios";
-import BrokerStratRow from "./BrokerStratRow";
-import Strategies from "./Strategies";
+import BrokerStratRow from "../atoms/BrokerStratRow";
+import Strategies from "../atoms/Strategies";
 import {
   fetchSubscriptionsByStrategies,
   fetchOrderSummaries,
@@ -13,9 +13,10 @@ import {
   fetchAdminOrderSummaries,
   getOrderDetails,
 } from "../services/api";
-import DateRangeModal from "./DateRangeModal";
+import DateRangeModal from "../modals/DateRangeModal";
 import OrdersTable from "../atoms/OrderDetails";
 import OrderDetails from "../atoms/OrderDetails";
+import OrderDetailsModal from "../modals/OrderDetailsModal";
 function Home({ toggleSidebar, isSidebarVisible }) {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
@@ -137,9 +138,26 @@ if(userType && token){
   const handleInputChange = (e) => {
     setCustomerId(e.target.value);
   };
-  // const handleOrderClick = async () => {
-   
-  // };
+  
+  function sortOrderSummaries(orderSummaries) {
+    // Convert the order summaries object into an array of [key, value] pairs
+    const entries = Object.entries(orderSummaries);
+  
+    // Sort the entries based on the tradingStrategy
+    const sortedEntries = entries.sort((a, b) => {
+      const strategyA = a[1].tradingStrategy.toUpperCase(); // Ignore upper and lowercase
+      const strategyB = b[1].tradingStrategy.toUpperCase(); // Ignore upper and lowercase
+      return strategyA.localeCompare(strategyB);
+    });
+  
+    // Convert the sorted array back into an object
+    const sortedOrderSummaries = {};
+    for (const [key, value] of sortedEntries) {
+      sortedOrderSummaries[key] = value;
+    }
+  
+    return sortedOrderSummaries;
+  }
   const handleButtonClick = async () => {
     try {
       // Call the API function with the customerId and other parameters
@@ -152,7 +170,8 @@ if(userType && token){
 
       // Handle the orderSummaries as needed
       console.log("Order Summaries:", orderSummaries);
-      setAdminUserOrderSummary(orderSummaries?.orderSummaries);
+     
+      setAdminUserOrderSummary(sortOrderSummaries(orderSummaries?.orderSummaries));
     } catch (error) {
       // Handle errors if necessary
       console.error("Error fetching order summaries:", error);
@@ -162,15 +181,7 @@ if(userType && token){
   const totalPL = calculateTotalPL(
     userType === "2" ? orderSummaries : adminUserOrderSummary
   );
-  const sortAndGroupByStrategy = (summaries) => {
-    const sortedSummaries = Object.entries(summaries).sort((a, b) => {
-      const strategyA = a[1].tradingStrategy.toUpperCase(); // Convert to uppercase for case-insensitive comparison
-      const strategyB = b[1].tradingStrategy.toUpperCase();
-      return strategyA.localeCompare(strategyB);
-    });
-  
-    return sortedSummaries
-  }
+ 
   useEffect(() => {},[])
   return (
     <div className="pb-4">
@@ -256,7 +267,7 @@ if(userType && token){
             </div>
           </div>
         </div>
-        <div className="d-flex align-items-center mb-3 justify-content-between w-100">
+       
           {/* {orderDetail !== null && <OrderDetails orders={orderDetail}/>} */}
          
             <Strategies
@@ -265,31 +276,16 @@ if(userType && token){
               }
             />
           
-        </div>
+       
 
         <BrokerStratRow algorithms={algorithms} subscriptions={subscriptions} />
       </div>
-      {/* Full-screen modal for OrderDetails */}
-      <Modal
-          show={showOrderDetailsModal}
-          onHide={toggleOrderDetailsModal}
-          size="xl"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-          fullscreen={true}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-vcenter">
-              Order Details
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {orderDetail && <OrderDetails orders={orderDetail} />}
-          </Modal.Body>
-          <Modal.Footer>
-            <Button onClick={toggleOrderDetailsModal}>Close</Button>
-          </Modal.Footer>
-        </Modal>
+      
+        <OrderDetailsModal
+        show={showOrderDetailsModal}
+        onHide={toggleOrderDetailsModal}
+        orderDetail={orderDetail}
+      />
     </div>
   );
 }

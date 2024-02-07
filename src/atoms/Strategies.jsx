@@ -38,8 +38,8 @@ const groupedSummaries = groupByStrategy(orderSummaries);
     setActiveStrategy(strategy);
   };
   return (
-    <>  
-    <div className="flex-wrap justify-content-evenly border border-2 border-info">
+    <div className="d-flex align-items-center mb-3 justify-content-between w-100">
+    <div className={`flex-wrap justify-content-evenly ${Object.keys(orderSummaries).length > 0 ? 'border border-2 border-info':''} `}>
       {Object.entries(groupedSummaries).map(([strategy, summary]) => (
         <Card key={strategy} className={`m-2 ${strategy === activeStrategy ? 'bg-warning bg-gradient border' : 'bg-white border '}`} style={{ width: '22rem' }}
         onClick={() => handleStrategyClick(strategy)}>
@@ -86,7 +86,7 @@ const groupedSummaries = groupByStrategy(orderSummaries);
       </Card>
     ))}
     </div>
-    </>
+    </div>
     
   );
 };
