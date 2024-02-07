@@ -21,13 +21,9 @@ apiService.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-const login = async (username, password, usertype) => {
+const login = async (loginData) => {
   try {
-    const response = await axios.post("https://moneymantraai.com/api/auth/login", {
-      username,
-      password,
-      userType:usertype
-    });
+    const response = await axios.post("https://moneymantraai.com/api/auth/login", loginData);
     let token, userId, name, userType;
     if (response.status === 200 || response.status === 201) {
       token = response.data.token;

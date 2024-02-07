@@ -64,15 +64,14 @@ function LoginPage() {
     // Assuming email, password, and role are defined in your component's state
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const isEmail = emailRegex.test(email);
-    // Determine if the input is an email or username
-    const username = isEmail ? email : null;
-    const userType  = role
+    const username = email
+
     // Prepare the login data
-    //const loginData = isEmail ? { email, password, userType: role } : { username: email, password, userType: role };
+    const loginData = isEmail ? { email, password, userType: role } : {  username, password, userType: role };
   
     try {
       // Call the login function with username/password. Adjust the login function if necessary to accept email as well.
-      const response = await login(username ? username : email, password, userType);
+      const response = await login(loginData);
   
       console.log("Login successful:", response);
   

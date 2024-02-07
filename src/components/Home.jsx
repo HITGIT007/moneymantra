@@ -19,7 +19,7 @@ function Home({ toggleSidebar, isSidebarVisible }) {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [adminUserOrderSummary, setAdminUserOrderSummary] = useState([]);
-  const [customerId, setCustomerId] = useState("");
+  const [customerId, setCustomerId] = useState("-1");
   const [endDate, setEndDate] = useState("");
   const [algorithms, setAlgorithms] = useState([]);
   const [orderSummaries, setOrderSummaries] = useState([]); // State to hold order summaries
@@ -152,6 +152,15 @@ if(userType && token){
   const totalPL = calculateTotalPL(
     userType === "2" ? orderSummaries : adminUserOrderSummary
   );
+  const sortAndGroupByStrategy = (summaries) => {
+    const sortedSummaries = Object.entries(summaries).sort((a, b) => {
+      const strategyA = a[1].tradingStrategy.toUpperCase(); // Convert to uppercase for case-insensitive comparison
+      const strategyB = b[1].tradingStrategy.toUpperCase();
+      return strategyA.localeCompare(strategyB);
+    });
+  
+    return sortedSummaries
+  }
   useEffect(() => {},[])
   return (
     <div className="pb-4">
