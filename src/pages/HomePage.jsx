@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import axios from "axios";
 import "../css/App.css"; // Reusing the same CSS for consistency
 import Footer from "../components/Footer";
+import NavigationBar from "../components/NavigationBar";
 
 // Replace with the actual image URLs
 const logoUrl = "../";
@@ -33,30 +34,10 @@ function HomePage() {
       //className="container-fluid"
     >
       {/* Navigation Bar */}
-      <nav className="sticky navbar navbar-expand-lg navbar-dark text-white bg-black sticky-top">
-        <div className="container-fluid">
-          <Link to="/" className="navbar-brand">
-            <img
-              src={require("../assets/images/mmremovebg.png")}
-              alt="logo"
-              width="100"
-            />
-          </Link>
-          <div>
-            <h1>Moneymantra AI</h1>
-          </div>
-          <div className="d-flex">
-            <Link to="/login" className="btn btn-outline-secondary me-2">
-              Login
-            </Link>
-            <Link to="/signup" className="btn btn-primary">
-              Sign Up
-            </Link>
-          </div>
-        </div>
-      </nav>
-      <div className="row bg-black">
-        <div className="col-lg-6 p-5 bg-black d-flex flex-column justify-content-center">
+     
+      <NavigationBar/>
+      <div className="row plain-background">
+        <div className="col-lg-6 p-5  d-flex flex-column justify-content-center">
           <h1 className="neon-text">Strategize Wealth, Maximize Growth.</h1>
 
           <p className="text-white">
@@ -76,7 +57,7 @@ function HomePage() {
             Sign Up for free!
           </Link>
         </div>
-        <div className="col-lg-6 d-flex flex-column align-items-center bg-black justify-content-center ">
+        <div className="col-lg-6 d-flex flex-column align-items-center  justify-content-center ">
           <img
             src={require("../assets/images/rupeegold.png")}
             alt="logo"

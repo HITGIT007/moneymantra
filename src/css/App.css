@@ -2,7 +2,13 @@ html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
-  background:  #230B28
+  background:  #0a142f
+}
+.loginbtn{
+  background: #1A5CE5;
+}
+.signupbtn{
+  background: #243047;
 }
 * {
   margin: 0;
@@ -17,8 +23,13 @@ html, body, #root {
 .container-fluid, .row, .row > div {
   height: 100%;
 }
+
 .plain-background {
-  background:  #230B28
+  background:  #070e21;
+  /* color: black;  */
+}
+.modal-header .btn-close {
+  color: white; /* Set the color to white */
 }
 .neon-text {
   color: #fff; /* White text color */
