@@ -8,8 +8,8 @@ const Dashboard = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
   return (
-    <div className="container-fluid plain-background min-vh-100 h-100 flex-grow-1">
-      <div className="row">
+    <div className=" plain-background min-vh-100 h-100 flex-grow-1">
+      <div className="">
         {/* Sidebar - visible on medium and larger screens */}
         {isSidebarVisible && (
           <div className="col-md-2 bg-white vh-100 position-fixed d-none d-md-block">

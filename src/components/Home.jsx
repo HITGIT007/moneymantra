@@ -179,24 +179,14 @@ function Home({ toggleSidebar, isSidebarVisible }) {
 
   useEffect(() => {}, []);
   return (
-    <div className="pb-4">
-      <Nav
-        name={name}
-        toggleSidebar={toggleSidebar}
-        isSidebarVisible={isSidebarVisible}
-      />
-      {console.log("Test Infinite")}
-      <div className="container-fluid">
-        <DateRangeModal
-          showModal={showModal}
-          handleFilterToggle={handleFilterToggle}
-          startDate={startDate}
-          setStartDate={setStartDate}
-          endDate={endDate}
-          setEndDate={setEndDate}
+    <>
+      <div className="sticky-top">
+        <Nav
+          name={name}
+          toggleSidebar={toggleSidebar}
+          isSidebarVisible={isSidebarVisible}
         />
-
-        <div className="d-flex align-items-center justify-content-between  mb-2">
+        <div className="d-flex align-items-center justify-content-between plain-background text-white px-3 py-3">
           <div>
             {userType === "1" && (
               <InputGroup className="mb-3">
@@ -226,7 +216,7 @@ function Home({ toggleSidebar, isSidebarVisible }) {
             )}
           </div>
 
-          <div className="sticky-top flex justify-align-center d-flex align-items-center">
+          <div className=" flex justify-align-center d-flex align-items-center">
             <div className="mx-2 h4 text-center text-white">TOTAL P/L : </div>
 
             {totalPL < 0 ? (
@@ -262,24 +252,40 @@ function Home({ toggleSidebar, isSidebarVisible }) {
             </div>
           </div>
         </div>
-
-        {/* {orderDetail !== null && <OrderDetails orders={orderDetail}/>} */}
-
-        <Strategies
-          orderSummaries={
-            userType === "2" ? orderSummaries : adminUserOrderSummary
-          }
-        />
-
-        <BrokerStratRow algorithms={algorithms} subscriptions={subscriptions} />
       </div>
+      <div className="pb-4">
+        {console.log("Test Infinite")}
+        <div className="container-fluid mt-2">
+          <DateRangeModal
+            showModal={showModal}
+            handleFilterToggle={handleFilterToggle}
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+          />
 
-      <OrderDetailsModal
-        show={showOrderDetailsModal}
-        onHide={toggleOrderDetailsModal}
-        orderDetail={orderDetail}
-      />
-    </div>
+          {/* {orderDetail !== null && <OrderDetails orders={orderDetail}/>} */}
+
+          <Strategies
+            orderSummaries={
+              userType === "2" ? orderSummaries : adminUserOrderSummary
+            }
+          />
+
+          <BrokerStratRow
+            algorithms={algorithms}
+            subscriptions={subscriptions}
+          />
+        </div>
+
+        <OrderDetailsModal
+          show={showOrderDetailsModal}
+          onHide={toggleOrderDetailsModal}
+          orderDetail={orderDetail}
+        />
+      </div>
+    </>
   );
 }
 

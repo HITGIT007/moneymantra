@@ -26,7 +26,7 @@ function Nav({ name, toggleSidebar, isSidebarVisible}) {
     return `${day}/${month}/${year} ${hours}:${minutes}:${seconds} ${ampm}`;
   };
   return (
-    <nav className="navbar navbar-expand-sm navbar-dark bg-transparent">
+    <nav className="navbar navbar-expand-sm navbar-dark bg-black text-white sticky-top w-full px-3">
       <i
         className={`navbar-brand bi ${
           isSidebarVisible ? "bi-x-lg" : "bi-justify-left"
