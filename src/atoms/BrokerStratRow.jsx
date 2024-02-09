@@ -7,7 +7,7 @@ import {
 } from "../services/api"; // Import the API function
 import OrderConfirmationModal from "../modals/OrderConfirmationModal";
 import RemoveConfirmationModal from "../modals/RemoveConfirmationModal";
-import SwitchConfirmationModal from '../modals/SwitchConfirmationModal';
+import SwitchConfirmationModal from "../modals/SwitchConfirmationModal";
 const BrokerStratRow = ({ algorithms, orderSummaries, subscriptions }) => {
   const [showModal, setShowModal] = useState(false);
   const [switchState, setSwitchState] = useState({}); // State to track switch for each broker
@@ -23,7 +23,8 @@ const BrokerStratRow = ({ algorithms, orderSummaries, subscriptions }) => {
     "subscriptions================================================>",
     subscriptions
   );
-  const [showSwitchConfirmationModal, setShowSwitchConfirmationModal] = useState(false);
+  const [showSwitchConfirmationModal, setShowSwitchConfirmationModal] =
+    useState(false);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState(null);
 
   const handleSwitchClick = (algorithm) => {
@@ -104,7 +105,6 @@ const BrokerStratRow = ({ algorithms, orderSummaries, subscriptions }) => {
     // Close the modal after action
     setShowModal(false);
   };
-  
 
   const handleOrderChange = (subscription) => {
     setConfirmSubscription(subscription);
@@ -143,24 +143,36 @@ const BrokerStratRow = ({ algorithms, orderSummaries, subscriptions }) => {
 
   // Placeholder for your actual broker data
 
-  const renderSwitch = (algorithm) => (
-    <label className="switch">
-      <input
-        type="checkbox"
-        checked={switchState[algorithm.id] || false}
-        onChange={() => handleSwitchClick(algorithm)} // This will only open the modal
-      />
-      <span className="slider round"></span>
-    </label>
-  );
+  const renderSwitch = (algorithm) => {
+    const isChecked = switchState.hasOwnProperty(algorithm.id)
+      ? switchState[algorithm.id]
+      : algorithm.allowRealOrder;
+  
+    console.log("renderSwitch======>", algorithm);
+    return (
+      <label className="switch">
+        <input
+          type="checkbox"
+          checked={isChecked}
+          onChange={() => handleSwitchClick(algorithm)} // This will only open the modal
+        />
+        <span className="slider round"></span>
+      </label>
+    );
+  };
+  
+
   return (
     <div className="container-fluid">
       <div className="d-flex align-items-center justify-content-between mb-2">
         <h3 className="text-light">STRATEGIES</h3>
-        {userType === '1' ?<button className="btn btn-outline-light d-flex align-items-center">
-          Create New <i className="bi bi-plus-lg ms-2"></i>
-        </button> : <div></div>}
-        
+        {userType === "1" ? (
+          <button className="btn btn-outline-light d-flex align-items-center">
+            Create New <i className="bi bi-plus-lg ms-2"></i>
+          </button>
+        ) : (
+          <div></div>
+        )}
       </div>
       <SwitchConfirmationModal
         showModal={showSwitchConfirmationModal}
@@ -248,37 +260,50 @@ const BrokerStratRow = ({ algorithms, orderSummaries, subscriptions }) => {
                 <h3>{strategyName}</h3>
               </Badge>
               <div className="my-2 border rounded border-light">
-              {strategyAlgorithms.map((subscription, index) => (
-  <div key={subscription.name + index} className="row align-items-center my-2 ">
-    <div className="col-auto d-flex py-2 align-items-center">
-      <Button
-        variant={subscription.isRealOrderAllowedByAdmin ? "outline-danger" : "secondary"}
-        className="ms-2"
-        onClick={() => handleOrderChange(subscription)} // Pass the entire subscription object
-      >
-        Order
-        <input
-          className="form-check-input ms-2"
-          type="checkbox"
-          role="switch"
-          id={`flexOrderCheck-${subscription.id}`}
-          checked={orderSwitch[subscription.id]} // Make sure this reflects the current state
-          onChange={() => handleOrderChange(subscription)} // Add this to handle checkbox changes
-        />
-      </Button>
+                {strategyAlgorithms.map((subscription, index) => (
+                  <div
+                    key={subscription.name + index}
+                    className="row align-items-center my-2 "
+                  >
+                    <div className="col-auto d-flex py-2 align-items-center">
+                      <Button
+                        variant={
+                          subscription.isRealOrderAllowedByAdmin
+                            ? "outline-danger"
+                            : "secondary"
+                        }
+                        className="ms-2"
+                        onClick={() => handleOrderChange(subscription)} // Pass the entire subscription object
+                      >
+                        Order
+                        <input
+                          className="form-check-input ms-2"
+                          type="checkbox"
+                          role="switch"
+                          id={`flexOrderCheck-${subscription.id}`}
+                          checked={orderSwitch[subscription.id]} // Make sure this reflects the current state
+                          onChange={() => handleOrderChange(subscription)} // Add this to handle checkbox changes
+                        />
+                      </Button>
 
-      <label htmlFor={`toggle-${subscription.id}`} className={`card ms-2 ${subscription.isRealOrderAllowedByAdmin ? "bg-white" : "bg-secondary"}`}>
-        <div className="d-flex align-items-center p-2">
-          {subscription.algoName}
-        </div>
-      </label>
-    </div>
-    <div className="col d-flex justify-content-end">
-      {/* Additional elements if any */}
-    </div>
-  </div>
-))}
-
+                      <label
+                        htmlFor={`toggle-${subscription.id}`}
+                        className={`card ms-2 ${
+                          subscription.isRealOrderAllowedByAdmin
+                            ? "bg-white"
+                            : "bg-secondary"
+                        }`}
+                      >
+                        <div className="d-flex align-items-center p-2">
+                          {subscription.algoName}
+                        </div>
+                      </label>
+                    </div>
+                    <div className="col d-flex justify-content-end">
+                      {/* Additional elements if any */}
+                    </div>
+                  </div>
+                ))}
               </div>
             </React.Fragment>
           )

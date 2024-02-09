@@ -210,7 +210,7 @@ function Home({ toggleSidebar, isSidebarVisible }) {
                   id="button-addon2"
                   onClick={handleButtonClick}
                 >
-                  SUBSCRIPTIONS
+                  ORDER SUMMARY
                 </Button>
               </InputGroup>
             )}
