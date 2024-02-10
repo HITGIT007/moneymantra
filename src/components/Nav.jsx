@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-function Nav({ name, toggleSidebar, isSidebarVisible}) {
+function Nav({ name, toggleSidebar, isSidebarVisible }) {
   const [currentTime, setCurrentTime] = useState(new Date());
   const navigate = useNavigate();
   useEffect(() => {
@@ -23,10 +23,19 @@ function Nav({ name, toggleSidebar, isSidebarVisible}) {
     const ampm = hours >= 12 ? "PM" : "AM";
     hours = hours % 12;
     hours = hours ? hours.toString().padStart(2, "0") : "12"; // the hour '0' should be '12'
-    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds} ${ampm}`;
+    return `${day}/${month}/${year}`;
+  };
+  const formatTime = (date) => {
+    let hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const seconds = date.getSeconds().toString().padStart(2, "0");
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours.toString().padStart(2, "0") : "12"; // the hour '0' should be '12'
+    return `${hours}:${minutes}:${seconds} ${ampm}`;
   };
   return (
-    <nav className="navbar navbar-expand-sm navbar-dark bg-black text-white sticky-top w-full px-3">
+    <nav className="navbar navbar-expand-sm navbar-dark plain-background text-white sticky-top w-full px-3">
       <i
         className={`navbar-brand bi ${
           isSidebarVisible ? "bi-x-lg" : "bi-justify-left"
@@ -51,15 +60,16 @@ function Nav({ name, toggleSidebar, isSidebarVisible}) {
               className="nav-link dropdown-toggle"
               href="#"
               id="dropdownId"
+              data-bs-theme='dark'
               data-bs-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
             >
-              <span className="h4 mb-0 text-white px-3">
+              <span className="h4 mb-0 text-white px-3 neon-text">
                 WELCOME {name.toUpperCase()}
               </span>
             </a>
-            <div className="dropdown-menu" aria-labelledby="dropdownId">
+            <div className="dropdown-menu" aria-labelledby="dropdownId" data-bs-theme='dark'>
               <button className="dropdown-item">Profile</button>
               <button className="dropdown-item">Setting</button>
               <button
@@ -75,11 +85,13 @@ function Nav({ name, toggleSidebar, isSidebarVisible}) {
           </li>
         </ul>
       </div>
-      <div
-        className="text-white ms-3 d-flex align-items-center border border-2 rounded my-2 py-2 text-center"
-        style={{ width: "150px" }}
-      >
-        <span className="h4 mb-0">{formatDate(currentTime)}</span>
+      <div className="ms-auto text-white d-flex align-items-center">
+        <div className="me-3 bg-warning text-black px-2 py-2 rounded ">
+          <span className="h5 fw-bold mb-0">{formatDate(currentTime)}</span>
+        </div>
+        <div className="px-2 py-2  rounded     ">
+          <span className="h4 mb-0 fw-bold neon-text">{formatTime(currentTime)}</span>
+        </div>
       </div>
     </nav>
   );

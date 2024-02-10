@@ -11,20 +11,20 @@ function Sidebar() {
     textDecoration: "none", // Remove underlines
   };
   return (
-    <div className="bg-white sidebar p-2">
+    <div className="bg-black h-100 sidebar p-2">
       <div>
   
         <FinancialBox />
       </div>
-      <hr className="text-dark" />
+      <hr className="text-light" />
       <div className="list-group list-group-flush">
-        <div className="list-group-item py-2  ">
-          <i className="bi bi-house-door fs-5 me-1"></i>
-          <NavLink to="/dashboard" aria-current="page" style={resetStyles}>
-            <span className="fs-5">Dashboard</span>
+        <div className="list-group-item py-2 bg-dark test-white ">
+          <i className="bi bi-house-door text-white fs-5 me-1"></i>
+          <NavLink to="/dashboard"  aria-current="page" style={resetStyles}>
+            <span className="fs-5 text-white">Dashboard</span>
           </NavLink>
         </div>
-        {userType === "1" && <div className="list-group-item py-2  ">
+        {userType === "1" && <div className="list-group-item py-2 px-2 bg-dark text-white ">
           <i className="bi bi-speedometer2 fs-5 me-1"></i>
           <NavLink
             to="/controlandmonitor"
@@ -36,7 +36,7 @@ function Sidebar() {
         </div>}
         
 
-        <div className="list-group-item py-2  ">
+        <div className="list-group-item py-2 bg-dark text-white hover:bg-primary  ">
           <i className="bi bi-box-arrow-right fs-5 me-1"></i>
           <NavLink
             to="/controlandmonitor"
