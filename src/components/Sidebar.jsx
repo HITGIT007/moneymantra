@@ -39,7 +39,7 @@ function Sidebar() {
         <div className="list-group-item py-2  ">
           <i className="bi bi-box-arrow-right fs-5 me-1"></i>
           <NavLink
-            to="/controlandmonitor"
+            to="/"
             aria-current="page"
             onClick={() => {
               sessionStorage.removeItem("logged");

@@ -1,7 +1,7 @@
 import React from "react";
 import "../css/App.css";
 import { Tooltip, OverlayTrigger } from "react-bootstrap";
-import * as XLSX from 'xlsx';
+import * as XLSX from "xlsx";
 
 const OrderDetails = ({ orders }) => {
   const formatTimestamp = (timestampArray) => {
@@ -39,28 +39,30 @@ const OrderDetails = ({ orders }) => {
   const handleExcel = (orders) => {
     const wb = XLSX.utils.book_new();
     const wsData = [];
-  
+
     wsData.push([
-      'ID',
-      'Instrument Token',
-      'Order Type',
-      'Transaction Type',
-      'Quantity',
-      'Price',
-      'Status',
-      'Strategy',
-      'Timestamp',
-      'Child Order',
-      'Limit Order ID',
-      'Market Order ID',
-      'Parent Order',
-      'Past Tick Time Stamp',
-      'Place Real Order',
-      'Square Off Order ID',
-      'Stoploss Order ID',
-      'Trigger Tick ID',
+      "ID",
+      "Instrument Token",
+      "Order Type",
+      "Transaction Type",
+      "Quantity",
+      "Price",
+      "Trigger Price",
+      "Status",
+      "Strategy",
+      "Timestamp",
+      "Execution Time",
+      "Child Order",
+      "Limit Order ID",
+      "Market Order ID",
+      "Parent Order",
+      "Past Tick Time Stamp",
+      "Place Real Order",
+      "Square Off Order ID",
+      "Stoploss Order ID",
+      "Trigger Tick ID",
     ]);
-  
+
     orders.forEach((order) => {
       wsData.push([
         order.id,
@@ -69,53 +71,56 @@ const OrderDetails = ({ orders }) => {
         order.transactionType,
         order.quantity,
         order.price,
+        order.triggerPrice,
         order.orderStatus,
         order.tradingStrategy,
         formatTimestamp(order.timestamp),
-        order.features.childOrder ? 'Yes' : 'No',
+        formatTimestamp(order.executionTime),
+        order.features.childOrder ? "Yes" : "No",
         order.features.limitOrderId,
         order.features.marketOrderId,
-        order.features.parentOrder ? 'Yes' : 'No',
-        order.features.pastTickTimeStamp ? 'Yes' : 'No',
-        order.features.placeRealOrder ? 'Yes' : 'No',
+        order.features.parentOrder ? "Yes" : "No",
+        order.features.pastTickTimeStamp ? "Yes" : "No",
+        order.features.placeRealOrder ? "Yes" : "No",
         order.features.squareOffOrderId,
         order.features.stoplossOrderId,
         order.features.triggerTickId,
       ]);
     });
-  
+
     const ws = XLSX.utils.aoa_to_sheet(wsData);
-    XLSX.utils.book_append_sheet(wb, ws, 'Orders');
-  
-    XLSX.writeFile(wb, 'Orders.xlsx');
+    XLSX.utils.book_append_sheet(wb, ws, "Orders");
+
+    XLSX.writeFile(wb, "Orders.xlsx");
   };
   const handleExcelEach = (orders, key) => {
-   
     const wb = XLSX.utils.book_new();
-  
+
     const wsData = [
       [
-        'ID',
-        'Instrument Token',
-        'Order Type',
-        'Transaction Type',
-        'Quantity',
-        'Price',
-        'Status',
-        'Strategy',
-        'Timestamp',
-        'Child Order',
-        'Limit Order ID',
-        'Market Order ID',
-        'Parent Order',
-        'Past Tick Time Stamp',
-        'Place Real Order',
-        'Square Off Order ID',
-        'Stoploss Order ID',
-        'Trigger Tick ID',
+        "ID",
+        "Instrument Token",
+        "Order Type",
+        "Transaction Type",
+        "Quantity",
+        "Price",
+        "Trigger Price",
+        "Status",
+        "Strategy",
+        "Timestamp",
+        "Execution Time",
+        "Child Order",
+        "Limit Order ID",
+        "Market Order ID",
+        "Parent Order",
+        "Past Tick Time Stamp",
+        "Place Real Order",
+        "Square Off Order ID",
+        "Stoploss Order ID",
+        "Trigger Tick ID",
       ],
     ];
-  
+
     orders.forEach((order) => {
       wsData.push([
         order.id,
@@ -124,37 +129,47 @@ const OrderDetails = ({ orders }) => {
         order.transactionType,
         order.quantity,
         order.price,
+        order.triggerPrice,
         order.orderStatus,
         order.tradingStrategy,
         formatTimestamp(order.timestamp),
-        order.features?.childOrder ? 'Yes' : 'No',
-        order.features?.limitOrderId ?? '',
-        order.features?.marketOrderId ?? '',
-        order.features?.parentOrder ? 'Yes' : 'No',
-        order.features?.pastTickTimeStamp ? formatTimestamp(order.features.triggerTickTimeStamp) : 'No',
-        order.features?.placeRealOrder ? 'Yes' : 'No',
-        order.features?.squareOffOrderId ?? '',
-        order.features?.stoplossOrderId ?? '',
-        order.features?.triggerTickId ?? '',
+        formatTimestamp(order.executionTime),
+        order.features?.childOrder ? "Yes" : "No",
+        order.features?.limitOrderId ?? "",
+        order.features?.marketOrderId ?? "",
+        order.features?.parentOrder ? "Yes" : "No",
+        order.features?.pastTickTimeStamp
+          ? formatTimestamp(order.features.triggerTickTimeStamp)
+          : "No",
+        order.features?.placeRealOrder ? "Yes" : "No",
+        order.features?.squareOffOrderId ?? "",
+        order.features?.stoplossOrderId ?? "",
+        order.features?.triggerTickId ?? "",
       ]);
     });
-  
+
     const ws = XLSX.utils.aoa_to_sheet(wsData);
-    XLSX.utils.book_append_sheet(wb, ws, 'OrderDetails');
-  
+    XLSX.utils.book_append_sheet(wb, ws, "OrderDetails");
 
     XLSX.writeFile(wb, `${key} - ${orders[0].tradingStrategy}.xlsx`);
   };
-  
-  
+
   return (
     <div className="container-fluid  my-2 py-2">
       <div className="d-flex align-items-center mb-3 text-warning btn">
-      <div className="me-2" onClick={() => handleExcel(Object.values(orders).flat())}>
-                <img src={require("../assets/images/excel.png")} alt="excel" style={{height:'27px'}}/>
-              </div> DOWNLAOD ALL
+        <div
+          className="me-2"
+          onClick={() => handleExcel(Object.values(orders).flat())}
+        >
+          <img
+            src={require("../assets/images/excel.png")}
+            alt="excel"
+            style={{ height: "27px" }}
+          />
+        </div>{" "}
+        DOWNLAOD ALL
       </div>
-      
+
       <div className="row">
         {Object.keys(orders).map((key) => (
           <div
@@ -163,9 +178,16 @@ const OrderDetails = ({ orders }) => {
             style={{ maxHeight: "80vh" }}
           >
             <div className="text-light bg-dark p-2 mt-4 rounded d-flex align-items-center justify-content-between">
-              <h3 >{key}</h3>
-              <div className="" onClick={() => handleExcelEach(orders[key],key)}>
-                <img src={require("../assets/images/excel.png")} alt="excel" style={{height:'27px'}}/>
+              <h3>{key}</h3>
+              <div
+                className=""
+                onClick={() => handleExcelEach(orders[key], key)}
+              >
+                <img
+                  src={require("../assets/images/excel.png")}
+                  alt="excel"
+                  style={{ height: "27px" }}
+                />
               </div>
             </div>
 
@@ -177,8 +199,11 @@ const OrderDetails = ({ orders }) => {
                 <div className="col p-2">Transaction Type</div>
                 <div className="col p-2">Quantity</div>
                 <div className="col p-2">Price</div>
+                <div className="col p-2">Trigger Price</div>
                 <div className="col p-2">Status</div>
                 <div className="col p-2">Timestamp</div>
+                <div className="col p-2">Execution Time</div>
+
                 <div className="col p-2">Strategy</div>
               </div>
             )}
@@ -195,8 +220,14 @@ const OrderDetails = ({ orders }) => {
                   <div className="col p-2">{order.transactionType}</div>
                   <div className="col p-2">{order.quantity}</div>
                   <div className="col p-2">{order.price}</div>
+                  <div className="col p-2">{order.triggerPrice.toFixed(2)}</div>
                   <div className="col p-2">{order.orderStatus}</div>
-                  <div className="col p-2">{formatTimestamp(order.timestamp)}</div>
+                  <div className="col p-2">
+                    {formatTimestamp(order.timestamp)}
+                  </div>
+                  <div className="col p-2">
+                    {formatTimestamp(order.executionTime)}
+                  </div>
                   <OverlayTrigger
                     placement="top"
                     overlay={renderTooltip(order)}

@@ -1,63 +1,16 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+//import axios from "axios";
 import "../css/App.css"; // Assuming you want to use the same CSS file
 import { login } from "../services/api";
-import NavigationBar from "./NavigationBar";
+//import NavigationBar from "./NavigationBar";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(""); // State to hold error message
+  //const [error, setError] = useState(""); // State to hold error message
   const [role, setRole] = useState("2");
   const navigate = useNavigate();
-
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  //   const isEmail = emailRegex.test(email);
-  //   const loginData = isEmail
-  //   ? { email: email, password: password, userType: role }
-  //   : { username: email, password: password, userType: role };
-  //   try {
-  //     const response = await axios.post(
-  //       "https://moneymantraai.com/api/auth/login",
-  //       loginData,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     console.log("Signup successful:", response.data);
-
-  //     // Check for successful response status
-  //     if (response.status === 200 || response.status === 201) {
-  //       // Store the token in sessionStorage
-  //       const token = response.data.token;
-  //       const userId = response.data.userId;
-  //       const name = response.data.name;
-  //       const userType = response.data.userType;
-  //       console.log("response.data.userType=====>",userType)
-  //       sessionStorage.setItem("logged", "true");
-  //       sessionStorage.setItem("token", token);
-  //       sessionStorage.setItem("userId", userId);
-  //       sessionStorage.setItem("name", name);
-  //       sessionStorage.setItem("userType",userType);
-
-  //       navigate("/dashboard");
-  //       // Navigate to Dashboard on successful login
-
-  //       // Additional successful signup logic
-  //     }
-  //   } catch (error) {
-  //     console.error(
-  //       "Signup error:",
-  //       error.response ? error.response.data : error
-  //     );
-  //     // Handle signup error (e.g., display error message)
-  //   }
-  // };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -98,10 +51,10 @@ function Login() {
         color: "white",
       }}
     >
-      <div className="card-body p-2">
+      <div className="card-body p-2" style={{ backgroundColor: "#0a142f" }}>
         {/* <h3 className="text-uppercase text-center mb-2">Login</h3> */}
 
-        <form onSubmit={handleSubmit} style={{}}>
+        <form onSubmit={handleSubmit} style={{ backgroundColor: "#0a142f" }}>
           {/* Email Address */}
           <label className="form-label" htmlFor="email">
             Email / Username

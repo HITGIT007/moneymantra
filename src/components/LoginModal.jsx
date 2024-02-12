@@ -6,10 +6,14 @@ import LoginPage from "./Login";
 function LoginModal({ show, handleClose }) {
   return (
     <Modal className="text-white" show={show} onHide={handleClose}>
-      <Modal.Header closeButton className="plain-background text-white">
+      <Modal.Header
+        closeButton
+        className="text-white"
+        style={{ backgroundColor: "#0a142f" }}
+      >
         <Modal.Title className="text-center">LOGIN</Modal.Title>
       </Modal.Header>
-      <Modal.Body className="plain-background">
+      <Modal.Body style={{ backgroundColor: "#0a142f" }}>
         <LoginPage />
       </Modal.Body>
       {/* No footer or anything, as the login page should contain all necessary buttons */}
