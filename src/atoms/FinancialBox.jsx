@@ -8,31 +8,31 @@ const FinancialBox = () => {
         <div className="col">
           <div className="text-light  rounded">
             
-            <div className="d-flex justify-content-between align-items-center border border-2 border-warning rounded p-1 mb-1 bg-dark ">
+            <div className="d-flex justify-content-between align-items-center bg-secondary   border-warning  p-1 mb-1 ">
                 <div>
-                <div className="text-light">Available</div>
-                <div className="text-light">margin</div>
+                <div className="text-dark fw-bold">Available</div>
+                <div className="text-dark fw-bold">margin</div>
                 </div>
              
-              <span className="text-light ms-4">---</span>
+              <span className="text-dark fw-bold ms-4">---</span>
             </div>
 
 
-            <div className="d-flex justify-content-between align-items-center border border-2 border-warning rounded p-1 mb-1 bg-dark ">
+            <div className="d-flex justify-content-between align-items-center   p-1 mb-1 bg-secondary ">
                 <div>
-                <div className="text-light">Used</div>
-                <div className="text-light">margin</div>
+                <div className="text-dark fw-bold">Used</div>
+                <div className="text-dark fw-bold">margin</div>
                 </div>
              
-              <span className="text-light  ms-4">---</span>
+              <span className="text-dark fw-bold  ms-4">---</span>
             </div>
-            <div className="d-flex justify-content-between align-items-center border border-2 border-warning rounded p-1 bg-dark ">
+            <div className="d-flex justify-content-between align-items-center   p-1 bg-secondary ">
                 <div>
-                <div className="text-light">Available</div>
-                <div className="text-light">cash</div>
+                <div className="text-dark fw-bold">Available</div>
+                <div className="text-dark fw-bold">cash</div>
                 </div>
              
-              <span className="text-light  ms-4">---</span>
+              <span className="text-dark fw-bold  ms-4">---</span>
             </div>
           </div>
         </div>

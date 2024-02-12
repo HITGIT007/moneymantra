@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 // Create an Axios instance with default settings
 const apiService = axios.create({
@@ -23,13 +24,17 @@ apiService.interceptors.request.use(
 );
 const login = async (loginData) => {
   try {
-    const response = await axios.post("https://moneymantraai.com/api/auth/login", loginData);
+    const response = await axios.post(
+      "https://moneymantraai.com/api/auth/login",
+      loginData
+    );
     let token, userId, name, userType;
     if (response.status === 200 || response.status === 201) {
       token = response.data.token;
       userId = response.data.userId;
       name = response.data.name;
       userType = response.data.userType;
+      toast.success("Log in Succesfull!");
     }
 
     if (token) {
@@ -44,6 +49,7 @@ const login = async (loginData) => {
     }
     return response.data; // Return the full response data or just the token as needed
   } catch (error) {
+    toast.error("Error during login", error);
     console.error("Error during login:", error);
     throw error;
   }
@@ -190,5 +196,5 @@ export {
   stopNewOrdersBySubscription,
   fetchAdminOrderSummaries,
   login,
-  getOrderDetails
+  getOrderDetails,
 };

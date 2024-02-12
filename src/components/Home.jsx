@@ -114,7 +114,7 @@ function Home({ toggleSidebar, isSidebarVisible }) {
 
     // If 'logged' is not 'true', redirect to the login page
     if (isLogged !== "true") {
-      navigate("/login");
+      navigate("/");
     }
   }, [navigate]); // Dependency array includes navigate to avoid re-running the effect unnecessarily
 
@@ -180,7 +180,7 @@ function Home({ toggleSidebar, isSidebarVisible }) {
   useEffect(() => {}, []);
   return (
     <>
-      <div className="sticky-top">
+      <div className="sticky-top ">
         <Nav
           name={name}
           toggleSidebar={toggleSidebar}
@@ -198,6 +198,7 @@ function Home({ toggleSidebar, isSidebarVisible }) {
                   ORDER DETAILS
                 </Button>
                 <Form.Control
+                className="px-2 bg-black text-white"
                   style={{ width: "120px" }}
                   placeholder="Enter UserID"
                   aria-label="Enter UserID"
@@ -206,7 +207,8 @@ function Home({ toggleSidebar, isSidebarVisible }) {
                   onChange={handleInputChange}
                 />
                 <Button
-                  variant="outline-primary"
+                className="rounded-l"
+                  variant="outline-primary "
                   id="button-addon2"
                   onClick={handleButtonClick}
                 >
@@ -229,7 +231,7 @@ function Home({ toggleSidebar, isSidebarVisible }) {
               </Badge>
             )}
           </div>
-          <div className="d-flex align-items-center">
+          <div className="d-flex align-items-center bg-dar">
             <div
               className="d-flex align-items-center justify-content-between mt-2"
               style={{ height: "50px" }}
