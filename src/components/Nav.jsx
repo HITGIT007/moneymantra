@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 function Nav({ name, toggleSidebar, isSidebarVisible }) {
+  const [showDropdown, setShowDropdown] = useState(false); // Add state for dropdown visibility
+
   const [currentTime, setCurrentTime] = useState(new Date());
   const navigate = useNavigate();
   useEffect(() => {
@@ -35,45 +37,67 @@ function Nav({ name, toggleSidebar, isSidebarVisible }) {
     return `${hours}:${minutes}:${seconds} ${ampm}`;
   };
   return (
-    <nav className="navbar navbar-expand-sm navbar-dark plain-background text-white sticky-top w-full px-3">
-      <i
-        className={`navbar-brand bi ${
-          isSidebarVisible ? "bi-x-lg" : "bi-justify-left"
-        } border rounded border-danger px-2 py-1`}
-        onClick={toggleSidebar}
-      ></i>
-      <button
-        className="navbar-toggler d-lg-none"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#collapsibleNavId"
-        aria-controls="collapsibleNavId"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <i className="bi bi-justify"></i>
-      </button>
-      <div className="collapse navbar-collapse" id="collapsibleNavId">
-        <ul className="navbar-nav me-auto mt-2 mt-lg-0">
-          <li className="nav-item dropdown">
-            <a
-              className="nav-link dropdown-toggle"
-              href="#"
-              id="dropdownId"
-              data-bs-theme='dark'
-              data-bs-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
+    <nav className="bg-gray-800 text-white flex justify-between items-center sticky top-0 px-3">
+      <div className="flex gap-5">
+        <button
+          className={`text-xl cursor-pointer border rounded border-danger px-2 py-1`}
+          onClick={toggleSidebar}
+        >
+          {isSidebarVisible ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <span className="h4 mb-0 text-white px-3 neon-text">
-                WELCOME {name.toUpperCase()}
-              </span>
-            </a>
-            <div className="dropdown-menu" aria-labelledby="dropdownId" data-bs-theme='dark'>
-              <button className="dropdown-item">Profile</button>
-              <button className="dropdown-item">Setting</button>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16m-7 6h7"
+              />
+            </svg>
+          )}
+        </button>
+
+        <div className="flex space-x-4">
+          <div className="relative">
+            <button
+              className="text-lg font-medium border border-transparent rounded-md px-3 py-1 hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
+              onClick={() => setShowDropdown(!showDropdown)} // Toggle visibility directly here
+            >
+              <span className="mr-2">WELCOME {name.toUpperCase()}</span>
+            </button>
+
+            <div
+              className={`absolute right-0 mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-50 ${
+                showDropdown ? "block" : "hidden"
+              }`}
+            >
+              <button className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full">
+                Profile
+              </button>
+              <button className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full">
+                Setting
+              </button>
               <button
-                className="dropdown-item"
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full"
                 onClick={() => {
                   sessionStorage.removeItem("logged");
                   navigate("/");
@@ -82,15 +106,18 @@ function Nav({ name, toggleSidebar, isSidebarVisible }) {
                 Logout
               </button>
             </div>
-          </li>
-        </ul>
-      </div>
-      <div className="ms-auto text-white d-flex align-items-center">
-        <div className="me-3 neon-text text-white px-2 py-2 rounded ">
-          <span className="h4 fw-bold mb-0">{formatDate(currentTime)}</span>
+          </div>
         </div>
-        <div className="px-2 py-2  rounded     ">
-          <span className="h4 mb-0 fw-bold neon-text">{formatTime(currentTime)}</span>
+      </div>
+
+      <div className="flex items-center">
+        <div className="me-3">
+          <span className="text-lg font-bold neon-text">
+            {formatDate(currentTime)}
+          </span>
+        </div>
+        <div className="px-2 py-2 rounded neon-text">
+          <span className="text-lg font-bold">{formatTime(currentTime)}</span>
         </div>
       </div>
     </nav>

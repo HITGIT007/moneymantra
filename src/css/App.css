@@ -28,10 +28,9 @@ body,
   height: 100%;
 }
 
-.plain-background {
+/* .plain-background {
   background: #070e21;
-  /* color: black;  */
-}
+} */
 .modal-header .btn-close {
   color: white; /* Set the color to white */
 }

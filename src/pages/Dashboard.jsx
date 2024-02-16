@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import Home from "../components/Home";
+// import { BackgroundBeams } from "../atoms/BackgroundBeams";
 
 const Dashboard = () => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false); // Start with the sidebar hidden on mobile
@@ -8,7 +9,8 @@ const Dashboard = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
   return (
-    <div className=" plain-background min-vh-100 h-100 flex-grow-1">
+    <div className=" pain-background min-vh-100  flex-grow-1">
+      {/* <BackgroundBeams /> */}
       <div className="">
         {/* Sidebar - visible on medium and larger screens */}
         {isSidebarVisible && (
@@ -18,7 +20,13 @@ const Dashboard = () => {
         )}
 
         {/* Main content */}
-        <div className={isSidebarVisible ? "plain-background col-md-10 offset-md-2 " : "plain-background col-12"}>
+        <div
+          className={
+            isSidebarVisible
+              ? "plain-background col-md-10 offset-md-2 "
+              : "plain-background col-12"
+          }
+        >
           <Home
             toggleSidebar={toggleSidebar}
             isSidebarVisible={isSidebarVisible}
