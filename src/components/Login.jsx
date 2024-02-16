@@ -46,9 +46,10 @@ function Login() {
     <div
       className="card p-2  "
       style={{
-        borderRadius: "15px",
+        // borderRadius: "15px",
         background: "#0a142f",
         color: "white",
+        // width: "30vw",
       }}
     >
       <div className="card-body p-2" style={{ backgroundColor: "#0a142f" }}>

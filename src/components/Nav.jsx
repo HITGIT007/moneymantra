@@ -86,8 +86,8 @@ function Nav({ name, toggleSidebar, isSidebarVisible }) {
         </ul>
       </div>
       <div className="ms-auto text-white d-flex align-items-center">
-        <div className="me-3 bg-warning text-black px-2 py-2 rounded ">
-          <span className="h5 fw-bold mb-0">{formatDate(currentTime)}</span>
+        <div className="me-3 neon-text text-white px-2 py-2 rounded ">
+          <span className="h4 fw-bold mb-0">{formatDate(currentTime)}</span>
         </div>
         <div className="px-2 py-2  rounded     ">
           <span className="h4 mb-0 fw-bold neon-text">{formatTime(currentTime)}</span>

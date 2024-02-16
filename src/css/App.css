@@ -1,13 +1,15 @@
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   margin: 0;
   padding: 0;
-  background:  #0a142f
+  background: #0a142f;
 }
-.loginbtn{
-  background: #1A5CE5;
+.loginbtn {
+  background: #1a5ce5;
 }
-.signupbtn{
+.signupbtn {
   background: #243047;
 }
 * {
@@ -20,12 +22,14 @@ html, body, #root {
   padding-left: 0;
   padding-right: 0;
 }
-.container-fluid, .row, .row > div {
+.container-fluid,
+.row,
+.row > div {
   height: 100%;
 }
 
 .plain-background {
-  background:  #070e21;
+  background: #070e21;
   /* color: black;  */
 }
 .modal-header .btn-close {
@@ -34,50 +38,41 @@ html, body, #root {
 .socod {
   font-size: 11vw;
   color: #d4eaff;
-  text-shadow: 0 0 0 transparent, 0 0 10px #2695ff, 0 0 20px rgba(38, 149, 255, 0.5), 0 0 40px #2695ff, 0 0 100px #2695ff, 0 0 200px #2695ff, 0 0 300px #2695ff, 0 0 500px #2695ff;
+  text-shadow: 0 0 0 transparent, 0 0 10px #2695ff,
+    0 0 20px rgba(38, 149, 255, 0.5), 0 0 40px #2695ff, 0 0 100px #2695ff,
+    0 0 200px #2695ff, 0 0 300px #2695ff, 0 0 500px #2695ff;
   -webkit-animation: buzz 0.01s infinite alternate;
-          animation: buzz 0.01s infinite alternate;
+  animation: buzz 0.01s infinite alternate;
 }
 .neon {
   color: #fff;
-  text-shadow:
-    0 0 5px #fff,
-    0 0 10px #fff,
-    0 0 20px #fff,
-    0 0 40px rgb(255, 208, 0),
-    0 0 80px rgb(255, 208, 0),
-    0 0 90px rgb(255, 208, 0),
-    0 0 100px rgb(255, 208, 0),
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff,
+    0 0 40px rgb(255, 208, 0), 0 0 80px rgb(255, 208, 0),
+    0 0 90px rgb(255, 208, 0), 0 0 100px rgb(255, 208, 0),
     0 0 150px rgb(255, 208, 0);
 }
 
 .neon-text {
   color: #fff; /* White text color */
-  text-shadow:
-    0 0 5px #08f, /* Blue glow */
-    0 0 10px #08f, /* More intense blue */
-    0 0 20px #08f, /* Even more intense blue */
-    0 0 30px #08f, /* Outermost blue glow */
-    0 0 40px #08f; /* Optional: even more glow */
+  text-shadow: 0 0 5px #08f, /* Blue glow */ 0 0 10px #08f,
+    /* More intense blue */ 0 0 20px #08f,
+    /* Even more intense blue */ 0 0 30px #08f,
+    /* Outermost blue glow */ 0 0 40px #08f; /* Optional: even more glow */
 }
 .neon-text-yellow {
   color: #000; /* White text color */
   font-weight: 600;
-  text-shadow:
-    0 0 5px #ff0, /* Yellow glow */
-    0 0 10px #ff0, /* More intense yellow */
-    0 0 20px #ff0, /* Even more intense yellow */
-    0 0 30px #ff0, /* Outermost yellow glow */
-    0 0 40px #ff0; /* Optional: even more glow */
+  text-shadow: 0 0 5px #ff0, /* Yellow glow */ 0 0 10px #ff0,
+    /* More intense yellow */ 0 0 20px #ff0,
+    /* Even more intense yellow */ 0 0 30px #ff0,
+    /* Outermost yellow glow */ 0 0 40px #ff0; /* Optional: even more glow */
 }
 .neon-text-pink {
   color: #000; /* Black text color */
-  text-shadow:
-    0 0 5px #ffb6c1, /* Light pink glow */
-    0 0 10px #ffb6c1, /* More intense light pink */
-    0 0 20px #ffb6c1, /* Even more intense light pink */
-    0 0 30px #ffb6c1, /* Outermost light pink glow */
-    0 0 40px #ffb6c1; /* Optional: even more glow */
+  text-shadow: 0 0 5px #ffb6c1, /* Light pink glow */ 0 0 10px #ffb6c1,
+    /* More intense light pink */ 0 0 20px #ffb6c1,
+    /* Even more intense light pink */ 0 0 30px #ffb6c1,
+    /* Outermost light pink glow */ 0 0 40px #ffb6c1; /* Optional: even more glow */
 }
 .white-shadow-text {
   color: #000; /* Black text color */
@@ -92,8 +87,8 @@ html, body, #root {
 /* .sidebar{
 
 } */
-.list-group-item:hover{
-  background-color:#0062ff;
+.list-group-item:hover {
+  background-color: #0062ff;
   color: #ffe6e6 !important;
 }
 .gradient_background {
@@ -122,6 +117,10 @@ html, body, #root {
   }
 }
 
+.login {
+  width: "40vw";
+}
+
 @media (max-width: 768px) {
   .navbar-toggler {
     margin-right: auto;
@@ -133,6 +132,9 @@ html, body, #root {
   }
   .navbar .ms-auto .btn {
     margin-top: 0.5rem;
+  }
+  .login {
+    width: "50vw";
   }
 }
 
@@ -147,11 +149,7 @@ html, body, #root {
   min-height: 100vh;
 }
 .gradient_background_dashboard_withoutheight {
-  background: linear-gradient(
-    180deg,
-    #0062ff,
-    #da61ff
-  );
+  background: linear-gradient(180deg, #0062ff, #da61ff);
 }
 .navbar_dashboard {
   margin-bottom: 1rem;
@@ -196,8 +194,8 @@ html, body, #root {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .slider:before {
@@ -208,16 +206,16 @@ html, body, #root {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #2196f3;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #2196f3;
 }
 
 input:checked + .slider:before {
@@ -263,6 +261,6 @@ input:checked + .slider:before {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }

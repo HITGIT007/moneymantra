@@ -8,14 +8,17 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./components/Login";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Home from "./pages/Home";
+import Footer from "./components/Footer";
 function App() {
   return (
     <Router>
       <Routes>
+        {/* <Route path="/" element={<Home />} /> */}
         <Route path="/" element={<HomePage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/controlandmonitor" element={<ControlandMonitor />} />
-        {/* <Route path="/login" element={<Login />} /> */}
+        <Route path="/contact" element={<Footer />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       </Routes>

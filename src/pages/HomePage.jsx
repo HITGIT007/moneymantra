@@ -1,45 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import axios from "axios";
 import "../css/App.css"; // Reusing the same CSS for consistency
 import Footer from "../components/Footer";
 import NavigationBar from "../components/NavigationBar";
+import homebg from "../assets/images/homeimage.png";
+import rupeegold from "../assets/images/rupeegold.png"; // Import the image
+import Login from "../components/Login";
 
-// Replace with the actual image URLs
 const logoUrl = "../";
 
 function HomePage() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [message, setMessage] = useState("");
-
-  
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   // Handle contact form logic here
-  //   const contactData = {
-  //     name,
-  //     email,
-  //     phoneNumber,
-  //     message,
-  //   };
-  //   console.log(contactData);
-  //   // You would typically send this data to a server or email service
-  // };
   return (
-    <div
-      
-      //className="container-fluid"
-    >
-      {/* Navigation Bar */}
-     
-      <NavigationBar/>
-      <div className="row plain-background">
-        <div className="col-lg-6 p-5  d-flex flex-column justify-content-center">
+    <div>
+      <NavigationBar />
+      <div
+        className="row"
+        style={{
+          height: "100vh",
+          backgroundImage: `url(${homebg})`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <div className="col-lg-6 p-5 d-flex flex-column justify-content-center">
           <h1 className="neon-text">Strategize Wealth, Maximize Growth.</h1>
-
           <p className="text-white">
             Money Mantra is a cutting-edge financial platform dedicated to
             empowering investors with smart, data-driven strategies for the
@@ -52,20 +38,21 @@ function HomePage() {
             ensuring that every move you make is backed by expertise and
             precision, paving your path to financial prosperity.
           </p>
-
-          <Link to="/signup" className="btn btn-light">
+          <Link
+            to="/signup"
+            className="btn btn-info"
+            style={{ width: "150px" }}
+          >
             Sign Up for free!
           </Link>
         </div>
-        <div className="col-lg-6 d-flex flex-column align-items-center  justify-content-center ">
-          <img
-            src={require("../assets/images/rupeegold.png")}
-            alt="logo"
-            width="90%"
-          />
+        <div className="col-lg-6 d-flex  flex-column align-items-center justify-content-center">
+          <div className="login-box ">
+            <Login />
+          </div>
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
       <div
         className="text-center text-lg-start bg-light text-muted "
         style={{
