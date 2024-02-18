@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../css/App.css";
 import NavigationBar from "../components/NavigationBar";
 
 function SignUpPage() {
+  const [step, setStep] = useState(1); // Track current step of the form
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("2");
@@ -68,73 +69,200 @@ function SignUpPage() {
     }
   };
 
+  const handleNextStep = () => {
+    setStep(step + 1);
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    switch (name) {
+      case "email":
+        setEmail(value);
+        break;
+      case "password":
+        setPassword(value);
+        break;
+      case "role":
+        setRole(value);
+        break;
+      case "confirmPassword":
+        setConfirmPassword(value);
+        break;
+      case "phoneNumber":
+        setPhoneNumber(value);
+        break;
+      case "fullName":
+        setFullName(value);
+        break;
+      case "username":
+        setUsername(value);
+        break;
+      case "adminPassword":
+        setAdminPassword(value);
+        break;
+      case "pan":
+        setPan(value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const renderStepForm = () => {
+    switch (step) {
+      case 1:
+        return (
+          <>
+            <div className="col-md-6 mb-4 ">
+              <div className=" form-outline w-[30vw] ">
+                <label className="form-label" htmlFor="fullName">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  className="form-control w-full"
+                  id="fullName"
+                  name="fullName"
+                  value={fullName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+            <div className="col-md-6 mb-4">
+              <div className=" form-outline w-[30vw]">
+                <label className="form-label" htmlFor="username">
+                  Username
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="username"
+                  name="username"
+                  value={username}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+          </>
+        );
+      case 2:
+        return (
+          <>
+            <div className="col-md-6 mb-4">
+              <div className=" form-outline w-[30vw]">
+                <label className="form-label" htmlFor="email">
+                  Email address
+                </label>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="email"
+                  name="email"
+                  value={email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+            <div className="col-md-6 mb-4">
+              <div className=" form-outline w-[30vw]">
+                <label className="form-label" htmlFor="password">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="password"
+                  name="password"
+                  value={password}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+            <div className="col-md-6 mb-4">
+              <div className=" form-outline w-[30vw]">
+                <label className="form-label" htmlFor="confirmPassword">
+                  Confirm Password
+                </label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={confirmPassword}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+          </>
+        );
+      case 3:
+        return (
+          <>
+            <div className="col-md-6 mb-4">
+              <div className=" form-outline w-[30vw]">
+                <label className="form-label" htmlFor="role">
+                  Role
+                </label>
+                <select
+                  className="form-select"
+                  id="role"
+                  name="role"
+                  value={role}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="2">User</option>
+                  <option value="1">Admin</option>
+                </select>
+              </div>
+            </div>
+            {role === "1" && (
+              <div className="col">
+                <label className="form-label" htmlFor="adminPassword">
+                  Admin Password
+                </label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="adminPassword"
+                  name="adminPassword"
+                  value={adminPassword}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            )}
+            {role === "2" && (
+              <div className="col">
+                <label className="form-label" htmlFor="pan">
+                  PAN
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="pan"
+                  name="pan"
+                  value={pan}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            )}
+          </>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
       <NavigationBar />
-      {/* <div className="plain-background" style={{ borderRadius: "15px", background: "#0a142f", color: "white" }}>
-        <div className="d-flex justify-content-center align-items-center">
-          <div className="col-12 col-md-9 col-lg-7 col-xl-6  py-4">
-            <div className="card" style={{ borderRadius: "15px", }}>
-              <div className="card-body p-3 plain-background py-5" style={{ borderRadius: "15px" }}>
-                <form onSubmit={handleSubmit} style={{}}>
-                  <div className="row mb-2">
-                    <div className="col">
-                      <label className="form-label text-white" htmlFor="fullName">Full Name</label>
-                      <input style={{ background: "#243047" }} type="text" className="form-control text-white" id="fullName" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
-                    </div>
-                    <div className="col">
-                      <label className="form-label text-white" htmlFor="username">Username</label>
-                      <input style={{ background: "#243047" }} type="text" className="form-control text-white" id="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
-                    </div>
-                  </div>
-                  <div className="row mb-2">
-                    <div className="col">
-                      <label className="form-label text-white" htmlFor="email">Email address</label>
-                      <input style={{ background: "#243047" }} type="email" className="form-control text-white" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                    </div>
-                    <div className="col">
-                      <label className="form-label text-white" htmlFor="phoneNumber">Phone Number</label>
-                      <input style={{ background: "#243047" }} type="tel" className="form-control text-white" id="phoneNumber" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
-                    </div>
-                  </div>
-                  <div className="row mb-2">
-                    <div className="col">
-                      <label className="form-label text-white" htmlFor="password">Password</label>
-                      <input style={{ background: "#243047" }} type="password" className="form-control text-white" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                    </div>
-                    <div className="col">
-                      <label className="form-label text-white" htmlFor="confirmPassword">Confirm Password</label>
-                      <input style={{ background: "#243047" }} type="password" className="form-control text-white" id="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
-                    </div>
-                  </div>
-                  <div className="row mb-2">
-                    <div className="col">
-                      <label className="form-label text-white" htmlFor="role">Role</label>
-                      <select style={{ background: "#243047" }} className="form-select text-white" id="role" value={role} onChange={(e) => setRole(e.target.value)} required>
-                        <option value="2">User</option>
-                        <option value="1">Admin</option>
-                      </select>
-                    </div>
-                    {role === "1" &&
-                      <div className="col">
-                        <label className="form-label text-white" htmlFor="adminpassword">Admin Password</label>
-                        <input style={{ background: "#243047" }} type="password" className="form-control text-white" id="adminpassword" value={adminPassword} onChange={(e) => setAdminPassword(e.target.value)} required />
-                      </div>
-                    }
-                    {role === "2" &&
-                      <div className="col">
-                        <label className="form-label text-white" htmlFor="pan">PAN</label>
-                        <input style={{ background: "#243047" }} type="text" className="form-control text-white" id="pan" value={pan} onChange={(e) => setPan(e.target.value)} required />
-                      </div>
-                    }
-                  </div>
-                  <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
       <>
         {/* Section: Design Block */}
         <section className="background-radial-gradient overflow-hidden">
@@ -160,10 +288,17 @@ function SignUpPage() {
                   className="mb-4 opacity-70"
                   style={{ color: "hsl(218, 81%, 85%)" }}
                 >
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Temporibus, expedita iusto veniam atque, magni tempora
-                  mollitia dolorum consequatur nulla, neque debitis eos
-                  reprehenderit quasi ab ipsum nisi dolorem modi. Quos?
+                  Money Mantra is a cutting-edge financial platform dedicated to
+                  empowering investors with smart, data-driven strategies for
+                  the stock market. At the heart of our mission lies a
+                  commitment to democratizing financial success through the use
+                  of advanced artificial intelligence. We provide both novice
+                  traders and seasoned investors with the tools they need to
+                  make informed decisions, minimize risk, and capitalize on
+                  growth opportunities. With Money Mantra, you gain a trusted
+                  partner in your financial journey, ensuring that every move
+                  you make is backed by expertise and precision, paving your
+                  path to financial prosperity.
                 </p>
               </div>
               <div className="col-lg-6 mb-5 mb-lg-0 position-relative">
@@ -176,163 +311,53 @@ function SignUpPage() {
                   className="position-absolute shadow-5-strong"
                 />
                 <div className="card bg-glass">
-                  <div className="card-body px-4 py-4 px-md-4  text-white rounded" style={{background:"#0d1a40"}}>
+                  <div
+                    className="card-body px-4 py-4 px-md-4 flex justify-center text-white rounded h-[70vh] w-[40vw] bg-red-400 overflow-auto shadow-lg "
+                    style={{ background: "#0d1a40" }}
+                  >
                     <form onSubmit={handleSubmit}>
-                      {/* 2 column grid layout with text inputs for the first and last names */}
-                      <div className="row">
-                        <div className="col-md-6 mb-4">
-                          <div className="form-outline">
-                            <label className="form-label " htmlFor="fullName">
-                              Full Name
-                            </label>
-                            <input
-                              style={{ background: "#243047" }}
-                              type="text"
-                              className="form-control text-white"
-                              id="fullName"
-                              value={fullName}
-                              onChange={(e) => setFullName(e.target.value)}
-                              required
-                            />
+                      {/* Step indicators */}
+                      <div className="mb-4 flex gap-3 justify-evenly">
+                        {[1, 2, 3].map((indicator) => (
+                          <div
+                            key={indicator}
+                            className={`h-10 w-10 px-3 py-2 bg-slate-500 rounded-full cursor-pointer step-indicator step-circle ${
+                              indicator === step ? "bg-black" : ""
+                            }`}
+                            onClick={() => setStep(indicator)} // Add this line
+                          >
+                            {indicator}
                           </div>
-                        </div>
-                        <div className="col-md-6 mb-4">
-                          <div className="form-outline">
-                            <label className="form-label " htmlFor="username">
-                              Username
-                            </label>
-                            <input
-                              style={{ background: "#243047" }}
-                              type="text"
-                              className="form-control text-white"
-                              id="username"
-                              value={username}
-                              onChange={(e) => setUsername(e.target.value)}
-                              required
-                            />
-                          </div>
-                        </div>
+                        ))}
                       </div>
-                      {/* Email input */}
-                      <div className="form-outline mb-2">
-                        <label className="form-label " htmlFor="email">
-                          Email address
-                        </label>
-                        <input
-                          style={{ background: "#243047" }}
-                          type="email"
-                          className="form-control text-white"
-                          id="email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          required
-                        />
-                      </div>
-                      {/* Password input */}
-                      <div className="form-outline mb-2">
-                        <label className="form-label " htmlFor="password">
-                          Password
-                        </label>
-                        <input
-                          style={{ background: "#243047" }}
-                          type="password"
-                          className="form-control text-white"
-                          id="password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          required
-                        />
-                      </div>
-                      <div className="form-outline mb-2">
-                        <label
-                          className="form-label "
-                          htmlFor="confirmPassword"
-                        >
-                          Confirm Password
-                        </label>
-                        <input
-                          style={{ background: "#243047" }}
-                          type="password"
-                          className="form-control text-white"
-                          id="confirmPassword"
-                          value={confirmPassword}
-                          onChange={(e) => setConfirmPassword(e.target.value)}
-                          required
-                        />
-                      </div>
-                      {/* Checkbox */}
-                      <div className="row">
-                        <div className="col-md-6 mb-4">
-                          <div className="form-outline">
-                            <label className="form-label " htmlFor="role">
-                              Role
-                            </label>
-                            <select
-                              style={{ background: "#243047" }}
-                              className="form-select text-white"
-                              id="role"
-                              value={role}
-                              onChange={(e) => setRole(e.target.value)}
-                              required
-                            >
-                              <option value="2">User</option>
-                              <option value="1">Admin</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div className="col-md-6 mb-4">
-                          <div className="form-outline">
-                            {role === "1" && (
-                              <div className="col">
-                                <label
-                                  className="form-label "
-                                  htmlFor="adminpassword"
-                                >
-                                  Admin Password
-                                </label>
-                                <input
-                                  style={{ background: "#243047" }}
-                                  type="password"
-                                  className="form-control text-white"
-                                  id="adminpassword"
-                                  value={adminPassword}
-                                  onChange={(e) =>
-                                    setAdminPassword(e.target.value)
-                                  }
-                                  required
-                                />
-                              </div>
-                            )}
-                            {role === "2" && (
-                              <div className="col">
-                                <label className="form-label " htmlFor="pan">
-                                  PAN
-                                </label>
-                                <input
-                                  style={{ background: "#243047" }}
-                                  type="text"
-                                  className="form-control text-white"
-                                  id="pan"
-                                  value={pan}
-                                  onChange={(e) => setPan(e.target.value)}
-                                  required
-                                />
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
+                      {/* Render the form fields based on the current step */}
+                      {renderStepForm()}
 
-                      {/* Submit button */}
-                      <div className="d-flex justify-content-center">
-
-                      <button
-                        type="submit"
-                        className="btn btn-success btn-block mb-4"
-                        style={{ width: "100%" }}
-                      >
-                        Sign up
-                      </button>
+                      {/* Navigation buttons for multi-step form */}
+                      <div className="d-flex justify-content-between absolute bottom-3 w-full">
+                        {step > 1 && (
+                          <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={() => setStep(step - 1)}
+                          >
+                            Previous
+                          </button>
+                        )}
+                        {step < 3 && (
+                          <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={handleNextStep}
+                          >
+                            Next
+                          </button>
+                        )}
+                        {step === 3 && (
+                          <button type="submit" className="btn btn-success">
+                            Sign Up
+                          </button>
+                        )}
                       </div>
                     </form>
                   </div>

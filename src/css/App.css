@@ -12,6 +12,11 @@ body,
 .signupbtn {
   background: #243047;
 }
+.fixed-size-form {
+  width: 500px; /* adjust this value to your needs */
+  height: 600px; /* adjust this value to your needs */
+  overflow: auto; /* add a scrollbar if the content is larger than the fixed size */
+}
 * {
   margin: 0;
   padding: 0;

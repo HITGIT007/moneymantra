@@ -49,16 +49,16 @@ export default function Home() {
 
   return (
     <>
-      <div className="h-[100vh] plain-background text-white px-5">
         <NavigationBar />
+      <div className="h-[90vh] plain-background text-white px-5">
         {/* <BackgroundBeams /> */}
         <div className="flex justify-between  w-[100%] py-20  ">
-          <div className="w-[60%]   ">
+          <div className="w-[60%]">
             <div className="">
-              <div className=" overflow-hidden font-extrabold text-4xl text-white animate-typing  whitespace-nowrap">
+              <div className=" overflow-hidden font-extrabold text-4xl text-white animate-typing  whitespace-nowrap py-2 ">
                 Strategize Wealth, Maximize Growth.
               </div>
-              <div className="w-[45vw] py-5 ">
+              <div className="w-[45vw] py-4 ">
                 Money Mantra is a cutting-edge financial platform dedicated to
                 empowering investors with smart, data-driven strategies for the
                 stock market. At the heart of our mission lies a commitment to
@@ -88,7 +88,7 @@ export default function Home() {
                     type="text"
                     name=""
                     id=""
-                    class="bg-gray-200 px-2 w-[20vw] py-2 rounded-md   text-black"
+                    class="bg-gray-200 px-2 w-[20vw] py-2 rounded-md   text-black placeholder-orange-300"
                     placeholder="Username"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -100,8 +100,8 @@ export default function Home() {
                     type="password"
                     name=""
                     id=""
-                    class="bg-gray-200 px-2 w-[20vw] py-2 rounded-md   text-black"
-                    placeholder="password"
+                    class="bg-gray-200 px-2 w-[20vw] py-2 rounded-md  placeholder-orange-300  text-black"
+                    placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
