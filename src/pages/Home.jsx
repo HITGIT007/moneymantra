@@ -7,8 +7,8 @@ import { Input, TextField } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 // import { EvervaultCard } from "../atoms/EvervaultCard ";
 // import CardPattern from "../atoms/CardPattern";
+import "../css/App.css"; // Reusing the same CSS for consistency
 import { login } from "../services/api";
-import { BackgroundBeams } from "../atoms/BackgroundBeams";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -49,26 +49,38 @@ export default function Home() {
 
   return (
     <>
-      <div className="h-[100vh] bg-black text-white">
+      <div className="h-[100vh] plain-background text-white px-5">
         <NavigationBar />
-        <BackgroundBeams />
-        <div className="flex justify-between px-10">
-          <div className="w-[50%] flex justify-center items-center ">
-            <div>
-              <div className="font-extrabold text-5xl py-10 text-white animate-typing overflow-hidden whitespace-nowrap">
-                {" "}
-                Lorem ipsum dolor sit
+        {/* <BackgroundBeams /> */}
+        <div className="flex justify-between  w-[100%] py-20  ">
+          <div className="w-[60%]   ">
+            <div className="">
+              <div className=" overflow-hidden font-extrabold text-4xl text-white animate-typing  whitespace-nowrap">
+                Strategize Wealth, Maximize Growth.
               </div>
-              <div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, quo
-                eaque voluptates incidunt nemo illo unde iure pariatur id dicta,
-                quidem distinctio est minima enim! Rerum temporibus quisquam
-                eaque delectus?
+              <div className="w-[45vw] py-5 ">
+                Money Mantra is a cutting-edge financial platform dedicated to
+                empowering investors with smart, data-driven strategies for the
+                stock market. At the heart of our mission lies a commitment to
+                democratizing financial success through the use of advanced
+                artificial intelligence. We provide both novice traders and
+                seasoned investors with the tools they need to make informed
+                decisions, minimize risk, and capitalize on growth
+                opportunities. With Money Mantra, you gain a trusted partner in
+                your financial journey, ensuring that every move you make is
+                backed by expertise and precision, paving your path to financial
+                prosperity.
               </div>
             </div>
+            <Link
+              to={"/signup"}
+              className="px-3 py-2 bg-yellow-500  hover:bg-yellow-400 hover:shadow-lg hover:shadow-stone-300 text-black font-semibold cursor-pointer no-underline tracking-widest	"
+            >
+              EXPLORE
+            </Link>
           </div>
 
-          <div className="w-[50%] h-[90vh] flex justify-center items-center">
+          <div className="w-[40%]  flex justify-center items-center">
             <div class=" flex justify-center backdrop-grayscale-0 bg-white/30 w-[30vw] h-[55vh] p-5 rounded-3xl shadow-lg">
               <form onSubmit={handleSubmit}>
                 <div class="flex justify-center mb-3">
@@ -76,7 +88,7 @@ export default function Home() {
                     type="text"
                     name=""
                     id=""
-                    class="bg-gray-200 px-2 w-[20vw] py-2 rounded-md  relative z-10 text-black"
+                    class="bg-gray-200 px-2 w-[20vw] py-2 rounded-md   text-black"
                     placeholder="Username"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -88,7 +100,7 @@ export default function Home() {
                     type="password"
                     name=""
                     id=""
-                    class="bg-gray-200 px-2 w-[20vw] py-2 rounded-md  relative z-10 text-black"
+                    class="bg-gray-200 px-2 w-[20vw] py-2 rounded-md   text-black"
                     placeholder="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -97,7 +109,7 @@ export default function Home() {
                 </div>
                 <div class="flex justify-center mb-3">
                   <select
-                    class="bg-gray-200 px-2 w-[20vw] py-2 rounded-md relative z-10 text-black"
+                    class="bg-gray-200 px-2 w-[20vw] py-2 rounded-md  text-black"
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
                     required
@@ -114,7 +126,7 @@ export default function Home() {
                 <div class="flex justify-center py-3">
                   <button
                     type="submit"
-                    class="px-5 py-2 bg-yellow-400 text-black font-semibold"
+                    class="px-5 py-2 bg-yellow-500 hover:bg-yellow-400 hover:border-2 hover:tracking-widest hover:border-black text-black font-semibold "
                   >
                     LOGIN
                   </button>
