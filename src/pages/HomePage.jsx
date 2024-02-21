@@ -5,6 +5,9 @@ import axios from "axios";
 import "../css/App.css"; // Reusing the same CSS for consistency
 import Footer from "../components/Footer";
 import NavigationBar from "../components/NavigationBar";
+import Login from "../components/Login";
+// import Login from "../components/Login";
+// import LoginModal from "../components/LoginModal";
 
 // Replace with the actual image URLs
 const logoUrl = "../";
@@ -15,7 +18,6 @@ function HomePage() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState("");
 
-  
   // const handleSubmit = (event) => {
   //   event.preventDefault();
   //   // Handle contact form logic here
@@ -29,15 +31,17 @@ function HomePage() {
   //   // You would typically send this data to a server or email service
   // };
   return (
+    <>
+      <NavigationBar />
     <div
-      
+      className=" vh-70  "
+
       //className="container-fluid"
     >
       {/* Navigation Bar */}
-     
-      <NavigationBar/>
-      <div className="row plain-background">
-        <div className="col-lg-6 p-5  d-flex flex-column justify-content-center">
+
+      <div className="row pt-5  ">
+        <div className="col-lg-6 p-5  d-flex flex-column justify-content-center ">
           <h1 className="neon-text">Strategize Wealth, Maximize Growth.</h1>
 
           <p className="text-white">
@@ -53,21 +57,24 @@ function HomePage() {
             precision, paving your path to financial prosperity.
           </p>
 
-          <Link to="/signup" className="btn btn-light">
+          <Link to="/signup" className="btn btn-info w-25">
             Sign Up for free!
           </Link>
         </div>
         <div className="col-lg-6 d-flex flex-column align-items-center  justify-content-center ">
-          <img
+          {/* <img
             src={require("../assets/images/rupeegold.png")}
             alt="logo"
             width="90%"
-          />
+          /> */}
+          <div style={{ width: "25vw" }}>
+            <Login />
+          </div>
         </div>
       </div>
-      <Footer />
-      <div
-        className="text-center text-lg-start bg-light text-muted "
+      {/* <Footer /> */}
+      {/* <div
+        className="text-center text-lg-start bg-light text-muted  "
         style={{
           backgroundColor: "pink",
         }}
@@ -78,8 +85,9 @@ function HomePage() {
         >
           © 2023 Moneymantra AI. All rights reserved.
         </div>
-      </div>
+      </div> */}
     </div>
+    </>
   );
 }
 

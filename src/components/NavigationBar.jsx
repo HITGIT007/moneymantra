@@ -11,16 +11,17 @@ const NavigationBar = () => {
 
   return (
     <>
-      <Navbar className="sticky-top plain-background" variant="dark" expand="lg">
-        <Navbar.Brand
-          href="/"
-          style={{ fontSize: "2rem", fontWeight: "bold" }}
-        >
+      <Navbar
+        className="sticky-top plain-background"
+        variant="dark"
+        expand="lg"
+      >
+        <Navbar.Brand href="/" style={{ fontSize: "25px", fontWeight: "bold" }}>
           <img
             src={require("../assets/images/mmremovebg.png")}
             alt="logo"
-            width={60}
-            height={60}
+            width={40}
+            height={40}
           />
           {" Moneymantra AI"}
         </Navbar.Brand>
@@ -29,14 +30,14 @@ const NavigationBar = () => {
           <Nav className="me-auto">
             {/* <Nav.Link href="#dashboard">Dashboard</Nav.Link> */}
             {/* <Nav.Link href="#algo">Algo</Nav.Link> */}
-            <Nav.Link href="#strategy">Strategy</Nav.Link>
-            <Nav.Link href="#marketplace">Marketplace</Nav.Link>
-            <Nav.Link href="#community">Community</Nav.Link>
-            <Nav.Link href="#about">About</Nav.Link>
+            {/* <Nav.Link href="#strategy">Strategy</Nav.Link>
+            <Nav.Link href="#marketplace">Marketplace</Nav.Link> */}
+            <Nav.Link href="contact">CONTACT</Nav.Link>
+            <Nav.Link href="#about">ABOUT</Nav.Link>
           </Nav>
-          <Button onClick={handleShowLoginModal} variant="outline-info" className="me-2 loginbtn">
+          {/* <Button onClick={handleShowLoginModal} variant="outline-info" className="me-2 loginbtn">
             Login
-          </Button>
+          </Button> */}
           <Button href="/signup" className="me-3" variant="info">
             Signup
           </Button>

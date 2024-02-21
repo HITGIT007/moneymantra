@@ -8,6 +8,7 @@ import Twitter from "@mui/icons-material/Twitter";
 
 import styled from "styled-components";
 import React, { useState } from "react";
+import NavigationBar from "./NavigationBar";
 
 const Container = styled.div`
   display: flex;
@@ -85,98 +86,106 @@ const Footer = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState("");
   return (
-    <Container className="plain-background">
-      <Left className="plain-background">
-        <Desc className="text-white">
-          Money Mantra provides unparalleled 24/7 customer support, ensuring
-          your financial queries are addressed anytime, day or night. Our team
-          offers extensive assistance, guiding you through complex investment
-          decisions with ease and expertise. Committing to your continuous
-          financial growth, Money Mantra's support is just a click away,
-          fostering confidence and convenience in your trading journey.
-        </Desc>
-        <SocialContainer>
-          <SocialIcon color="3B5999">
-            <Facebook />
-          </SocialIcon>
-          <SocialIcon color="E4405F">
-            <Instagram />
-          </SocialIcon>
-          <SocialIcon color="55ACEE">
-            <Twitter />
-          </SocialIcon>
-        </SocialContainer>
-      </Left>
+    <>
+    <NavigationBar/>
+      <Container className=" plain-background" style={{height:"89vh"}}>
+        <Left className="plain-background">
+          <Desc className="text-white">
+            Money Mantra provides unparalleled 24/7 customer support, ensuring
+            your financial queries are addressed anytime, day or night. Our team
+            offers extensive assistance, guiding you through complex investment
+            decisions with ease and expertise. Committing to your continuous
+            financial growth, Money Mantra's support is just a click away,
+            fostering confidence and convenience in your trading journey.
+          </Desc>
+          <SocialContainer>
+            <SocialIcon color="3B5999">
+              <Facebook />
+            </SocialIcon>
+            <SocialIcon color="E4405F">
+              <Instagram />
+            </SocialIcon>
+            <SocialIcon color="55ACEE">
+              <Twitter />
+            </SocialIcon>
+          </SocialContainer>
+        </Left>
 
-      <Right className="plain-background text-secondary">
-        <Title>Contact</Title>
-        <form onSubmit={handleSubmit}>
-          <div className="form-outline mb-2">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
+        <Right className="plain-background text-secondary">
+          <Title>Contact</Title>
+          <div  style={{width:"25vw"}}>
+
+          <form onSubmit={handleSubmit}>
+            <div className="form-outline mb-2">
             <label className="form-label" htmlFor="name">
-              Your Name
-            </label>
-          </div>
+                Your Name
+              </label>
+              <input
+                type="text"
+                className="form-control "
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+             
+            </div>
 
-          {/* Email Field */}
-          <div className="form-outline mb-2">
-            <input
-              type="email"
-              className="form-control form-control-lg"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            {/* Email Field */}
+            <div className="form-outline mb-2">
             <label className="form-label" htmlFor="email">
-              Your Email
-            </label>
-          </div>
+                Your Email
+              </label>
+              <input
+                type="email"
+                className="form-control "
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+             
+            </div>
 
-          {/* Phone Number Field */}
-          <div className="form-outline mb-2">
-            <input
-              type="tel"
-              className="form-control form-control-lg"
-              id="phoneNumber"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              required
-            />
-            <label className="form-label" htmlFor="phoneNumber">
-              Phone Number
-            </label>
-          </div>
+            {/* Phone Number Field */}
+            <div className="form-outline mb-2">
+              <label className="form-label" htmlFor="phoneNumber">
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                className="form-control "
+                id="phoneNumber"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                required
+              />
+            </div>
 
-          {/* Message Textarea */}
-          <div className="form-outline mb-2">
-            <textarea
-              className="form-control"
-              id="message"
-              rows="4"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              required
-            ></textarea>
-            <label className="form-label" htmlFor="message">
-              Your Message
-            </label>
-          </div>
+            {/* Message Textarea */}
+            <div className="form-outline mb-2">
+              <label className="form-label" htmlFor="message">
+                Your Message
+              </label>
+              <textarea
+                className="form-control"
+                id="message"
+                rows="4"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                required
+              ></textarea>
+            </div>
 
-          {/* Submit Button */}
-          <button type="submit" className="btn btn-primary btn-lg btn-block">
-            Send Message
-          </button>
-        </form>
-      </Right>
-    </Container>
+            {/* Submit Button */}
+            <button type="submit" className="btn btn-primary mt-2  btn-block">
+              Send Message
+            </button>
+          </form>
+          </div>
+        </Right>
+      </Container>
+    </>
   );
 };
 

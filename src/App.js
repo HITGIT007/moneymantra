@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./components/Login";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Footer from "./components/Footer";
 function App() {
   return (
     <Router>
@@ -16,7 +17,9 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/controlandmonitor" element={<ControlandMonitor />} />
         {/* <Route path="/login" element={<Login />} /> */}
+
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/contact" element={<Footer />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       </Routes>
       <ToastContainer hideProgressBar autoClose={3000} />

@@ -47,14 +47,14 @@ function Login() {
       className="card p-2  "
       style={{
         borderRadius: "15px",
-        background: "#0a142f",
+        background: "#172259",
         color: "white",
       }}
     >
-      <div className="card-body p-2" style={{ backgroundColor: "#0a142f" }}>
+      <div className="card-body p-2 " >
         {/* <h3 className="text-uppercase text-center mb-2">Login</h3> */}
 
-        <form onSubmit={handleSubmit} style={{ backgroundColor: "#0a142f" }}>
+        <form onSubmit={handleSubmit}>
           {/* Email Address */}
           <label className="form-label" htmlFor="email">
             Email / Username
